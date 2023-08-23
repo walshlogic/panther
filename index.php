@@ -1,4 +1,5 @@
 <?php
+// This is a git comment #1
 // screen name text and button information to display top of this page
 $screenTitle = "Dashboard";
 // collects current date and time
@@ -54,16 +55,14 @@ require './logic/favicon.php';
 <body id="page-top">
     <!-- Page Wrapper -->
     <div id="wrapper">
-        <!-- Start: Side Nav Bar -->
-        <?php require "./logic/sidebar.php"; ?>
+        <!-- Start: Side Nav Bar --> <?php require "./logic/sidebar.php"; ?>
         <!-- End: Side Nav Bar -->
         <!-- Start: Content Wrapper -->
         <div id="content-wrapper"
             class="d-flex flex-column">
             <!-- Start: Main Content Area -->
             <div id="content">
-                <!-- Start: Top Bar -->
-                <?php require "./logic/topbar.php"; ?>
+                <!-- Start: Top Bar --> <?php require "./logic/topbar.php"; ?>
                 <!-- End: Top Bar -->
                 <!-- Start: Page Content -->
                 <div class="container-fluid">
@@ -82,8 +81,7 @@ require './logic/favicon.php';
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-dark text-uppercase mb-1"> PENDING
                                                 SKETCH FILES TO IMPORT </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                <?php
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"> <?php
                                                 // Define the foldersize() and format_size() functions first
                                                 function foldersize($path)
                                                 {
@@ -460,60 +458,59 @@ require './logic/favicon.php';
             </div>
             <!-- End: Main Content -->
             <!-- Start: Footer --> <?php require "./logic/footer.php"; ?>
-                                                <!-- End: Footer -->
-                                            </div>
-                                            <!-- End: Content Wrapper -->
-                                        </div>
-                                        <!-- End of Page Wrapper -->
-                                        <!-- Scroll to Top Button-->
-                                        <a class="scroll-to-top rounded"
-                                            href="#page-top">
-                                            <i class="fas fa-angle-up"></i>
-                                        </a>
-                                        <!-- Logout Modal-->
-                                        <div class="modal fade"
-                                            id="logoutModal"
-                                            tabindex="-1"
-                                            role="dialog"
-                                            aria-labelledby="exampleModalLabel"
-                                            aria-hidden="true">
-                                            <div class="modal-dialog"
-                                                role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title"
-                                                            id="exampleModalLabel">Ready to Leave?</h5>
-                                                        <button class="close"
-                                                            type="button"
-                                                            data-dismiss="modal"
-                                                            aria-label="Close">
-                                                            <span aria-hidden="true">×</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">Select "Logout" to end your current session
-                                                        or "Cancel".</div>
-                                                    <div class="modal-footer">
-                                                        <button class="btn btn-secondary"
-                                                            type="button"
-                                                            data-dismiss="modal">Cancel</button>
-                                                        <a class="btn btn-primary"
-                                                            href="login.html">Logout</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Bootstrap core JavaScript-->
-                                        <script src="vendor/jquery/jquery.min.js"></script>
-                                        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-                                        <!-- Core plugin JavaScript-->
-                                        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-                                        <!-- Custom scripts for all pages-->
-                                        <script src="js/sb-admin-2.min.js"></script>
-                                        <!-- Page level plugins -->
-                                        <script src="vendor/chart.js/Chart.min.js"></script>
-                                        <!-- Page level custom scripts -->
-                                        <script src="js/demo/chart-area-demo.js"></script>
-                                        <script src="js/demo/chart-pie-demo.js"></script>
+            <!-- End: Footer -->
+        </div>
+        <!-- End: Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded"
+        href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+    <!-- Logout Modal-->
+    <div class="modal fade"
+        id="logoutModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog"
+            role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"
+                        id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close"
+                        type="button"
+                        data-dismiss="modal"
+                        aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" to end your current session or "Cancel".</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary"
+                        type="button"
+                        data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary"
+                        href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+    <!-- Page level plugins -->
+    <script src="vendor/chart.js/Chart.min.js"></script>
+    <!-- Page level custom scripts -->
+    <script src="js/demo/chart-area-demo.js"></script>
+    <script src="js/demo/chart-pie-demo.js"></script>
 </body>
 
 </html>
