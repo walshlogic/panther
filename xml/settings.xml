@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Settings> 
+    <!-- General Application Settings -->
+    <ApplicationName>PANTHER</ApplicationName>
+    <CompanyName>Putnam County Property Appraiser</CompanyName>
+    <TimeZone>America/New_York</TimeZone>
+    <!-- Vision (Property Appraiser) Database -->
+    <VisionDatabaseServer>putsvisp01.bocc.putnam-fl.com</VisionDatabaseServer>
+    <VisionDatabase>V7_VISION</VisionDatabase>
+    <VisionUser>V7_VISION</VisionUser>
+    <VisionPassword>VISION</VisionPassword>
+    <!-- email settings -->
+    <SmtpServer>mail.bocc.putnam-fl.com</SmtpServer>
+    <DeveloperEmail>will.walsh@putnam-fl.com</DeveloperEmail>
+    <!-- Environment -->
+    <Environment>Development</Environment>
+    <Availability>Available</Availability>
+    <Logging>On</Logging>
+</Settings>
