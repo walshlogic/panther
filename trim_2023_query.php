@@ -1,4 +1,11 @@
 <?php
+ini_set('display_errors', '0');
+error_reporting(0);
+
+$incomingData = file_get_contents('php://input');
+error_log("Incoming data: $incomingData");
+
+
 // screen name text and button information to display top of this page
 $screenTitle = "VISION+ | 2023 TRIM Query";
 $screenTitleMidText = "";
@@ -56,30 +63,49 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                     <!-- End: Screen Title Bar -->
                 </div>
                 <!-- /.container-fluid -->
+                <script>
+                    console.log("About to send the request");
+                </script>
                 <textarea id="numbers"
                     rows="17"
-                    cols="30"></textarea>
-                <button id="submit">Submit</button>
+                    cols="30"
+                    style="margin-left: 22px;"></textarea>
+                <button id="submit"
+                    style="display: block; width: 100%; background-color: blue; font-weight: bold; margin-top: 10px; margin-left: 22px; color: white;">
+                    Submit </button>
                 <script>
                     document.getElementById("submit").addEventListener("click", function () {
                         const numbers = document.getElementById("numbers").value.split("\n");
-                        fetch("trim_2023_process.php", {
-                            method: "POST",
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({
-                                numbers
-                            })
-                        }).then(response => {
-                            if (!response.ok) {
-                                return response.text().then(text => {
-                                    throw new Error(text);
-                                });
-                            }
-                            return response.json();
-                        }).then(data => alert("Query executed successfully")).catch(error => alert(
-                            "An error occurred: " + error));
+                        console.log("Request sent");
+                        try {
+                            fetch("trim_2023_process.php", {
+                                method: "POST",
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    numbers
+                                })
+                            }).then(response => {
+                                // Clone the response to not interfere with the original response stream
+                                const clonedResponse = response.clone();
+                                // Log the text response to see what's actually coming back from the server
+                                clonedResponse.text().then(text => console.log(text));
+                                if (!response.ok) {
+                                    return response.text().then(text => {
+                                        throw new Error(text);
+                                    });
+                                }
+                                return response
+                                    .json(); // This assumes the server responds with JSON, which may not be the case!
+                            }).then(data => {
+                                alert("Query executed successfully");
+                            }).catch(error => {
+                                alert("An error occurred: " + error);
+                            });
+                        } catch (error) {
+                            console.error("Caught error during fetch:", error);
+                        }
                     });
                 </script>
             </div>
@@ -137,3 +163,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
 </body>
 
 </html>
+<script>
+    window.addEventListener("DOMContentLoaded", (event) => {
+        const numbersTextarea = document.getElementById("numbers");
+        const submitButton = document.getElementById("submit");
+        // Get the actual computed width of the textarea
+        const computedStyle = window.getComputedStyle(numbersTextarea);
+        const textareaWidth = computedStyle.width;
+        // Set the button's width to match the textarea's computed width
+        submitButton.style.width = textareaWidth;
+    });
+</script>
