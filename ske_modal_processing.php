@@ -1,15 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js"></script>
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0">
     <title>Sketch Processing Modal</title>
-    <!-- Include Bootstrap CSS -->
     <link rel="stylesheet"
         href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet"
+        href="./css/sb-admin-2.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"
+        defer></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        defer></script>
+    <script src="./js/ske_scripts.js"
+        defer></script>
 </head>
 
 <body>
@@ -57,79 +65,6 @@
             </div>
         </div>
     </div>
-    <!-- Include Bootstrap JS and your JavaScript -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        src = "https://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js"
-    </script>
-    <script>
-        // Function to process and show loading
-        function processAndShowLoading() {
-            // Hide the modal body
-            var modalBody = document.getElementById('modalBody');
-            modalBody.style.display = 'none';
-            // Show the loading GIF
-            var loadingGif = document.getElementById('loadingGif');
-            loadingGif.style.display = 'block';
-            // Make an AJAX request to the PHP script
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', 'ske_sketch_rename.php', true);
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === XMLHttpRequest.DONE) {
-                    // Hide the loading GIF
-                    loadingGif.style.display = 'none';
-                    // Show the modal body again
-                    modalBody.style.display = 'block';
-                    // Show the message popup
-                    showMessagePopup();
-                }
-            };
-            xhr.send();
-        }
-        // Function to show the message popup
-        function showMessagePopup() {
-            // Create the popup element
-            var popup = document.createElement('div');
-            popup.className = 'modal fade';
-            popup.id = 'MessagePopup';
-            popup.tabIndex = '-1';
-            popup.setAttribute('aria-labelledby', 'MessageLabel');
-            popup.setAttribute('aria-hidden', 'true');
-            var popupContent = `
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="MessageLabel">Sketch Processing Completed</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p>The sketch process has been completed.</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Continue</button>
-                    </div>
-                </div>
-            </div>
-        `;
-            popup.innerHTML = popupContent;
-            // Append the popup element to the body
-            document.body.appendChild(popup);
-            // Show the popup
-            var popupModal = new bootstrap.Modal(popup);
-            popupModal.show();
-            // Close the main processing modal
-            var processingModal = new bootstrap.Modal(document.getElementById('SketchProcessingModal'));
-            processingModal.hide();
-            // Handle the Continue button click to redirect
-            popup.querySelector('.btn-primary').addEventListener('click', function () {
-                window.location.href = 'ske_manager.php';
-            });
-        }
-    </script>
 </body>
 
 </html>

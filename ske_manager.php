@@ -15,7 +15,7 @@ require_once './ske_modal_processing.php';
 require_once './logic/utilities.php';
 
 // Page metadata
-$screenTitle = "VISION+ | Sketch Manager";
+$screenTitle = "VISION+ | Sketch Managersss";
 $screenTitleMidText = "";
 $screenTitleRightButtonIcon = "fa-refresh";
 $screenTitleRightButtonText = " REFRESH";
@@ -47,7 +47,9 @@ $handle = opendir('/mnt/paphotos/Sketches/');
         content="Will Walsh | wbwalsh@gmail.com">
     <meta name="version"
         content="0.6">
-    <title> <?php echo $screenTitle; ?> </title>
+    <title>
+        <?php echo $screenTitle; ?>
+    </title>
     <!-- Custom fonts and styles -->
     <link href="vendor/fontawesome-free/css/all.min.css"
         rel="stylesheet"
@@ -62,16 +64,19 @@ $handle = opendir('/mnt/paphotos/Sketches/');
 <body id="page-top">
     <!-- Page Wrapper -->
     <div id="wrapper">
-        <!-- Side Nav Bar --> <?php require "./logic/sidebar.php"; ?>
+        <!-- Side Nav Bar -->
+        <?php require "./logic/sidebar.php"; ?>
         <!-- Content Wrapper -->
         <div id="content-wrapper"
             class="d-flex flex-column">
             <!-- Main Content -->
             <div id="content">
-                <!-- Top Bar --> <?php require "./logic/topbar.php"; ?>
+                <!-- Top Bar -->
+                <?php require "./logic/topbar.php"; ?>
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    <!-- Screen Title Bar --> <?php require "./logic/screentitlebar.php"; ?>
+                    <!-- Screen Title Bar -->
+                    <?php require "./logic/screentitlebar.php"; ?>
                 </div>
                 <!-- Cards and Info -->
                 <div class="col mb-5">
@@ -82,12 +87,13 @@ $handle = opendir('/mnt/paphotos/Sketches/');
                             <div class="card-body text-center">
                                 <p class="card-text text-light"
                                     style="font-size: 16px">
-                                    <b>SKETCH FOLDER<br> <?php echo $tempdirectory; ?> </b>
+                                    <b>SKETCH IMPORT FOLDER:<br>PA/PA_PHOTOS/SKETCHES/</b>
                                 </p>
                             </div>
                         </div>
                     </div>
-                    <br> <?php
+                    <br>
+                    <?php
                     // Include utility functions
                     require_once './logic/utility/folder_size.php';
                     require_once './logic/utility/format_folder_size.php';
@@ -116,7 +122,9 @@ $handle = opendir('/mnt/paphotos/Sketches/');
                                 <p class="card-text text-light"><b>FILES READY FOR<br>PROCESSING</b></p>
                                 <p class="card-text text-light"
                                     style="font-size: 40px">
-                                    <b><?php echo $filesReadyText; ?> </b>
+                                    <b>
+                                        <?php echo $filesReadyText; ?>
+                                    </b>
                                 </p>
                             </div>
                         </div>
@@ -126,7 +134,9 @@ $handle = opendir('/mnt/paphotos/Sketches/');
                                 <p class="card-text text-light"><b>COMBINED SIZE<br>OF ALL FILES</b></p>
                                 <p class="card-text text-light"
                                     style="font-size: 40px">
-                                    <b> <?php echo $combinedSizeText; ?> </b>
+                                    <b>
+                                        <?php echo $combinedSizeText; ?>
+                                    </b>
                                 </p>
                             </div>
                         </div>
@@ -155,7 +165,8 @@ $handle = opendir('/mnt/paphotos/Sketches/');
                 </div>
             </div>
             <!-- End of Main Content -->
-            <!-- Footer --> <?php require "./logic/footer.php"; ?>
+            <!-- Footer -->
+            <?php require "./logic/footer.php"; ?>
         </div>
         <!-- End of Content Wrapper -->
     </div>

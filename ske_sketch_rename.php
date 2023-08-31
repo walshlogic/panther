@@ -1,4 +1,3 @@
-<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js"></script>
 <?php
 
 // Turn on error reporting for debugging
@@ -8,6 +7,7 @@ error_reporting(E_ALL);
 
 include 'logic/dbconn_vision.php';
 
+// Constants
 define('CSV_FILE_PATH', '/ske_RealProp.csv');
 define('DIRECTORY_PATH', '/mnt/paphotos/Sketches/');
 define('FINAL_DIRECTORY_PATH', '/mnt/paphotos/SketchFinal/');
@@ -19,37 +19,35 @@ $conn = $dbConnection->open();
 
 if (!$conn) {
     logMessage("Failed to establish database connection.");
-    echo "<script>alert('Database connection failed!');</script>";
-    die();
-}
-
-// Check if connection is indeed open
-if ($conn) {
-    logMessage("Database connected successfully.", 'database_connection.log');
-} else {
-    logMessage("Database connection failed.", 'database_connection.log');
-    die();
+    die("Database connection failed!");
 }
 
 try {
     $query = "SELECT MAX(RIM_ID) AS max_id FROM REAL_PROP.REIMAGES";
     $stmt = $conn->prepare($query);
     $stmt->execute();
-    $result = $stmt->fetch();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$result) {
-        die("Failed to fetch the maximum RIM_ID value.");
+        throw new Exception("Failed to fetch the maximum RIM_ID value.");
     }
 
     define('START_NUMERIC_COUNTER', strval($result['max_id'] + 1));
 }
-catch (PDOException $e) {
-    die("ERROR retrieving highest RIM_ID: " . $e->getMessage());
+catch (Exception $e) {
+    logMessage("ERROR retrieving highest RIM_ID: " . $e->getMessage());
+    die($e->getMessage());
+}
+
+function logMessage($message, $logFilePath = './logs/log.txt')
+{
+    $timestamp = date('Y-m-d H:i:s');
+    $formattedMessage = "[$timestamp] $message\n";
+    file_put_contents($logFilePath, $formattedMessage, FILE_APPEND);
 }
 
 function readCsvData($filePath)
 {
-    logMessage("Reading CSV data from {$filePath}.");
     $csvData = [];
     if (($handle = fopen($filePath, "r")) !== false) {
         fgetcsv($handle); // Skip header
@@ -64,7 +62,6 @@ function readCsvData($filePath)
 
 function generateNewFileName($csvData, $fileInfo, &$numericCounter)
 {
-    logMessage("Generating new file name.");
     $filePrefix = explode('_', $fileInfo['filename'])[0];
     if (isset($csvData[$filePrefix])) {
         $newPrefix = $csvData[$filePrefix];
@@ -77,24 +74,14 @@ function generateNewFileName($csvData, $fileInfo, &$numericCounter)
 
 function createDirectory($path)
 {
-    logMessage("Attempting to create directory: {$path}");
     if (!is_dir($path)) {
         return mkdir($path, 0755, true);
     }
     return true;
 }
 
-function logMessage($message, $logFilePath = './logs/log.txt')
-{
-    $timestamp = date('Y-m-d H:i:s');
-    $formattedMessage = "[$timestamp] $message\n";
-    echo $formattedMessage; // To display in the browser for immediate feedback
-    file_put_contents($logFilePath, $formattedMessage, FILE_APPEND);
-}
-
 function createBackup($filePath, $backupDirectory)
 {
-    logMessage("Creating backup for {$filePath}");
     if (!is_dir($backupDirectory)) {
         createDirectory($backupDirectory);
     }
@@ -104,7 +91,6 @@ function createBackup($filePath, $backupDirectory)
 
 function batchRenameCopyMoveAndUpdateCsv($files, $csvData)
 {
-    logMessage("Starting batch rename, copy, move, and update operations.");
     $numericCounter = intval(START_NUMERIC_COUNTER);
     $uniqueFolderNames = [];
 
@@ -150,10 +136,20 @@ function batchRenameCopyMoveAndUpdateCsv($files, $csvData)
     return $uniqueFolderNames;
 }
 
-$csvData = readCsvData(CSV_FILE_PATH);
-$files = glob(DIRECTORY_PATH . '*.jpg');
-$uniqueFolderNames = batchRenameCopyMoveAndUpdateCsv($files, $csvData);
-echo "<p>Unique Folder Names: " . implode(', ', $uniqueFolderNames) . "</p>";
+try {
+    $csvData = readCsvData(CSV_FILE_PATH);
+    if (empty($csvData)) {
+        throw new Exception("Failed to read CSV Data.");
+    }
+    $files = glob(DIRECTORY_PATH . '*.jpg');
+    $uniqueFolderNames = batchRenameCopyMoveAndUpdateCsv($files, $csvData);
+    echo "<p>Unique Folder Names: " . implode(', ', $uniqueFolderNames) . "</p>";
+}
+catch (Exception $e) {
+    logMessage("An error occurred: " . $e->getMessage());
+}
+finally {
+    $dbConnection->close();
+}
 
-$dbConnection->close();
 ?>

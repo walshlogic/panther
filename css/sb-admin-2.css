@@ -11317,3 +11317,28 @@ footer.sticky-footer .copyright {
 body.sidebar-toggled footer.sticky-footer {
     width: 100%;
 }
+
+.custom-rounded {
+    border-radius: 25px;
+}
+
+.custom-title {
+    font-weight: bolder;
+    color: #007bff;
+}
+
+.custom-modal-body {
+    background-color: #007bff;
+    color: white;
+    text-transform: uppercase;
+    font-weight: bolder;
+    text-align: center;
+}
+
+.custom-footer {
+    background-color: white;
+}
+
+.custom-hidden {
+    display: none;
+}
