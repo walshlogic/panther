@@ -1,25 +1,40 @@
-document.addEventListener("DOMContentLoaded", function() {
-  document.querySelector(".btn-process").addEventListener("click", processAndShowLoading);
-});
+// Helper function to remove existing event listeners from an element by cloning it
+function removeEventListeners(element) {
+    var newElement = element.cloneNode(true);
+    element.parentNode.replaceChild(newElement, element);
+    return newElement;
+}
 
+document.addEventListener("DOMContentLoaded", function() {
+    console.log("DOM fully loaded. Adding event listener to the process button.");
+    // Remove any existing event listeners and attach a new one
+    var processButton = document.querySelector(".btn-process");
+    processButton = removeEventListeners(processButton);
+    processButton.addEventListener("click", processAndShowLoading, { once: true });
+});
 
 // Helper function to toggle display of an element
 function toggleDisplay(elementId, displayStyle) {
+    console.log(`Toggling display for element ${elementId} to ${displayStyle}`);
     const element = document.getElementById(elementId);
     element.style.display = displayStyle;
 }
 
 // Function to make an AJAX request
 function makeAjaxRequest(url) {
+    console.log(`Making AJAX request to ${url}`);
     return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
         xhr.open('GET', url, true);
 
         xhr.onreadystatechange = function () {
+            console.log(`AJAX request state changed: ${xhr.readyState}`);
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
+                    console.log('AJAX request successful.');
                     resolve();
                 } else {
+                    console.error('Failed to load data.');
                     reject(new Error('Failed to load data'));
                 }
             }
@@ -30,29 +45,29 @@ function makeAjaxRequest(url) {
 }
 
 // Function to process and show loading
-async function processAndShowLoading() {
-    // Hide the modal body and show the loading GIF
-    toggleDisplay('modalBody', 'none');
-    toggleDisplay('loadingGif', 'block');
+async function processAndShowLoading(event) {
+     console.log("processAndShowLoading called");
+    if (event) {
+        event.stopPropagation();
+        console.log('processAndShowLoading function called.');
+        toggleDisplay('modalBody', 'none');
+        toggleDisplay('loadingGif', 'block');
 
-    try {
-        // Make AJAX request
-        await makeAjaxRequest('ske_sketch_rename.php');
-
-        // Show message popup after successful AJAX request
-        showMessagePopup();
-    } catch (error) {
-        console.error('Something went wrong:', error);
-    } finally {
-        // Revert the display settings
-        toggleDisplay('loadingGif', 'none');
-        toggleDisplay('modalBody', 'block');
+        try {
+            await makeAjaxRequest('ske_sketch_rename.php');
+            showMessagePopup();
+        } catch (error) {
+            console.error('Something went wrong:', error);
+        } finally {
+            toggleDisplay('loadingGif', 'none');
+            toggleDisplay('modalBody', 'block');
+        }
     }
 }
 
 // Function to show the message popup
 function showMessagePopup() {
-    // Create the popup element
+    console.log('Showing message popup.');
     const popup = document.createElement('div');
     popup.className = 'modal fade';
     popup.id = 'MessagePopup';
@@ -60,7 +75,6 @@ function showMessagePopup() {
     popup.setAttribute('aria-labelledby', 'MessageLabel');
     popup.setAttribute('aria-hidden', 'true');
 
-    // Popup content
     const popupContent = `
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -74,34 +88,26 @@ function showMessagePopup() {
                     <p>The sketch process has been completed.</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Continue</button>
+                    <button type="button" class="btn btn-primary btn-continue" data-dismiss="modal">Continue</button>
                 </div>
             </div>
         </div>
     `;
 
-    // Append content and the popup element to the body
     popup.innerHTML = popupContent;
     document.body.appendChild(popup);
 
-    // Show the popup
+    console.log('Initialized message popup. About to show it.');
     const popupModal = new bootstrap.Modal(popup);
     popupModal.show();
 
-    // Close the main processing modal
-    const processingModal = new bootstrap.Modal(document.getElementById('SketchProcessingModal'));
-    processingModal.hide();
+    console.log('Hiding the main processing modal.');
 
-    // Handle the Continue button click to redirect
-    popup.querySelector('.btn-primary').addEventListener('click', function () {
+    console.log('Adding event listener for the Continue button.');
+    var continueButton = popup.querySelector('.btn-continue');
+    continueButton = removeEventListeners(continueButton);
+    continueButton.addEventListener('click', function () {
+        console.log('Continue button clicked. Redirecting to ske_manager.php');
         window.location.href = 'ske_manager.php';
     });
 }
-
-// Attach event listener to the process button after DOM content is fully loaded
-document.addEventListener('DOMContentLoaded', function () {
-    const processButton = document.querySelector('.btn-process');
-    if (processButton) {
-        processButton.addEventListener('click', processAndShowLoading);
-    }
-});

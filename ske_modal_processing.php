@@ -52,8 +52,7 @@
                             class="btn btn-success btn-sm"
                             data-dismiss="modal"> CANCEL </button>
                         <button type="button"
-                            class="btn btn-primary btn-sm btn-process"
-                            onclick="processAndShowLoading()"> PROCESS </button>
+                            class="btn btn-primary btn-sm btn-process"> PROCESS </button>
                     </div>
                 </div>
                 <div id="loadingGif"

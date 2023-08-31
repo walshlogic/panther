@@ -1,10 +1,10 @@
 <?php
 /**
  * index.php
- * Dashboard for Panther application.
- * 
+ * Sketch Manager for Panther application.
+ *
  * @author Will Walsh | wbwalsh@gmail.com
- * @version 0.6
+ * @version 1.0
  */
 
 // Load favicon and modal processing
@@ -13,6 +13,8 @@ require_once './ske_modal_processing.php';
 
 // Utilities for calculating file count and folder size
 require_once './logic/utilities.php';
+require_once './logic/utility/folder_size.php';
+require_once './logic/utility/format_folder_size.php';
 
 // Page metadata
 $screenTitle = "VISION+ | Sketch Managersss";
@@ -27,10 +29,14 @@ $tempdirectory = "/mnt/paphotos/Sketches/";
 // Count the files in the sketches directory
 $tempfilecount = count(glob($tempdirectory . "*"));
 
-// Initialize variables
-$latest_file_time = 0;
-$arrSketchFiles = array();
-$handle = opendir('/mnt/paphotos/Sketches/');
+// Calculate card text
+$filesReadyText = ($tempfilecount > 0) ? number_format($tempfilecount) : "0";
+$combinedSizeText = "0";
+
+if ($tempfilecount > 0) {
+    $disk_used = foldersize($tempdirectory);
+    $combinedSizeText = format_size($disk_used, $units);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -50,7 +56,6 @@ $handle = opendir('/mnt/paphotos/Sketches/');
     <title>
         <?php echo $screenTitle; ?>
     </title>
-    <!-- Custom fonts and styles -->
     <link href="vendor/fontawesome-free/css/all.min.css"
         rel="stylesheet"
         type="text/css">
@@ -59,90 +64,59 @@ $handle = opendir('/mnt/paphotos/Sketches/');
         rel="stylesheet">
     <link href="css/sb-admin-2.min.css"
         rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"
+        defer></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        defer></script>
 </head>
 
 <body id="page-top">
-    <!-- Page Wrapper -->
     <div id="wrapper">
-        <!-- Side Nav Bar -->
         <?php require "./logic/sidebar.php"; ?>
-        <!-- Content Wrapper -->
         <div id="content-wrapper"
             class="d-flex flex-column">
-            <!-- Main Content -->
             <div id="content">
-                <!-- Top Bar -->
                 <?php require "./logic/topbar.php"; ?>
-                <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    <!-- Screen Title Bar -->
                     <?php require "./logic/screentitlebar.php"; ?>
                 </div>
-                <!-- Cards and Info -->
                 <div class="col mb-5">
                     <div class="card-deck"
                         style="width:36rem">
-                        <!-- Directory Card -->
                         <div class="card bg-primary">
                             <div class="card-body text-center">
                                 <p class="card-text text-light"
-                                    style="font-size: 16px">
-                                    <b>SKETCH IMPORT FOLDER:<br>PA/PA_PHOTOS/SKETCHES/</b>
-                                </p>
+                                    style="font-size: 16px"><b>SKETCH IMPORT FOLDER:<br>PA/PA_PHOTOS/SKETCHES/</b></p>
                             </div>
                         </div>
                     </div>
                     <br>
-                    <?php
-                    // Include utility functions
-                    require_once './logic/utility/folder_size.php';
-                    require_once './logic/utility/format_folder_size.php';
-
-                    // Initialize or fallback values
-                    if (!isset($tempfilecount)) {
-                        $tempfilecount = 0;
-                    }
-
-                    // Initialize card text variables
-                    $filesReadyText = ($tempfilecount > 0) ? number_format($tempfilecount) : "0";
-                    $combinedSizeText = "0";
-
-                    // Calculate combined size if files exist
-                    if ($tempfilecount > 0) {
-                        $disk_used = foldersize($tempdirectory);
-                        $combinedSizeText = format_size($disk_used, $units);
-                    }
-                    ?>
-                    <!-- Stats Cards -->
                     <div class="card-deck"
                         style="width:36rem">
-                        <!-- Files Ready Card -->
                         <div class="card bg-primary">
                             <div class="card-body text-center">
                                 <p class="card-text text-light"><b>FILES READY FOR<br>PROCESSING</b></p>
                                 <p class="card-text text-light"
-                                    style="font-size: 40px">
-                                    <b>
+                                    style="font-size: 40px"><b>
                                         <?php echo $filesReadyText; ?>
-                                    </b>
-                                </p>
+                                    </b></p>
                             </div>
                         </div>
-                        <!-- Combined Size Card -->
                         <div class="card bg-primary">
                             <div class="card-body text-center">
                                 <p class="card-text text-light"><b>COMBINED SIZE<br>OF ALL FILES</b></p>
                                 <p class="card-text text-light"
-                                    style="font-size: 40px">
-                                    <b>
+                                    style="font-size: 40px"><b>
                                         <?php echo $combinedSizeText; ?>
-                                    </b>
-                                </p>
+                                    </b></p>
                             </div>
                         </div>
                     </div>
                     <br>
-                    <!-- Action Buttons -->
                     <input type="button"
                         class="btn btn-primary font-weight-bolder"
                         style="font-size: 24px; width:34.5rem"
@@ -164,19 +138,13 @@ $handle = opendir('/mnt/paphotos/Sketches/');
                         <?php echo ($tempfilecount == 0) ? 'disabled' : ''; ?> />
                 </div>
             </div>
-            <!-- End of Main Content -->
-            <!-- Footer -->
             <?php require "./logic/footer.php"; ?>
         </div>
-        <!-- End of Content Wrapper -->
     </div>
-    <!-- End of Page Wrapper -->
-    <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded"
         href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-    <!-- Logout Modal-->
     <div class="modal fade"
         id="logoutModal"
         tabindex="-1"
@@ -207,11 +175,6 @@ $handle = opendir('/mnt/paphotos/Sketches/');
             </div>
         </div>
     </div>
-    <!-- Script Includes -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-    <script src="js/sb-admin-2.min.js"></script>
 </body>
 
 </html>
