@@ -1,23 +1,27 @@
 <?php
-// This is a git comment #1
-// screen name text and button information to display top of this page
+/**
+ * index.php
+ * Dashboard for Panther application.
+ * 
+ * @author Will Walsh | wbwalsh@gmail.com
+ * @version 0.6
+ */
+
+// --- Screen Information ---
 $screenTitle = "Dashboard";
-// collects current date and time
-$currentDateTime = new DateTime('now', new DateTimeZone('America/New_York'));
-// formats current date and time (l <-lower L=full day)(F=full month)(j=num date/S=suffix)(Y=full year)
-$screenTitleMidText = ("Last Updated: ") . $currentDateTime->format("l, F jS, Y @ g:i A");
-// this screen button icon
 $screenTitleRightButtonIcon = "fa-recycle";
-// this screen button text
 $screenTitleRightButtonText = " Refresh";
-// this screen button action = refresh page to update data and date/time
-$screenTitleRightButtonAction = header("");
-// places favicon from img/favicons/??color?? onto pages
-// directory used to hold sketch files created by Vision. stored before moving to photos folder
-//$tempdirectory = "G:/pa_photos/Sketches/";
+// Currently not utilized: $screenTitleRightButtonAction = header("");
+
+// --- Date and Time Information ---
+$currentDateTime = new DateTime('now', new DateTimeZone('America/New_York'));
+$screenTitleMidText = "Last Updated: " . $currentDateTime->format("l, F jS, Y @ g:i A");
+
+// --- File and Directory Information ---
 $tempdirectory = "/mnt/paphotos/Sketches/";
-// set variable to count the number of files within the sketches directory
 $tempfilecount = count(glob($tempdirectory . "*"));
+
+// --- Required Files ---
 require './logic/favicon.php';
 ?>
 <!DOCTYPE html>
@@ -30,39 +34,49 @@ require './logic/favicon.php';
     <meta name="viewport"
         content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description"
-        content="">
+        content="Panther Application Dashboard">
     <meta name="author"
         content="Will Walsh | wbwalsh@gmail.com">
+    <meta name="version"
+        content="0.6">
     <title>PANTHER | Home</title>
-    <!-- Custom fonts for this template-->
+    <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css"
         rel="stylesheet"
         type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
-    <!-- Custom styles for this template-->
+    <!-- Custom styles for this template -->
     <link href="css/sb-admin-2.min.css"
         rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
+    <!-- Additional scripts -->
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
         integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE"
         crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"
         integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ"
         crossorigin="anonymous"></script>
 </head>
+<!-- Rest of the HTML body... -->
+
+</html>
 
 <body id="page-top">
     <!-- Page Wrapper -->
     <div id="wrapper">
-        <!-- Start: Side Nav Bar --> <?php require "./logic/sidebar.php"; ?>
+        <!-- Start: Side Nav Bar -->
+        <?php require "./logic/sidebar.php"; ?>
         <!-- End: Side Nav Bar -->
         <!-- Start: Content Wrapper -->
         <div id="content-wrapper"
             class="d-flex flex-column">
             <!-- Start: Main Content Area -->
             <div id="content">
-                <!-- Start: Top Bar --> <?php require "./logic/topbar.php"; ?>
+                <!-- Start: Top Bar -->
+                <?php require "./logic/topbar.php"; ?>
                 <!-- End: Top Bar -->
                 <!-- Start: Page Content -->
                 <div class="container-fluid">
@@ -74,6 +88,23 @@ require './logic/favicon.php';
                     <!-- Start: Pending Sketch Files Card -->
                     <div class="row">
                         <!-- Start: Pending Sketch Files Card -->
+                        <?php
+                        // Include statements
+                        require_once './logic/utility/folder_size.php';
+                        require_once './logic/utility/format_folder_size.php';
+
+                        if (!isset($tempfilecount)) {
+                            $tempfilecount = 0; // Or another fallback value
+                        }
+
+                        $cardText = "NO FILES TO PROCESS";
+                        if ($tempfilecount > 0) {
+                            $SIZE_LIMIT = 5368709120; // 5 GB
+                            $disk_used = foldersize("/mnt/paphotos/Sketches/");
+                            $disk_remaining = $SIZE_LIMIT - $disk_used;
+                            $cardText = number_format($tempfilecount) . ' FILES (' . format_size($disk_used, $units) . ')';
+                        }
+                        ?>
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-primary shadow h-100 py-2">
                                 <div class="card-body">
@@ -81,54 +112,9 @@ require './logic/favicon.php';
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-dark text-uppercase mb-1"> PENDING
                                                 SKETCH FILES TO IMPORT </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"> <?php
-                                                // Define the foldersize() and format_size() functions first
-                                                function foldersize($path)
-                                                {
-                                                    $total_size = 0;
-                                                    $files = scandir($path);
-                                                    $cleanPath = rtrim($path, '/') . '/';
-                                                    foreach ($files as $t) {
-                                                        if ($t <> "." && $t <> "..") {
-                                                            $currentFile = $cleanPath . $t;
-                                                            if (is_dir($currentFile)) {
-                                                                $size = foldersize($currentFile);
-                                                                $total_size += $size;
-                                                            } else {
-                                                                $size = filesize($currentFile);
-                                                                $total_size += $size;
-                                                            }
-                                                        }
-                                                    }
-                                                    return $total_size;
-                                                }
-
-                                                function format_size($size)
-                                                {
-                                                    global $units;
-                                                    $mod = 1024;
-                                                    for ($i = 0; $size > $mod; $i++) {
-                                                        $size /= $mod;
-                                                    }
-
-                                                    $endIndex = strpos($size, ".") + 2; // Adjusted endIndex to show two decimal places
-                                                    return substr($size, 0, $endIndex) . ' ' . $units[$i];
-                                                }
-
-                                                if ($tempfilecount > 0) {
-                                                    echo number_format($tempfilecount);
-                                                    echo ' FILES (';
-                                                    $units = explode(' ', 'B KB MB GB TB PB');
-                                                    $SIZE_LIMIT = 5368709120; // 5 GB
-                                                    $disk_used = foldersize("/mnt/paphotos/Sketches/");
-                                                    //$disk_used = foldersize("G:/pa_photos/Sketches/");\\putnam-fl\dfsroot\GroupDirs\pa
-                                                    $disk_remaining = $SIZE_LIMIT - $disk_used;
-                                                    echo format_size($disk_used);
-                                                    echo ')';
-                                                } else {
-                                                    echo "NO FILES TO PROCESS";
-                                                }
-                                                ?> </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                <?php echo $cardText; ?>
+                                            </div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-folder-open fa-2x text-gray-300"></i>
@@ -457,7 +443,8 @@ require './logic/favicon.php';
                 <!-- /.container-fluid -->
             </div>
             <!-- End: Main Content -->
-            <!-- Start: Footer --> <?php require "./logic/footer.php"; ?>
+            <!-- Start: Footer -->
+            <?php require "./logic/footer.php"; ?>
             <!-- End: Footer -->
         </div>
         <!-- End: Content Wrapper -->
