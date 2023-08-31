@@ -1,6 +1,10 @@
 <?php
 error_log("Received request");
-error_log(print_r($inputData, true));
+//error_log(print_r($inputData, true));
+
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 
 //PHP Version 7.4.12
 

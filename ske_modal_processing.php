@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js"></script>
 
 <head>
     <meta charset="UTF-8">
@@ -61,6 +62,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
+        src = "https://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js"
+    </script>
+    <script>
         // Function to process and show loading
         function processAndShowLoading() {
             // Hide the modal body
@@ -71,7 +75,7 @@
             loadingGif.style.display = 'block';
             // Make an AJAX request to the PHP script
             var xhr = new XMLHttpRequest();
-            xhr.open('GET', 'ske_z_rename-1.php', true); // Updated to 'ske_z_rename-1.php'
+            xhr.open('GET', 'ske_sketch_rename.php', true);
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === XMLHttpRequest.DONE) {
                     // Hide the loading GIF

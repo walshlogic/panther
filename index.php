@@ -14,8 +14,8 @@ $screenTitleRightButtonText = " Refresh";
 $screenTitleRightButtonAction = header("");
 // places favicon from img/favicons/??color?? onto pages
 // directory used to hold sketch files created by Vision. stored before moving to photos folder
-//$tempdirectory = "G:/pa_photos/zSketches/";
-$tempdirectory = "/mnt/paphotos/zSketches/";
+//$tempdirectory = "G:/pa_photos/Sketches/";
+$tempdirectory = "/mnt/paphotos/Sketches/";
 // set variable to count the number of files within the sketches directory
 $tempfilecount = count(glob($tempdirectory . "*"));
 require './logic/favicon.php';
@@ -120,8 +120,8 @@ require './logic/favicon.php';
                                                     echo ' FILES (';
                                                     $units = explode(' ', 'B KB MB GB TB PB');
                                                     $SIZE_LIMIT = 5368709120; // 5 GB
-                                                    $disk_used = foldersize("/mnt/paphotos/zSketches/");
-                                                    //$disk_used = foldersize("G:/pa_photos/zSketches/");\\putnam-fl\dfsroot\GroupDirs\pa
+                                                    $disk_used = foldersize("/mnt/paphotos/Sketches/");
+                                                    //$disk_used = foldersize("G:/pa_photos/Sketches/");\\putnam-fl\dfsroot\GroupDirs\pa
                                                     $disk_remaining = $SIZE_LIMIT - $disk_used;
                                                     echo format_size($disk_used);
                                                     echo ')';

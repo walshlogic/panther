@@ -11,7 +11,7 @@ $screenTitleRightButtonIcon = "fa-refresh";
 $screenTitleRightButtonText = " REFRESH";
 $screenTitleRightButtonModal = "#yourModalID";
 // directory used to hold sketch files created by Vision. stored before moving to photos folder
-$tempdirectory = "/mnt/paphotos/zSketches/";
+$tempdirectory = "/mnt/paphotos/Sketches/";
 // set variable to count the number of files within the sketches directory
 $tempfilecount = count(glob($tempdirectory . "*"));
 // set variable to reset file time to zero
@@ -19,7 +19,7 @@ $latest_file_time = 0;
 // set variable to hold file info
 $arrSketchFiles = array();
 // set variable of directory location
-$handle = opendir('/mnt/paphotos/zSketches/');
+$handle = opendir('/mnt/paphotos/Sketches/');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -50,16 +50,14 @@ $handle = opendir('/mnt/paphotos/zSketches/');
 <body id="page-top">
     <!-- Page Wrapper -->
     <div id="wrapper">
-        <!-- Start: Side Nav Bar -->
-        <?php require "./logic/sidebar.php"; ?>
+        <!-- Start: Side Nav Bar --> <?php require "./logic/sidebar.php"; ?>
         <!-- End: Side Nav Bar -->
         <!-- Content Wrapper -->
         <div id="content-wrapper"
             class="d-flex flex-column">
             <!-- Main Content -->
             <div id="content">
-                <!-- Start: Top Bar -->
-                <?php require "./logic/topbar.php"; ?>
+                <!-- Start: Top Bar --> <?php require "./logic/topbar.php"; ?>
                 <!-- End: Top Bar -->
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
@@ -74,9 +72,7 @@ $handle = opendir('/mnt/paphotos/zSketches/');
                             <div class="card-body">
                                 <center>
                                     <p class="card-text text-light"
-                                        style="font-size: 16px"><b>SKETCH FOLDER<br>
-                                            <?php echo $tempdirectory ?>
-                                        </b>
+                                        style="font-size: 16px"><b>SKETCH FOLDER<br> <?php echo $tempdirectory ?> </b>
                                     </p>
                                 </center>
                             </div>
@@ -89,24 +85,21 @@ $handle = opendir('/mnt/paphotos/zSketches/');
                                     <div class="card-body text-center">
                                         <p class="card-text text-light"><b>FILES READY FOR<br>PROCESSING</b></p>
                                         <p class="card-text text-light"
-                                            style="font-size: 40px"><b>
-                                                <?php if ($tempfilecount > 0) {
+                                            style="font-size: 40px"><b> <?php if ($tempfilecount > 0) {
                                                     echo number_format($tempfilecount);
                                                 } else {
                                                     echo "0";
-                                                } ?>
-                                            </b></p>
+                                                } ?> </b></p>
                                     </div>
                                 </div>
                                 <div class="card bg-primary">
                                     <div class="card-body text-center">
                                         <p class="card-text text-light"><b>COMBINED SIZE<br>OF ALL FILES</b></p>
                                         <p class="card-text text-light"
-                                            style="font-size: 40px"><b>
-                                                <?php if ($tempfilecount > 0) {
+                                            style="font-size: 40px"><b> <?php if ($tempfilecount > 0) {
                                                     $units = explode(' ', 'B KB MB GB TB PB');
                                                     $SIZE_LIMIT = 5368709120; // 5 GB
-                                                    $disk_used = foldersize("/mnt/paphotos/zSketches/");
+                                                    $disk_used = foldersize("/mnt/paphotos/Sketches/");
                                                     $disk_remaining = $SIZE_LIMIT - $disk_used;
                                                     echo (format_size($disk_used));
                                                 } else {
@@ -144,8 +137,7 @@ $handle = opendir('/mnt/paphotos/zSketches/');
                                                     $endIndex = strpos($size, ".") + 0;
                                                     return substr($size, 0, $endIndex) . ' ' . $units[$i];
                                                 }
-                                                ?>
-                                            </b></p>
+                                                ?> </b></p>
                                     </div>
                                 </div>
                             </div>
@@ -187,11 +179,10 @@ $handle = opendir('/mnt/paphotos/zSketches/');
                 </div>
             </div>
             <!-- /.container-fluid -->
+            <!-- End of Main Content -->
+            <!-- Start: Footer --> <?php require "./logic/footer.php"; ?>
+            <!-- End: Footer -->
         </div>
-        <!-- End of Main Content -->
-        <!-- Start: Footer -->
-        <?php require "./logic/footer.php"; ?>
-        <!-- End: Footer -->
     </div>
     <!-- End of Content Wrapper -->
     </div>

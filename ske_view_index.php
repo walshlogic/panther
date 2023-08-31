@@ -1,30 +1,51 @@
-<?php
+<!DOCTYPE html>
+<html lang="en"> <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 require './util.php';
 require './ske_modal_view.php';
-// screen name text and button information to display top of this page
+require './logic/favicon.php';
+
 $screenTitle = "SKETCH MANAGER | PENDING UPLOAD FILES";
 $screenTitleMidText = "";
-// title button icon sent to screentitlebar.
 $screenTitleRightButtonIcon = "fa-plus";
-// title button text sent to screentitlebar.php
 $screenTitleRightButtonText = " ";
-// title button action sent to screentitlebar.php
 $screenTitleRightButtonModal = "#addnew";
-?>
-<html lang="en">
-<?php
+
+$sketchDirectory = '/mnt/paphotos/Sketches/';
+
+// Pagination Logic
+$itemsPerPage = 50;
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+$offset = ($page - 1) * $itemsPerPage;
+
+$allFiles = glob($sketchDirectory . '*.jpg');
+// Define a custom sorting function
+function customFileSort($a, $b)
+{
+    $aParts = explode('_', basename($a));
+    $bParts = explode('_', basename($b));
+
+    $aNumber = intval($aParts[0]);
+    $bNumber = intval($bParts[0]);
+
+    return $aNumber - $bNumber;
+}
+
+usort($allFiles, 'customFileSort'); // Sort the files using the custom function
+$totalFiles = count($allFiles);
+$totalPages = ceil($totalFiles / $itemsPerPage);
+
+$files = array_slice($allFiles, $offset, $itemsPerPage);
+$startRecord = $offset + 1;
+$endRecord = $offset + count($files);
+
 if (isset($_SESSION['message'])) {
-    ?>
-    <div class="alert alert-info text-center"
-        style="margin-top:20px;"> <?php echo $_SESSION['message']; ?> </div>
-    <?php
+    echo '<div class="alert alert-info text-center" style="margin-top:20px;">' . $_SESSION['message'] . '</div>';
     unset($_SESSION['message']);
 }
 ?>
-<!DOCTYPE html>
 
 <head>
     <link rel="icon"
@@ -61,32 +82,77 @@ if (isset($_SESSION['message'])) {
 <body id="page-top">
     <!-- Page Wrapper -->
     <div id="wrapper">
-        <!-- START: Nav Sidebar -->
-        <?php require "./logic/sidebar.php"; ?>
-        <!-- END: Nav Sidebar -->
+        <!-- Start: Side Nav Bar --> <?php require "./logic/sidebar.php"; ?>
+        <!-- End: Side Nav Bar -->
         <!-- Content Wrapper -->
         <div id="content-wrapper"
             class="d-flex flex-column">
             <!-- Main Content -->
             <div id="content">
-                <!-- START: Topbar -->
-                <?php require "./logic/topbar.php"; ?>
-                <!-- END: Topbar -->
+                <!-- Start: Top Bar --> <?php require "./logic/topbar.php"; ?>
+                <!-- End: Top Bar -->
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    <!-- Start: Screen Title Bar (info displayed below top bar identifiy screen) -->
+                    <!-- Start: Screen Title Bar (info displayed below top bar identify screen) -->
                     <?php require "./logic/screentitlebar.php"; ?>
-                    <!-- DataTales Example -->
+                    <!-- End: Screen Title Bar -->
                     <div class="card shadow mb-4">
                         <div class="card-body">
-                            <div class="table-responsive"
-                                style="align-content: center">
+                            <div class="table-responsive">
+                                <div class="pagination-container text-center">
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination">
+                                            <!-- First Page Link -->
+                                            <li class="page-item <?php if ($page == 1): ?>disabled<?php endif; ?>">
+                                                <a class="page-link"
+                                                    href="?page=1">First</a>
+                                            </li>
+                                            <!-- Previous Page Link -->
+                                            <li class="page-item <?php if ($page == 1): ?>disabled<?php endif; ?>">
+                                                <a class="page-link"
+                                                    href="<?php if ($page > 1): ?>?page=<?php echo $page - 1; ?><?php endif; ?>">Previous</a>
+                                            </li>
+                                            <!-- Dynamic Page Links --> <?php
+                                        $start = max($page - 5, 1);
+                                        $end = min($page + 4, $totalPages);
+                                        if ($page <= 6) {
+                                            $end = min(10, $totalPages);
+                                        }
+                                        if ($page >= $totalPages - 5) {
+                                            $start = max($totalPages - 9, 1);
+                                        }
+
+                                        for ($i = $start; $i <= $end; $i++):
+                                            ?> <li class="page-item <?php if ($i == $page): ?>active<?php endif; ?>">
+                                                <a class="page-link"
+                                                    href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                            </li> <?php endfor; ?>
+                                            <!-- Next Page Link -->
+                                            <li
+                                                class="page-item <?php if ($page == $totalPages): ?>disabled<?php endif; ?>">
+                                                <a class="page-link"
+                                                    href="<?php if ($page < $totalPages): ?>?page=<?php echo $page + 1; ?><?php endif; ?>">Next</a>
+                                            </li>
+                                            <!-- Last Page Link -->
+                                            <li
+                                                class="page-item <?php if ($page == $totalPages): ?>disabled<?php endif; ?>">
+                                                <a class="page-link"
+                                                    href="?page=<?php echo $totalPages; ?>">Last</a>
+                                            </li>
+                                            <p
+                                                style="font-size: 1.2em; font-weight: bold; text-align: center; color:blue;">
+                                                &nbsp;&nbsp;&nbsp;PAGE <?php echo $page; ?> OF
+                                                <?php echo $totalPages; ?> PAGES &nbsp;&nbsp;|&nbsp;&nbsp;VIEWING
+                                                RECORDS <?php echo $startRecord; ?> - <?php echo $endRecord; ?> </p>
+                                        </ul>
+                                    </nav>
+                                </div>
                                 <table class="table table-bordered"
                                     id="dataTable"
                                     width="100%"
                                     cellspacing="0">
-                                    <!-- employee table header and footer column headings -->
                                     <thead class="bg-primary">
+                                        <tr>
                                         <tr>
                                             <th class="text-light font-weight-bolder">
                                                 <center>SKETCH</center>
@@ -105,6 +171,34 @@ if (isset($_SESSION['message'])) {
                                             </th>
                                         </tr>
                                     </thead>
+                                    <tbody> <?php
+                                        foreach ($files as $file) {
+                                            $filename = basename($file);
+                                            $filesize = filesize($file);
+                                            $filemtime = date("d/m/Y g:i A", filemtime($file));
+                                            $thumbnail = base64_encode(file_get_contents($file));
+
+                                            // Unique identifier for modal
+                                            $modalID = "modal" . md5($filename);
+
+                                            echo "<tr>";
+                                            echo '<td class="align-middle text-center">';
+                                            echo "<img src='data:image/jpeg;base64,$thumbnail' class='my-auto' style='width:100px; height:100px;'><br><br>";
+                                            echo "</td>";
+                                            echo '<td class="font-weight-bolder text-uppercase align-middle">' . $filename . '</td>';
+                                            echo '<td class="font-weight-bolder text-uppercase align-middle text-center">' . formatSizeUnits($filesize) . '</td>';
+                                            echo '<td class="font-weight-bolder text-uppercase align-middle text-center">' . $filemtime . '</td>';
+                                            echo '<td class="font-weight-bolder text-uppercase align-middle text-center">';
+                                            echo '<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#' . $modalID . '">VIEW</button>';
+                                            echo '</td>';
+                                            echo "</tr>";
+
+                                            // Modal for each file
+                                            include('ske_view_info.php');
+                                        }
+
+
+                                        ?> </tbody>
                                     <tfoot class="bg-primary">
                                         <tr>
                                             <th class="text-light font-weight-bolder">
@@ -124,94 +218,12 @@ if (isset($_SESSION['message'])) {
                                             </th>
                                         </tr>
                                     </tfoot>
-                                    <tbody>
-                                        <?php
-                                        $files = glob(
-                                            '/mnt/paphotos/zSketches/*',
-                                            //'./tempSketches/*',
-                                            GLOB_BRACE
-                                        );
-                                        foreach ($files as $file) {
-                                            $filename = basename($file);
-                                            //$sketchImage = ('./tempSketches/') . 
-                                            $sketchImage = ('.//mnt/paphotos/zSketches/') . $filename;
-                                            ?>
-                                            <tr>
-                                                <td style="vertical-align: middle">
-                                                    <center><img src="<?php echo $sketchImage ?>"
-                                                            width=80
-                                                            height=80></center>
-                                                </td>
-                                                <td class="font-weight-bolder text-uppercase"
-                                                    style="vertical-align: middle"><?php echo $filename ?></td>
-                                                <td class="font-weight-bolder text-uppercase"
-                                                    style="vertical-align: middle">
-                                                    <center>
-                                                        <?php echo formatSizeUnits(filesize($file)) ?>
-                                                    </center>
-                                                </td>
-                                                <td class="font-weight-bolder text-uppercase"
-                                                    style="vertical-align: middle">
-                                                    <center>
-                                                        <?php
-                                                        echo date(
-                                                            "d/m/Y g:i A",
-                                                            filemtime($file)
-                                                        )
-                                                            ?>
-                                                    </center>
-                                                </td>
-                                                <td class="font-weight-bolder text-uppercase"
-                                                    style="vertical-align: middle">
-                                                    <center>
-                                                        <a href="#ske_modal_view_<?php echo $filename ?>"
-                                                            class="btn btn-success btn-sm"
-                                                            data-id='<?php $sketchImage ?>'
-                                                            data-bs-toggle="modal"
-                                                            data-toggle="tooltip"
-                                                            data-placement="top"
-                                                            title="VIEW SKETCH">
-                                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                                width="18"
-                                                                height="18"
-                                                                fill="currentColor"
-                                                                class="bi bi-eye-fill"
-                                                                viewBox="0 0 16 16">
-                                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                <path
-                                                                    d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
-                                                            </svg>
-                                                        </a>
-                                                        <a href="<?php echo $sketchImage ?>"
-                                                            target="_blank"
-                                                            class="btn btn-warning btn-sm"
-                                                            data-bs-toggle="modal"
-                                                            data-toggle="tooltip"
-                                                            data-placement="top"
-                                                            title="DOWNLOAD SKETCH"><svg xmlns="http://www.w3.org/2000/svg"
-                                                                width="16"
-                                                                height="16"
-                                                                fill="currentColor"
-                                                                class="bi bi-save2-fill"
-                                                                viewBox="0 0 16 16">
-                                                                <path
-                                                                    d="M8.5 1.5A1.5 1.5 0 0 1 10 0h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h6c-.314.418-.5.937-.5 1.5v6h-2a.5.5 0 0 0-.354.854l2.5 2.5a.5.5 0 0 0 .708 0l2.5-2.5A.5.5 0 0 0 10.5 7.5h-2v-6z" />
-                                                            </svg>
-                                                        </a>
-                                                    </center>
-                                                </td>
-                                                <?php include('ske_modal_view.php'); ?>
-                                            </tr>
-                                        <?php }
-                                        ?>
-                                    </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-                    <!-- Start: Footer -->
-                    <?php require "./logic/footer.php"; ?>
-                    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
+                    <!-- Start: Footer --> <?php require "./logic/footer.php"; ?> <script
+                        src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
                         integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE"
                         crossorigin="anonymous"></script>
                     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"
@@ -243,7 +255,7 @@ if (isset($_SESSION['message'])) {
                                     </button>
                                 </div>
                                 <div class="modal-body">Select "Logout" below if you are ready to end your current
-                                    session.</div>
+                                    session. </div>
                                 <div class="modal-footer">
                                     <button class="btn btn-secondary"
                                         type="button"
@@ -265,14 +277,32 @@ if (isset($_SESSION['message'])) {
         <!-- Custom scripts for all pages-->
         <script src="js/sb-admin-2.min.js"></script>
         <!-- Page level plugins -->
-        <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-        <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+        <!-- <script src="vendor/datatables/jquery.dataTables.min.js"></script> -->
+        <!-- <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script> -->
         <!-- Page level custom scripts -->
-        <script src="js/demo/datatables-demo.js"></script>
+        <!-- <script src="js/demo/datatables-demo.js"></script> -->
+        <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable({
+                "retrieve": true,
+                "paging": false,
+                "pageLength": 50,
+                "lengthChange": false,
+                "lengthMenu": [
+                    [50, 50, 50, 50],
+                    [50, 50, 50, 50]
+                ] // Show 50 rows only
+            });
+        });
+        </script>
+        <style>
+        div.dataTables_length {
+            display: none;
+        }
+        </style>
 </body>
 
-</html>
-<?php
+</html> <?php
 // convert filesize into readable format using kb, mb, or gb
 function formatSizeUnits($bytes)
 {

@@ -1,5 +1,5 @@
 <?php
-$directory = '/mnt/paphotos/zSketches/';
+$directory = '/mnt/paphotos/Sketches/';
 $files = array();
 $allowed_ext = array("xml", "png", "jpg", "jpeg", "txt", "doc", "xls", "csv");
 // Check if the directory exists or not

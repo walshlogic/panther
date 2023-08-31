@@ -1,4 +1,6 @@
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js"></script>
 <?php
+
 // Turn on error reporting for debugging
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -7,10 +9,10 @@ error_reporting(E_ALL);
 include 'logic/dbconn_vision.php';
 
 define('CSV_FILE_PATH', '/ske_RealProp.csv');
-define('DIRECTORY_PATH', '/mnt/paphotos/zSketches/');
-define('FINAL_DIRECTORY_PATH', '/mnt/paphotos/zSketchFinal/');
+define('DIRECTORY_PATH', '/mnt/paphotos/Sketches/');
+define('FINAL_DIRECTORY_PATH', '/mnt/paphotos/SketchFinal/');
 define('SKETCH_IDENTIFIER', 'S');
-define('BACKUP_DIRECTORY', '/mnt/paphotos/zSketchFinal/OriginalBackups/');
+define('BACKUP_DIRECTORY', '/mnt/paphotos/SketchFinal/OriginalBackups/');
 
 $dbConnection = new Connection();
 $conn = $dbConnection->open();

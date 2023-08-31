@@ -4768,6 +4768,8 @@ input[type="button"].btn-block {
     padding-left: 0;
     list-style: none;
     border-radius: 0.35rem;
+    z-index: 2;
+    margin-bottom: 50px;
 }
 
 .page-link {
@@ -9761,6 +9763,7 @@ a.text-dark:hover, a.text-dark:focus {
     }
     .container {
         min-width: 992px !important;
+        overflow: visible;
     }
     .navbar {
         display: none;
