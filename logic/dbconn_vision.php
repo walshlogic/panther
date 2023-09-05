@@ -2,39 +2,59 @@
 
 class Connection
 {
-        private $server;
-        private $username;
-        private $password;
-        private $options = [
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        ];
-        protected $conn;
+    private static $instance = null; // For Singleton Pattern
+    private $conn;
+    private $options = [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    ];
 
-        public function __construct()
-        {
-                // Retrieve database credentials
-                $this->server = getenv('DB_SERVER') ?: "sqlsrv:server=PUTSVISP01; database=V7_VISION";
-                $this->username = getenv('DB_USERNAME') ?:
-                        //"PUTNAM-FL\wwal21";
-                        "wwal21";
-                $this->password = getenv('DB_PASSWORD') ?: "Dixie!104Gizmo!104";
-        }
+    private function __construct()
+    {
+        // Load settings from XML
+        $xml = simplexml_load_file("settings.xml");
 
-        public function open()
-        {
-                try {
-                        $this->conn = new PDO($this->server, $this->username, $this->password, $this->options);
-                        return $this->conn;
-                }
-                catch (PDOException $e) {
-                        // Log the error instead of echoing
-                        error_log("ERROR! Problem with Database Connection (PANTHER Error #DB101): " . $e->getMessage());
-                }
-        }
+        $server = (string) $xml->VisionDatabaseServer;
+        $database = (string) $xml->VisionDatabase;
+        $user = (string) $xml->VisionUser;
+        $password = (string) $xml->VisionPassword;
 
-        public function close()
-        {
-                $this->conn = null;
+        $connectionString = "dblib:host=$server;database=$database";
+
+        try {
+            $this->conn = new PDO($connectionString, $user, $password, $this->options);
         }
+        catch (PDOException | Exception $e) {
+            $this->conn = null;
+        }
+    }
+
+    public static function getInstance()
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+
+    public function getConnection()
+    {
+        return $this->conn;
+    }
+
+    public function close()
+    {
+        $this->conn = null;
+    }
+}
+
+// Instantiate the Connection class
+$dbInstance = Connection::getInstance();
+$conn = $dbInstance->getConnection();
+
+// Check the database connection status
+if ($conn !== null) {
+    echo "Database connection successful.";
+} else {
+    echo "Database connection failed.";
 }

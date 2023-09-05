@@ -12,7 +12,6 @@ require './logic/favicon.php';
 require_once './ske_modal_processing.php';
 
 // Utilities for calculating file count and folder size
-require_once './logic/utilities.php';
 require_once './logic/utility/folder_size.php';
 require_once './logic/utility/format_folder_size.php';
 

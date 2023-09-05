@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Settings>
+    <VisionDatabaseServer>putsvisp01.bocc.putnam-fl.com</VisionDatabaseServer>
+    <VisionDatabase>V7_VISION</VisionDatabase>
+    <VisionUser>V7_VISION</VisionUser>
+    <VisionPassword>VISION</VisionPassword>
+</Settings>

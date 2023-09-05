@@ -22,6 +22,8 @@ if (!$conn) {
     die("Database connection failed!");
 }
 
+$start_numeric_counter = null;
+
 try {
     $query = "SELECT MAX(RIM_ID) AS max_id FROM REAL_PROP.REIMAGES";
     $stmt = $conn->prepare($query);
@@ -32,10 +34,11 @@ try {
         throw new Exception("Failed to fetch the maximum RIM_ID value.");
     }
 
-    define('START_NUMERIC_COUNTER', strval($result['max_id'] + 1));
+    $start_numeric_counter = strval($result['max_id'] + 1);
 }
 catch (Exception $e) {
     logMessage("ERROR retrieving highest RIM_ID: " . $e->getMessage());
+    echo "An error occurred: " . $e->getMessage();
     die($e->getMessage());
 }
 
@@ -91,7 +94,9 @@ function createBackup($filePath, $backupDirectory)
 
 function batchRenameCopyMoveAndUpdateCsv($files, $csvData)
 {
-    $numericCounter = intval(START_NUMERIC_COUNTER);
+    global $start_numeric_counter;
+
+    $numericCounter = intval($start_numeric_counter);
     $uniqueFolderNames = [];
 
     foreach ($files as $file) {
@@ -147,9 +152,9 @@ try {
 }
 catch (Exception $e) {
     logMessage("An error occurred: " . $e->getMessage());
+    echo "An error occurred: " . $e->getMessage();
 }
 finally {
     $dbConnection->close();
 }
-
 ?>
