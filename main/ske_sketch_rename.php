@@ -14,7 +14,7 @@ include 'lib/log_helper.php';
 // Constants
 define('CSV_FILE_PATH', '/ske_RealProp.csv');
 define('DIRECTORY_PATH', '/mnt/paphotos/Sketches/');
-define('FINAL_DIRECTORY_PATH', '/mnt/paphotos/SketchFinal/');
+define('FINAL_DIRECTORY_PATH', '/mnt/paphotos/photos/');
 define('SKETCH_IDENTIFIER', 'S');
 define('BACKUP_DIRECTORY', '/mnt/paphotos/SketchFinal/OriginalBackups/');
 

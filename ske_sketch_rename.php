@@ -9,7 +9,7 @@ include 'db/dbconn_vision.php';
 // Constants
 define('CSV_FILE_PATH', './ske_RealProp.csv');
 define('DIRECTORY_PATH', '/mnt/paphotos/Sketches/');
-define('FINAL_DIRECTORY_PATH', '/mnt/paphotos/SketchFinal/');
+define('FINAL_DIRECTORY_PATH', '/mnt/paphotos/photos/');
 define('SKETCH_IDENTIFIER', 'S');
 define('BACKUP_DIRECTORY', '/mnt/paphotos/SketchFinal/OriginalBackups/');
 
@@ -24,7 +24,6 @@ catch (Exception $e) {
 
 $startNumericCounter = 1; // or any default starting point
 
-////
 function createBackup($filePath, $backupDirectory)
 {
     if (!is_dir($backupDirectory)) {
@@ -32,21 +31,19 @@ function createBackup($filePath, $backupDirectory)
     }
     $backupFilePath = $backupDirectory . basename($filePath);
     if (!copy($filePath, $backupFilePath)) {
-        //logMessage("Failed to create backup for: $filePath");
+        echo "Failed to create backup for {$filePath}\n";
     }
 }
 
-////
 function createDirectory($path)
 {
     if (!is_dir($path)) {
         if (!mkdir($path, 0755, true)) {
-            //logMessage("Failed to create directory: $path");
+            echo "Failed to create directory {$path}\n";
         }
     }
 }
 
-////
 function readCsvData($filePath)
 {
     $csvData = [];
@@ -57,6 +54,8 @@ function readCsvData($filePath)
             $csvData[$oldPrefix] = $newPrefix;
         }
         fclose($handle);
+    } else {
+        echo "Failed to open CSV file at {$filePath}\n";
     }
     return $csvData;
 }
@@ -73,32 +72,22 @@ function generateNewFileName($csvData, $fileInfo, &$numericCounter)
     return false;
 }
 
-// function logMessage($message)
-// {
-//     file_put_contents("log.txt", $message . PHP_EOL, FILE_APPEND);
-// }
-
-
-// Additional function to handle renaming of files
 function renameFile($oldFilePath, $newFilePath)
 {
     if (rename($oldFilePath, $newFilePath)) {
-        //logMessage("File '" . basename($oldFilePath) . "' renamed to '" . basename($newFilePath) . "'");
         return true;
     } else {
-        //logMessage("Failed to rename file '" . basename($oldFilePath) . "'");
+        echo "Failed to rename {$oldFilePath} to {$newFilePath}\n";
         return false;
     }
 }
 
-// Additional function to handle file copy
 function copyFileToDestination($srcPath, $destPath)
 {
     if (copy($srcPath, $destPath)) {
-        //logMessage("File '" . basename($srcPath) . "' copied to '" . $destPath . "'");
         return true;
     } else {
-        //logMessage("Failed to copy file '" . basename($srcPath) . "' to '" . $destPath . "'");
+        echo "Failed to copy {$srcPath} to {$destPath}\n";
         return false;
     }
 }
@@ -111,7 +100,8 @@ function batchRenameCopyMoveAndUpdateCsv($files, $csvData, $startNumericCounter)
     foreach ($files as $file) {
         $fileInfo = pathinfo($file);
         $newFileName = generateNewFileName($csvData, $fileInfo, $numericCounter);
-        var_dump($newFileName); // for debugging - can remove as needed
+
+        echo "Generated new file name: " . $newFileName . "\n";
 
         if ($newFileName) {
             $oldFilePath = $file;
@@ -119,10 +109,9 @@ function batchRenameCopyMoveAndUpdateCsv($files, $csvData, $startNumericCounter)
 
             createBackup($oldFilePath, BACKUP_DIRECTORY);
 
-            $renameSuccess = renameFile($oldFilePath, $newFilePath); // Calling renameFile() only once
-            var_dump($renameSuccess); // Debug line
+            $renameSuccess = renameFile($oldFilePath, $newFilePath);
 
-            if ($renameSuccess) { // Moved the "if" check here
+            if ($renameSuccess) {
                 $folderName = substr($newFileName, 3, 2) . substr($newFileName, 6, 2) . substr($newFileName, 0, 2);
                 $uniqueFolderNames[] = $folderName;
 
@@ -132,27 +121,24 @@ function batchRenameCopyMoveAndUpdateCsv($files, $csvData, $startNumericCounter)
                 $finalFilePath = $finalFolderPath . $newFileName;
 
                 if (!file_exists($finalFilePath)) {
-                    copyFileToDestination($newFilePath, $finalFilePath);
+                    if (rename($newFilePath, $finalFilePath)) { // Replace the copy operation with a move operation
+                        echo "Successfully moved {$newFilePath} to {$finalFilePath}\n";
+                    } else {
+                        echo "Failed to move {$newFilePath} to {$finalFilePath}\n";
+                    }
                 } else {
-                    //logMessage("File '{$newFileName}' already exists in the final folder.");
+                    echo "File {$finalFilePath} already exists. Skipped moving.\n";
                 }
 
                 $numericCounter++;
             }
         }
     }
-    var_dump($uniqueFolderNames); // Debug line
+
+    echo "Unique folder names generated: " . implode(", ", $uniqueFolderNames) . "\n";
 
     return $uniqueFolderNames;
 }
-
-
-$files = glob(DIRECTORY_PATH . '*.*');
-var_dump($files); // Debug line
-
-$csvData = readCsvData(CSV_FILE_PATH);
-var_dump($csvData); // Debug line
-
 
 try {
     $files = glob(DIRECTORY_PATH . '*.*');
@@ -168,8 +154,6 @@ try {
     }
 
     $uniqueFolderNames = batchRenameCopyMoveAndUpdateCsv($files, $csvData, $startNumericCounter);
-    var_dump($uniqueFolderNames); // Debug line
-
 
     if (!$uniqueFolderNames || empty($uniqueFolderNames)) {
         throw new Exception("The batch rename and copy operation didn't produce unique folder names or failed.");
@@ -178,7 +162,6 @@ try {
     echo json_encode(["status" => "success", "message" => "Processing completed successfully"]);
 }
 catch (Exception $e) {
-    //logMessage("ERROR: " . $e->getMessage());
     echo json_encode(["status" => "error", "message" => "An error occurred: " . $e->getMessage()]);
 }
 finally {
