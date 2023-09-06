@@ -7,9 +7,26 @@
  * @version 1.0
  */
 
+// Define constants for file paths
+define('SKETCH_FOLDER_PATH', '/mnt/paphotos/Sketches/');
+
+// Error handling for missing or unreadable sketch folder
+if (!is_dir(SKETCH_FOLDER_PATH) || !is_readable(SKETCH_FOLDER_PATH)) {
+    die("Error: Sketch folder is missing or not readable.");
+}
+
 // Load favicon and modal processing
 require './logic/favicon.php';
 require_once './ske_modal_processing.php';
+
+// Error handling for utility files
+$folderSizeIncluded = include_once('./logic/utility/folder_size.php');
+$formatFolderSizeIncluded = include_once('./logic/utility/format_folder_size.php');
+
+if (!$folderSizeIncluded || !$formatFolderSizeIncluded) {
+    die("Error: Failed to load utility files.");
+}
+
 
 // Utilities for calculating file count and folder size
 require_once './logic/utility/folder_size.php';
@@ -23,18 +40,28 @@ $screenTitleRightButtonText = " REFRESH";
 $screenTitleRightButtonModal = "#yourModalID";
 
 // Folder for sketch files
-$tempdirectory = "/mnt/paphotos/Sketches/";
+$tempdirectory = SKETCH_FOLDER_PATH;
 
-// Count the files in the sketches directory
-$tempfilecount = count(glob($tempdirectory . "*"));
+// Error handling for counting files
+try {
+    $tempfilecount = count(glob($tempdirectory . "*"));
+}
+catch (Exception $e) {
+    die("Error: Failed to count files in sketch folder. " . $e->getMessage());
+}
 
 // Calculate card text
 $filesReadyText = ($tempfilecount > 0) ? number_format($tempfilecount) : "0";
 $combinedSizeText = "0";
 
 if ($tempfilecount > 0) {
-    $disk_used = foldersize($tempdirectory);
-    $combinedSizeText = format_size($disk_used, $units);
+    try {
+        $disk_used = foldersize($tempdirectory);
+        $combinedSizeText = format_size($disk_used, $units);
+    }
+    catch (Exception $e) {
+        die("Error: Failed to calculate folder size. " . $e->getMessage());
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -63,14 +90,14 @@ if ($tempfilecount > 0) {
         rel="stylesheet">
     <link href="css/sb-admin-2.min.css"
         rel="stylesheet">
-    <link rel="stylesheet"
-        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
-        defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"
-        defer></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-        defer></script>
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
+        integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"
+        integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ"
+        crossorigin="anonymous"></script>
 </head>
 
 <body id="page-top">
@@ -174,6 +201,10 @@ if ($tempfilecount > 0) {
             </div>
         </div>
     </div>
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="js/sb-admin-2.min.js"></script>
 </body>
 
 </html>

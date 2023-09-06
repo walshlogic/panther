@@ -25,9 +25,7 @@ session_start();
 if (isset($_SESSION['message'])) {
     ?>
     <div class="alert alert-info text-center"
-        style="margin-top:20px;">
-        <?php echo $_SESSION['message']; ?>
-    </div>
+        style="margin-top:20px;"> <?php echo $_SESSION['message']; ?> </div>
     <?php
     unset($_SESSION['message']);
 }
@@ -150,7 +148,7 @@ if (isset($_SESSION['message'])) {
                                     </tfoot>
                                     <tbody>
                                         <?php
-                                        include_once('./logic/dbconn.php');
+                                        include_once('./db/dbconn.php');
                                         $database = new Connection();
                                         $db = $database->open();
                                         try {

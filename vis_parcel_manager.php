@@ -8,7 +8,7 @@
  */
 // Load favicon, db connection and utilities
 require './logic/favicon.php';
-require './logic/dbconn.php';
+require './db/dbconn.php';
 require 'util.php';
 // screen name text and button information to display top of this page
 $screenTitle = "VISION+ | PARCEL MANAGER";

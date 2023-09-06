@@ -6,12 +6,11 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0">
     <title>Sketch Processing Modal</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet"
         href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet"
         href="./css/sb-admin-2.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
-        defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"
         defer></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
@@ -64,6 +63,33 @@
             </div>
         </div>
     </div>
+    <script>
+    $(document).ready(function() {
+        $(".btn-process").click(function() {
+            // Show loading gif or some other indication that processing is happening
+            $("#loadingGif").show();
+            // Make AJAX request to your PHP script
+            $.ajax({
+                url: 'ske_sketch_rename.php',
+                method: 'POST',
+                data: {
+                    // any data you want to send to the PHP script
+                },
+                success: function(response) {
+                    // Hide loading gif
+                    $("#loadingGif").hide();
+                    // Do something with the response
+                    alert("Processing completed: " + JSON.stringify(response));
+                },
+                error: function() {
+                    // Hide loading gif
+                    $("#loadingGif").hide();
+                    alert("An error occurred.");
+                }
+            });
+        });
+    });
+    </script>
 </body>
 
 </html>

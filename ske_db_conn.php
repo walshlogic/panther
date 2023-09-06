@@ -1,5 +1,5 @@
 <?php
-require './logic/dbconn.php';
+require './db/dbconn.php';
 // $start and $display essential for pagination
 $database = new Connection();
 $db = $database->open();
@@ -9,18 +9,18 @@ try {
     $sql = 'SELECT * FROM vis_plus_index ORDER BY rem_acct_num ASC';
     foreach ($db->query($sql) as $row) {
         ?>
-                <?php echo $row['REM_PID'] ?>
-                <?php echo $row['REM_ACCT_NUM'] ?>
-                <?php echo $row['REM_OWN_NAME'] ?>
-                <?php
-                if ($row['REM_PRCL_LOCN'] == '00 Unassigned Location RE') {
-                    echo '<i style="color:silver">>> NO ASSIGNED ADDRESS <<</i>';
-                } else {
-                    echo $row['REM_PRCL_LOCN'];
-                }
-                ?>
-                <?php echo $row['REM_PRCL_LOCN_CITY'] ?>
-                <?php
+        <?php echo $row['REM_PID'] ?>
+        <?php echo $row['REM_ACCT_NUM'] ?>
+        <?php echo $row['REM_OWN_NAME'] ?>
+        <?php
+        if ($row['REM_PRCL_LOCN'] == '00 Unassigned Location RE') {
+            echo '<i style="color:silver">>> NO ASSIGNED ADDRESS <<</i>';
+        } else {
+            echo $row['REM_PRCL_LOCN'];
+        }
+        ?>
+        <?php echo $row['REM_PRCL_LOCN_CITY'] ?>
+        <?php
     }
 }
 catch (PDOException $e) {

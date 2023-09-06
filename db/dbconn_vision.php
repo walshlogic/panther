@@ -12,7 +12,7 @@ class Connection
     private function __construct()
     {
         // Load settings from XML
-        $xml = simplexml_load_file("settings.xml");
+        $xml = simplexml_load_file("./logic/settings.xml");
 
         $server = (string) $xml->VisionDatabaseServer;
         $database = (string) $xml->VisionDatabase;
@@ -48,13 +48,13 @@ class Connection
     }
 }
 
-// Instantiate the Connection class
-$dbInstance = Connection::getInstance();
-$conn = $dbInstance->getConnection();
+// // Instantiate the Connection class
+// $dbInstance = Connection::getInstance();
+// $conn = $dbInstance->getConnection();
 
-// Check the database connection status
-if ($conn !== null) {
-    echo "Database connection successful.";
-} else {
-    echo "Database connection failed.";
-}
+// // Check the database connection status
+// if ($conn !== null) {
+//     echo "Database connection successful.";
+// } else {
+//     echo "Database connection failed.";
+// }

@@ -1,5 +1,5 @@
 <?php
-require './logic/dbconn_vision.php';
+require './db/dbconn_vision.php';
 $sqlFind = 'SELECT `*` FROM `REAL_PROP.REALMAST`';
 $result = mysqli_query($conn, $sqlFind);
 $db = []; // create empty array

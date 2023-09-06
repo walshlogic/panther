@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once('./logic/dbconn.php');
+include_once('./db/dbconn.php');
 if (isset($_POST['view_inv_item'])) {
     $database = new Connection();
     $db = $database->open();

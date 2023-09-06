@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-include_once('./logic/dbconn.php');
+include_once('./db/dbconn.php');
 
 if (isset($_GET['id'])) {
     $database = new Connection();
