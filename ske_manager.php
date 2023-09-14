@@ -1,6 +1,6 @@
 <?php
 /**
- * index.php
+ * ske_manager.php
  * Sketch Manager for Panther application.
  *
  * @author Will Walsh | wbwalsh@gmail.com

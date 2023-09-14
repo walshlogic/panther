@@ -47,14 +47,3 @@ class Connection
         $this->conn = null;
     }
 }
-
-// // Instantiate the Connection class
-// $dbInstance = Connection::getInstance();
-// $conn = $dbInstance->getConnection();
-
-// // Check the database connection status
-// if ($conn !== null) {
-//     echo "Database connection successful.";
-// } else {
-//     echo "Database connection failed.";
-// }

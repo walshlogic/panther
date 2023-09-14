@@ -1,4 +1,5 @@
 <?php
+session_start(); // Start or resume the session
 // Turn on error reporting for debugging
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -9,7 +10,8 @@ include 'db/dbconn_vision.php';
 // Constants
 define('CSV_FILE_PATH', './ske_RealProp.csv');
 define('DIRECTORY_PATH', '/mnt/paphotos/Sketches/');
-define('FINAL_DIRECTORY_PATH', '/mnt/paphotos/photos/');
+//define('FINAL_DIRECTORY_PATH', '/mnt/paphotos/photos/');
+define('FINAL_DIRECTORY_PATH', '/mnt/paphotos/zSketchesDumpTest/');
 define('SKETCH_IDENTIFIER', 'S');
 define('BACKUP_DIRECTORY', '/mnt/paphotos/SketchFinal/OriginalBackups/');
 
@@ -22,7 +24,32 @@ catch (Exception $e) {
     die("Database error: " . $e->getMessage());
 }
 
-$startNumericCounter = 1; // or any default starting point
+// Initialize counter by reading from the file
+$startNumericCounter = manageCounter('read');
+
+
+// Add this function near your existing functions
+function manageCounter($operation = 'read', $newValue = null)
+{
+    $counterFile = "W:/Panther/ske_sketch_rename_serial_number.txt";
+    if ($operation === 'read') {
+        if (file_exists($counterFile)) {
+            $counter = file_get_contents($counterFile);
+            return ($counter) ? intval($counter) : 1; // Default is 1 if the file is empty
+        } else {
+            return 1; // Default is 1 if the file doesn't exist
+        }
+    } elseif ($operation === 'write') {
+        $bytesWritten = file_put_contents($counterFile, $newValue);
+        if ($bytesWritten === false) {
+            echo "Failed to write to $counterFile\n";
+        } else {
+            echo "Successfully written $bytesWritten bytes to $counterFile\n";
+        }
+    }
+}
+
+
 
 function createBackup($filePath, $backupDirectory)
 {
@@ -92,6 +119,8 @@ function copyFileToDestination($srcPath, $destPath)
     }
 }
 
+
+
 function batchRenameCopyMoveAndUpdateCsv($files, $csvData, $startNumericCounter)
 {
     $numericCounter = intval($startNumericCounter);
@@ -101,7 +130,8 @@ function batchRenameCopyMoveAndUpdateCsv($files, $csvData, $startNumericCounter)
         $fileInfo = pathinfo($file);
         $newFileName = generateNewFileName($csvData, $fileInfo, $numericCounter);
 
-        echo "Generated new file name: " . $newFileName . "\n";
+        file_put_contents("debug.log", "Generated new file name: " . $newFileName . "\n", FILE_APPEND);
+
 
         if ($newFileName) {
             $oldFilePath = $file;
@@ -120,18 +150,21 @@ function batchRenameCopyMoveAndUpdateCsv($files, $csvData, $startNumericCounter)
 
                 $finalFilePath = $finalFolderPath . $newFileName;
 
-                if (!file_exists($finalFilePath)) {
-                    if (rename($newFilePath, $finalFilePath)) { // Replace the copy operation with a move operation
+                if (file_exists($newFilePath)) {
+                    if (rename($newFilePath, $finalFilePath)) {
                         echo "Successfully moved {$newFilePath} to {$finalFilePath}\n";
                     } else {
                         echo "Failed to move {$newFilePath} to {$finalFilePath}\n";
                     }
                 } else {
-                    echo "File {$finalFilePath} already exists. Skipped moving.\n";
+                    echo "File {$newFilePath} does not exist. Skipping move operation.\n";
                 }
 
+                // Increment and update the counter
                 $numericCounter++;
+                manageCounter('write', $numericCounter); // Update the counter file
             }
+            return $uniqueFolderNames;
         }
     }
 
@@ -140,22 +173,24 @@ function batchRenameCopyMoveAndUpdateCsv($files, $csvData, $startNumericCounter)
     return $uniqueFolderNames;
 }
 
+// Main processing logic
 try {
     $files = glob(DIRECTORY_PATH . '*.*');
 
-    if (!$files || empty($files)) {
-        throw new Exception("No files found in directory: " . DIRECTORY_PATH);
+    if (empty($files)) {
+        echo json_encode(["status" => "info", "message" => "No files to process in directory: " . DIRECTORY_PATH]);
+        exit;
     }
 
     $csvData = readCsvData(CSV_FILE_PATH);
 
-    if (!$csvData || empty($csvData)) {
+    if (empty($csvData)) {
         throw new Exception("Failed to read or parse the CSV file.");
     }
 
     $uniqueFolderNames = batchRenameCopyMoveAndUpdateCsv($files, $csvData, $startNumericCounter);
 
-    if (!$uniqueFolderNames || empty($uniqueFolderNames)) {
+    if (empty($uniqueFolderNames)) {
         throw new Exception("The batch rename and copy operation didn't produce unique folder names or failed.");
     }
 

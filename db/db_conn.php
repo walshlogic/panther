@@ -2,148 +2,117 @@
 
 class Database
 {
+    private $dsn;
+    private $username;
+    private $password;
+    private $pdo;
 
-    private $db_host = 'mysql:host=localhost;dbname=panther';
-    private $db_user = 'root';
-    private $db_pass = 'Dixie!104';
-    private $db_name = 'panther';
-    private $con = ' ';
-
-    public function _contruct($db_host, $db_user, $db_pass, $db_name)
+    public function __construct($dsn, $username, $password)
     {
-        $this->db_host = $db_host;
-        $this->db_user = $db_user;
-        $this->db_pass = $db_pass;
-        $this->db_name = $db_name;
+        $this->dsn = $dsn;
+        $this->username = $username;
+        $this->password = $password;
     }
-
     public function connect()
     {
-        if (!$this->con) {
-            $this->con = mysqli_connect($this->db_host, $this->db_user, $this->db_pass);
-            if ($this->con) {
-                $seldb = mysqli_select_db($this->con, $this->db_name);
-                if ($seldb) {
-                    return true;
-                } else {
-                    return false;
-                }
-            } else {
-                return false;
+        if ($this->pdo === null) {
+            try {
+                $this->pdo = new PDO($this->dsn, $this->username, $this->password);
+                $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             }
-        } else {
-            return true;
+            catch (PDOException $e) {
+                error_log("Database Connection Error: " . $e->getMessage());
+                die("Database Connection Error: " . $e->getMessage()); // Display the error
+            }
+        }
+        return $this->pdo;
+    }
+
+
+    public function tableExists($table)
+    {
+        try {
+            $result = $this->pdo->query("SHOW TABLES LIKE " . $this->pdo->quote($table));
+            return $result->rowCount() > 0;
+        }
+        catch (PDOException $e) {
+            throw $e;
         }
     }
 
     public function disconnect()
     {
-        if ($this->con) {
-            if (mysqli_close($this->con)) {
-                $this->con = false;
-                return true;
-            } else {
-                return false;
-            }
-        }
+        $this->pdo = null;
+        return true;
     }
 
-    private function tableExists($table)
+    public function select($table, $columns = '*', $where = null, $order = null)
     {
-        $tablesInDb = mysqli_query($this->con, 'SHOW TABLES FROM' . $this->db_name . ' LIKE "' . $table . '"');
-        if ($tablesInDb) {
-            if (mysqli_num_rows($tablesInDb) == 1) {
-                return true;
-            } else {
-                return false;
-            }
+        $sql = "SELECT $columns FROM $table";
+        if ($where) {
+            $sql .= " WHERE $where";
         }
-    }
+        if ($order) {
+            $sql .= " ORDER BY $order";
+        }
 
-    public function select($table, $rows = '*', $where = null, $order = null)
-    {
-        $q = 'SELECT' . $rows . ' FROM' . $table;
-        if ($where != null) {
-            $q .= ' WHERE ' . $where;
-        }
-        if ($order != null) {
-            $q .= ' ORDER BY ' . $order;
-        }
         if ($this->tableExists($table)) {
-            $result = $this->con->query($q);
-            if ($result) {
-                $arrResult = $result->fetch_all(MYSQLI_ASSOC);
-                return $arrResult;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
+            $stmt = $this->pdo->query($sql);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
+        return false;
     }
 
-    public function insert($table, $values, $rows = null)
+    public function insert($table, $data)
     {
         if ($this->tableExists($table)) {
-            $insert = 'INSERT INTO ' . $table;
-            if ($rows != null) {
-                $insert .= ' (' . $rows . ')';
-            }
-            for ($i = 0; $i < count($values); $i++) {
-                $values[$i] = mysqli_real_escape_string($this->con, $values[$i]);
-                if (is_string($values[$i])) {
-                    $values[$i] = ' " ' . $values[$i] . ' " ';
-                }
-            }
-            $values = implode(',', $values);
-            $insert .= ' VALUES (' . $values . ')';
-            $ins = mysqli_query($this->con, $insert);
+            $columns = implode(", ", array_keys($data));
+            $values = ":" . implode(", :", array_keys($data));
+            $sql = "INSERT INTO $table ($columns) VALUES ($values)";
 
-            if ($ins) {
-                return true;
-            } else {
-                return false;
+            $stmt = $this->pdo->prepare($sql);
+
+            foreach ($data as $key => $value) {
+                $stmt->bindValue(":$key", $value);
             }
+
+            return $stmt->execute();
         }
+        return false;
     }
 
     public function delete($table, $where = null)
     {
         if ($this->tableExists($table)) {
-            if ($where == null) {
-                $delete = 'DELETE' . $table;
-            } else {
-                $delete = 'DELETE FROM ' . $table . ' WHERE ' . $where;
+            $sql = "DELETE FROM $table";
+            if ($where) {
+                $sql .= " WHERE $where";
             }
-            $del = $this->con->query($delete);
-            if ($del) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
+
+            return $this->pdo->exec($sql) > 0;
         }
+        return false;
     }
 
-    public function update($table, $rows, $where)
+    public function update($table, $data, $where)
     {
         if ($this->tableExists($table)) {
-            // parse the where values
-            // even values (including 0) contain the where rows
-            // odd values contain the clauses for the row
-            for ($i = 0; $i < count($where); $i++) {
-                if ($i % 2 != 0) {
-                    if (is_string($where[$i])) {
-                        if (($i + 1) != null) {
-                            $where[$i] = ' " ' . $where[$i] . ' " AND ';
-                        } else {
-                            $where[$i] = ' " ' . $where[$i] . ' " ';
-                        }
-                    }
-                }
+            $fields = '';
+            foreach ($data as $column => $value) {
+                $fields .= "$column = :$column, ";
             }
-        }
-    }
+            $fields = rtrim($fields, ', ');
 
+            $sql = "UPDATE $table SET $fields WHERE $where";
+
+            $stmt = $this->pdo->prepare($sql);
+
+            foreach ($data as $key => $value) {
+                $stmt->bindValue(":$key", $value);
+            }
+
+            return $stmt->execute();
+        }
+        return false;
+    }
 }

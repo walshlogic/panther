@@ -38,11 +38,9 @@
                         id="ModalLabel"> SKETCH MANAGER | PROCESSOR </h5>
                 </div>
                 <div class="modal-body bg-primary text-light text-uppercase font-weight-bolder text-center"
-                    id="modalBody"> Select 'PROCESS' To Initiate Sketch Import <br>
-                    <br>
+                    id="modalBody"> Select 'PROCESS' To Initiate Sketch Import <br><br>
                     <div class="modal-body bg-danger text-uppercase font-weight-bolder text-center"> The Process Will
-                        Take Several Minutes <br>
-                        <br> Do Not Make Another Selection <br> While The Process Is Running <br>
+                        Take Several Minutes <br><br> Do Not Make Another Selection While The Process Is Running <br>
                     </div>
                     <br>
                     <div class="modal-footer"
@@ -60,31 +58,39 @@
                         alt="Loading..."
                         style="display: block; margin: 0 auto;">
                 </div>
+                <div id="processComplete"
+                    style="display: none; text-align: center;"> PROCESS COMPLETED </div>
             </div>
         </div>
     </div>
     <script>
     $(document).ready(function() {
         $(".btn-process").click(function() {
-            // Show loading gif or some other indication that processing is happening
+            // Show loading gif
             $("#loadingGif").show();
-            // Make AJAX request to your PHP script
+            // Start AJAX request to initiate processing
             $.ajax({
                 url: 'ske_sketch_rename.php',
                 method: 'POST',
-                data: {
-                    // any data you want to send to the PHP script
-                },
+                data: {},
                 success: function(response) {
+                    // Parse JSON response
+                    const jsonResponse = JSON.parse(response);
                     // Hide loading gif
                     $("#loadingGif").hide();
-                    // Do something with the response
-                    alert("Processing completed: " + JSON.stringify(response));
+                    if (jsonResponse.status === 'error') {
+                        // Show an error message
+                        $("#processComplete").text(jsonResponse.message).show();
+                    } else {
+                        // Show the process complete message
+                        $("#processComplete").text("Process Completed").show();
+                    }
                 },
                 error: function() {
                     // Hide loading gif
                     $("#loadingGif").hide();
-                    alert("An error occurred.");
+                    // Show an error message
+                    $("#processComplete").text("An unexpected error occurred.").show();
                 }
             });
         });
