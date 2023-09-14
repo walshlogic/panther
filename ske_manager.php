@@ -113,7 +113,7 @@ if ($tempfilecount > 0) {
                 <div class="col mb-5">
                     <div class="card-deck"
                         style="width:36rem">
-                        <div class="card bg-primary">
+                        <div class="card bg-dark">
                             <div class="card-body text-center">
                                 <p class="card-text text-light"
                                     style="font-size: 16px"><b>SKETCH IMPORT FOLDER:<br>PA/PA_PHOTOS/SKETCHES/</b></p>
@@ -123,7 +123,7 @@ if ($tempfilecount > 0) {
                     <br>
                     <div class="card-deck"
                         style="width:36rem">
-                        <div class="card bg-primary">
+                        <div class="card bg-dark">
                             <div class="card-body text-center">
                                 <p class="card-text text-light"><b>FILES READY FOR<br>PROCESSING</b></p>
                                 <p class="card-text text-light"
@@ -132,7 +132,7 @@ if ($tempfilecount > 0) {
                                     </b></p>
                             </div>
                         </div>
-                        <div class="card bg-primary">
+                        <div class="card bg-dark">
                             <div class="card-body text-center">
                                 <p class="card-text text-light"><b>COMBINED SIZE<br>OF ALL FILES</b></p>
                                 <p class="card-text text-light"
@@ -144,7 +144,7 @@ if ($tempfilecount > 0) {
                     </div>
                     <br>
                     <input type="button"
-                        class="btn btn-primary font-weight-bolder"
+                        class="btn bg-success font-weight-bolder text-light"
                         style="font-size: 24px; width:34.5rem"
                         name="sketch_button_list"
                         id="sketch_button_list"

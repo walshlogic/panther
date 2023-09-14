@@ -11,21 +11,17 @@ $screenTitleRightButtonText = " ADD EMPLOYEE";
 $screenTitleRightButtonModal = "#addnew";
 ?>
 <!DOCTYPE html>
-<html lang="en">
-<?php
+<html lang="en"> <?php
 session_start();
 if (isset($_SESSION['message'])) {
-    ?>
-    <div class="alert alert-info text-center"
-        style="margin-top:20px;"> <?php echo $_SESSION['message']; ?> </div>
-    <?php
+    ?> <div class="alert alert-info text-center"
+    style="margin-top:20px;"> <?php echo $_SESSION['message']; ?> </div> <?php
     unset($_SESSION['message']);
 }
 ?>
 
 <head>
-    <!-- places favicon from img/favicons/??color?? onto pages -->
-    <?php require_once './logic/favicon.php'; ?>
+    <!-- places favicon from img/favicons/??color?? onto pages --> <?php require_once './logic/favicon.php'; ?>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible"
         content="IE=edge">
@@ -55,16 +51,14 @@ if (isset($_SESSION['message'])) {
 <body id="page-top">
     <!-- Page Wrapper -->
     <div id="wrapper">
-        <!-- START: Nav Sidebar -->
-        <?php require "./logic/sidebar.php"; ?>
+        <!-- START: Nav Sidebar --> <?php require "./logic/sidebar.php"; ?>
         <!-- END: Nav Sidebar -->
         <!-- Content Wrapper -->
         <div id="content-wrapper"
             class="d-flex flex-column">
             <!-- Main Content -->
             <div id="content">
-                <!-- START: Topbar -->
-                <?php require "./logic/topbar.php"; ?>
+                <!-- START: Topbar --> <?php require "./logic/topbar.php"; ?>
                 <!-- END: Topbar -->
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
@@ -79,7 +73,7 @@ if (isset($_SESSION['message'])) {
                                     width="100%"
                                     cellspacing="0">
                                     <!-- employee table header and footer column headings -->
-                                    <thead class="bg-primary">
+                                    <thead class="bg-dark">
                                         <tr>
                                             <th class="text-light font-weight-bolder">
                                                 <center>EMPLOYEE</center>
@@ -98,7 +92,7 @@ if (isset($_SESSION['message'])) {
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tfoot class="bg-primary">
+                                    <tfoot class="bg-dark">
                                         <tr>
                                             <th class="text-light font-weight-bolder">
                                                 <center>EMPLOYEE</center>
@@ -117,88 +111,80 @@ if (isset($_SESSION['message'])) {
                                             </th>
                                         </tr>
                                     </tfoot>
-                                    <tbody>
-                                        <?php
+                                    <tbody> <?php
                                         include_once('./db/dbconn.php');
                                         $database = new Connection();
                                         $db = $database->open();
                                         try {
                                             $sql = 'SELECT * FROM employee ORDER BY lastname ASC';
                                             foreach ($db->query($sql) as $row) {
-                                                ?>
-                                                <tr>
-                                                    <td class="w-25 font-weight-bolder text-uppercase align-middle"><img
-                                                            class="img img-profile w-25"
-                                                            src="./img/emp/<?php echo $row['profile_pic'] ?>"
-                                                            alt=""><?php echo "  " . $row['lastname'] . ", " . $row['firstname'] ?></td>
-                                                    <td class="font-weight-bolder text-uppercase align-middle">
-                                                        <center>
-                                                            <?php echo $row['initialsname'] ?>
-                                                        </center>
-                                                    </td>
-                                                    <td class="font-weight-bolder text-uppercase align-middle">
-                                                        <?php echo $row['emp_title'] ?>
-                                                    </td>
-                                                    <td class="font-weight-bolder text-uppercase align-middle">
-                                                        <center>
-                                                            <?php echo $row['location'] ?>
-                                                        </center>
-                                                    </td>
-                                                    <td class="align-middle">
-                                                        <center>
-                                                            <a href="#view_<?php echo $row['id']; ?>"
-                                                                class="btn btn-success btn-sm"
-                                                                data-bs-toggle="modal"
-                                                                data-toggle="tooltip"
-                                                                data-placement="top"
-                                                                title="VIEW EMPLOYEE">
-                                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                                    width="18"
-                                                                    height="18"
-                                                                    fill="currentColor"
-                                                                    class="bi bi-eye-fill"
-                                                                    viewBox="0 0 16 16">
-                                                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                    <path
-                                                                        d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
-                                                                </svg>
-                                                            </a>
-                                                            <a href="#edit_<?php echo $row['id']; ?>"
-                                                                class="btn btn-warning btn-sm"
-                                                                data-bs-toggle="modal"
-                                                                data-toggle="tooltip"
-                                                                data-placement="top"
-                                                                title="EDIT EMPLOYEE"><svg xmlns="http://www.w3.org/2000/svg"
-                                                                    width="18"
-                                                                    height="18"
-                                                                    fill="currentColor"
-                                                                    class="bi bi-pencil-fill"
-                                                                    viewBox="0 0 16 16">
-                                                                    <path
-                                                                        d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
-                                                                </svg></a>
-                                                            <a href="#delete_<?php echo $row['id']; ?>"
-                                                                class="btn btn-danger btn-sm"
-                                                                data-bs-toggle="modal"
-                                                                data-toggle="tooltip"
-                                                                data-placement="top"
-                                                                title="DELETE EMPLOYEE"><svg xmlns="http://www.w3.org/2000/svg"
-                                                                    width="18"
-                                                                    height="18"
-                                                                    fill="currentColor"
-                                                                    class="bi bi-trash3-fill"
-                                                                    viewBox="0 0 16 16">
-                                                                    <path
-                                                                        d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
-                                                                </svg></a>
-                                                        </center>
-                                                    </td>
-                                                    <?php include('emp_modal_add.php'); ?>
-                                                    <?php include('emp_modal_edit.php'); ?>
-                                                    <?php include('emp_modal_delete.php'); ?>
-                                                    <?php include('emp_modal_view.php'); ?>
-                                                </tr>
-                                                <?php
+                                                ?> <tr>
+                                            <td class="w-25 font-weight-bolder text-uppercase align-middle"><img
+                                                    class="img img-profile w-25"
+                                                    src="./img/emp/<?php echo $row['profile_pic'] ?>"
+                                                    alt=""><?php echo "  " . $row['lastname'] . ", " . $row['firstname'] ?>
+                                            </td>
+                                            <td class="font-weight-bolder text-uppercase align-middle">
+                                                <center> <?php echo $row['initialsname'] ?> </center>
+                                            </td>
+                                            <td class="font-weight-bolder text-uppercase align-middle">
+                                                <?php echo $row['emp_title'] ?> </td>
+                                            <td class="font-weight-bolder text-uppercase align-middle">
+                                                <center> <?php echo $row['location'] ?> </center>
+                                            </td>
+                                            <td class="align-middle">
+                                                <center>
+                                                    <a href="#view_<?php echo $row['id']; ?>"
+                                                        class="btn btn-success btn-sm"
+                                                        data-bs-toggle="modal"
+                                                        data-toggle="tooltip"
+                                                        data-placement="top"
+                                                        title="VIEW EMPLOYEE">
+                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                            width="18"
+                                                            height="18"
+                                                            fill="currentColor"
+                                                            class="bi bi-eye-fill"
+                                                            viewBox="0 0 16 16">
+                                                            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                            <path
+                                                                d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                                                        </svg>
+                                                    </a>
+                                                    <a href="#edit_<?php echo $row['id']; ?>"
+                                                        class="btn btn-warning btn-sm"
+                                                        data-bs-toggle="modal"
+                                                        data-toggle="tooltip"
+                                                        data-placement="top"
+                                                        title="EDIT EMPLOYEE"><svg xmlns="http://www.w3.org/2000/svg"
+                                                            width="18"
+                                                            height="18"
+                                                            fill="currentColor"
+                                                            class="bi bi-pencil-fill"
+                                                            viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
+                                                        </svg></a>
+                                                    <a href="#delete_<?php echo $row['id']; ?>"
+                                                        class="btn btn-danger btn-sm"
+                                                        data-bs-toggle="modal"
+                                                        data-toggle="tooltip"
+                                                        data-placement="top"
+                                                        title="DELETE EMPLOYEE"><svg xmlns="http://www.w3.org/2000/svg"
+                                                            width="18"
+                                                            height="18"
+                                                            fill="currentColor"
+                                                            class="bi bi-trash3-fill"
+                                                            viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                                                        </svg></a>
+                                                </center>
+                                            </td> <?php include('emp_modal_add.php'); ?>
+                                            <?php include('emp_modal_edit.php'); ?>
+                                            <?php include('emp_modal_delete.php'); ?>
+                                            <?php include('emp_modal_view.php'); ?>
+                                        </tr> <?php
                                             }
                                         }
                                         catch (PDOException $e) {
@@ -206,15 +192,13 @@ if (isset($_SESSION['message'])) {
                                         }
                                         // close database connection
                                         $database->close();
-                                        ?>
-                                    </tbody>
+                                        ?> </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-                    <!-- Start: Footer -->
-                    <?php require "./logic/footer.php"; ?>
-                    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
+                    <!-- Start: Footer --> <?php require "./logic/footer.php"; ?> <script
+                        src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
                         integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE"
                         crossorigin="anonymous"></script>
                     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"

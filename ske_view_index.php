@@ -104,13 +104,13 @@ if (isset($_SESSION['message'])) {
                                         <ul class="pagination">
                                             <!-- First Page Link -->
                                             <li class="page-item <?php if ($page == 1): ?>disabled<?php endif; ?>">
-                                                <a class="page-link"
-                                                    href="?page=1">First</a>
+                                                <a class="page-link bg-dark text-light font-weight-bolder"
+                                                    href="?page=1">FIRST</a>
                                             </li>
                                             <!-- Previous Page Link -->
                                             <li class="page-item <?php if ($page == 1): ?>disabled<?php endif; ?>">
-                                                <a class="page-link"
-                                                    href="<?php if ($page > 1): ?>?page=<?php echo $page - 1; ?><?php endif; ?>">Previous</a>
+                                                <a class="page-link bg-dark text-light font-weight-bolder"
+                                                    href="<?php if ($page > 1): ?>?page=<?php echo $page - 1; ?><?php endif; ?>">PREVIOUS</a>
                                             </li>
                                             <!-- Dynamic Page Links --> <?php
                                         $start = max($page - 5, 1);
@@ -125,22 +125,23 @@ if (isset($_SESSION['message'])) {
                                         for ($i = $start; $i <= $end; $i++):
                                             ?> <li class="page-item <?php if ($i == $page): ?>active<?php endif; ?>">
                                                 <a class="page-link"
+                                                    style="color: <?php echo ($i == $page) ? '#FFFFFF' : '#696969'; ?>;"
                                                     href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
                                             </li> <?php endfor; ?>
                                             <!-- Next Page Link -->
                                             <li
                                                 class="page-item <?php if ($page == $totalPages): ?>disabled<?php endif; ?>">
-                                                <a class="page-link"
-                                                    href="<?php if ($page < $totalPages): ?>?page=<?php echo $page + 1; ?><?php endif; ?>">Next</a>
+                                                <a class="page-link bg-dark text-light font-weight-bolder"
+                                                    href="<?php if ($page < $totalPages): ?>?page=<?php echo $page + 1; ?><?php endif; ?>">NEXT</a>
                                             </li>
                                             <!-- Last Page Link -->
                                             <li
                                                 class="page-item <?php if ($page == $totalPages): ?>disabled<?php endif; ?>">
-                                                <a class="page-link"
-                                                    href="?page=<?php echo $totalPages; ?>">Last</a>
+                                                <a class="page-link bg-dark text-light font-weight-bolder"
+                                                    href="?page=<?php echo $totalPages; ?>">LAST</a>
                                             </li>
                                             <p
-                                                style="font-size: 1.2em; font-weight: bold; text-align: center; color:blue;">
+                                                style="font-size: 1.2em; font-weight: bolder; text-align: center; color: #696969;">
                                                 &nbsp;&nbsp;&nbsp;PAGE <?php echo $page; ?> OF
                                                 <?php echo $totalPages; ?> PAGES &nbsp;&nbsp;|&nbsp;&nbsp;VIEWING
                                                 RECORDS <?php echo $startRecord; ?> - <?php echo $endRecord; ?> </p>
@@ -151,7 +152,7 @@ if (isset($_SESSION['message'])) {
                                     id="dataTable"
                                     width="100%"
                                     cellspacing="0">
-                                    <thead class="bg-primary">
+                                    <thead class="bg-dark">
                                         <tr>
                                         <tr>
                                             <th class="text-light font-weight-bolder">
@@ -189,7 +190,7 @@ if (isset($_SESSION['message'])) {
                                             echo '<td class="font-weight-bolder text-uppercase align-middle text-center">' . formatSizeUnits($filesize) . '</td>';
                                             echo '<td class="font-weight-bolder text-uppercase align-middle text-center">' . $filemtime . '</td>';
                                             echo '<td class="font-weight-bolder text-uppercase align-middle text-center">';
-                                            echo '<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#' . $modalID . '">VIEW</button>';
+                                            echo '<button type="button" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#' . $modalID . '">VIEW</button>';
                                             echo '</td>';
                                             echo "</tr>";
 
@@ -199,7 +200,7 @@ if (isset($_SESSION['message'])) {
 
 
                                         ?> </tbody>
-                                    <tfoot class="bg-primary">
+                                    <tfoot class="bg-dark">
                                         <tr>
                                             <th class="text-light font-weight-bolder">
                                                 <center>SKETCH</center>
