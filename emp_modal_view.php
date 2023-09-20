@@ -14,7 +14,7 @@
         <div class="modal-content"
             style="border-radius: 25px">
             <div class="modal-header">
-                <h5 class="modal-title text-primary font-weight-bolder"
+                <h5 class="modal-title text-dark font-weight-bolder"
                     id="ModalLabel"> EMPLOYEE | VIEW </h5>
             </div>
             <div class="modal-body bg-primary">
@@ -114,7 +114,7 @@
         <div class="modal-content"
             style="border-radius: 25px">
             <div class="modal-header">
-                <h5 class="modal-title text-primary font-weight-bolder"
+                <h5 class="modal-title text-dark font-weight-bolder"
                     id="ModalLabel"> EMPLOYEE | EDIT</h5>
             </div>
             <div class="modal-body bg-primary">
@@ -244,11 +244,13 @@
                                 if (isset($_POST['submit'])) {
                                     // store the location name in a "location" variable
                                     $loc_num = mysqli_real_escape_string(
-                                        $con, $_POST['loc_number']
+                                        $con,
+                                        $_POST['loc_number']
                                     );
                                     // store the facility ID in a "id" variable
                                     $id = mysqli_real_escape_string(
-                                        $con, $_POST['fac_id']
+                                        $con,
+                                        $_POST['fac_id']
                                     );
                                     // creating an insert query using SQL syntax and
                                     // storing it in a variable.
@@ -328,7 +330,7 @@
         <div class="modal-content"
             style="border-radius: 25px">
             <div class="modal-header">
-                <h5 class="modal-title text-primary font-weight-bolder"
+                <h5 class="modal-title text-dark font-weight-bolder"
                     id="ModalLabel"> EMPLOYEE | DELETE </h5>
             </div>
             <div class="modal-body bg-primary">
@@ -366,7 +368,7 @@
         <div class="modal-content"
             style="border-radius: 25px">
             <div class="modal-header">
-                <h5 class="modal-title text-primary font-weight-bolder"
+                <h5 class="modal-title text-dark font-weight-bolder"
                     id="ModalLabel">SUGGESTION | ADD</h5>
             </div>
             <div class="modal-body bg-primary">
@@ -433,7 +435,7 @@
         <div class="modal-content"
             style="border-radius: 25px">
             <div class="modal-header">
-                <h5 class="modal-title text-primary font-weight-bolder"
+                <h5 class="modal-title text-dark font-weight-bolder"
                     id="ModalLabel"> SUGGESTION | VIEW </h5>
             </div>
             <div class="modal-body bg-primary">
@@ -484,7 +486,7 @@
         <div class="modal-content"
             style="border-radius: 25px">
             <div class="modal-header">
-                <h5 class="modal-title text-primary font-weight-bolder"
+                <h5 class="modal-title text-dark font-weight-bolder"
                     id="ModalLabel"> SUGGESTION | EDIT</h5>
             </div>
             <div class="modal-body bg-primary">
@@ -539,7 +541,7 @@
         <div class="modal-content"
             style="border-radius: 25px">
             <div class="modal-header">
-                <h5 class="modal-title text-primary font-weight-bolder"
+                <h5 class="modal-title text-dark font-weight-bolder"
                     id="ModalLabel"> SUGGESTION | DELETE </h5>
             </div>
             <div class="modal-body bg-primary">

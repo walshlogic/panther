@@ -12,7 +12,7 @@
     }
 
     .switch input {
-        display:none;
+        display: none;
     }
 
     .slider {
@@ -39,31 +39,30 @@
         transition: .4s;
     }
 
-    input:checked + .slider {
+    input:checked+.slider {
         background-color: #5cb85c;
     }
 
-    input:focus + .slider {
+    input:focus+.slider {
         box-shadow: 0 0 1px #2196F3;
     }
 
-    input:checked + .slider:before {
+    input:checked+.slider:before {
         -webkit-transform: translateX(120px);
         -ms-transform: translateX(120px);
         transform: translateX(120px);
     }
 
     /*------ ADDED CSS ---------*/
-    .on
-    {
+    .on {
         display: none;
     }
 
-    .on, .off
-    {
+    .on,
+    .off {
         color: white;
         position: absolute;
-        transform: translate(-50%,-50%);
+        transform: translate(-50%, -50%);
         top: 50%;
         left: 50%;
         font-size: 16px;
@@ -72,18 +71,15 @@
         font-family: Nonito, sans-serif;
     }
 
-    input:checked+ .slider .on
-    {
+    input:checked+.slider .on {
         display: block;
     }
 
-    input:checked + .slider .off
-    {
+    input:checked+.slider .off {
         display: none;
     }
 
     /*--------- END --------*/
-
     /* Rounded sliders */
     .slider.round {
         border-radius: 15px;
@@ -93,24 +89,34 @@
         border-radius: 38%;
     }
 </style>
-<div class="modal fade" id="edit_inv_item_<?php echo $row['inv_id']; ?>" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+<div class="modal fade"
+    id="edit_inv_item_<?php echo $row['inv_id']; ?>"
+    tabindex="-1"
+    aria-labelledby="ModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-md modal-dialog-centered">
-        <div class="modal-content"  style="border-radius: 25px">
+        <div class="modal-content"
+            style="border-radius: 25px">
             <div class="modal-header">
-                <h5 class="modal-title text-primary font-weight-bolder" id="ModalLabel"> INVENTORY ITEM | EDIT</h5>
+                <h5 class="modal-title text-dark font-weight-bolder"
+                    id="ModalLabel"> INVENTORY ITEM | EDIT</h5>
             </div>
             <div class="modal-body bg-primary">
-                <form method="POST" action="inv_action_edit.php?inv_id=<?php echo $row['inv_id']; ?>">
+                <form method="POST"
+                    action="inv_action_edit.php?inv_id=<?php echo $row['inv_id']; ?>">
                     <div class="mb-3 row">
-                        <label class ="col-sm-3 col-form-label text-light font-weight-bolder text-right">STATUS</label>
+                        <label class="col-sm-3 col-form-label text-light font-weight-bolder text-right">STATUS</label>
                         <div class="col-sm">
                             <!-- /\/\/\/\/\/\ -->
                             <!-- toggle switch - inventory status active/inactive - changes color and label text on click -->
                             <!-- \/\/\/\/\/\/ -->
                             <label class="switch">
-                                <input type="checkbox" name="checkboxStatus" id="checkboxStatus" <?php
-                                echo $row['inv_item_status'] == true ? "checked" : "";
-                                ?>>
+                                <input type="checkbox"
+                                    name="checkboxStatus"
+                                    id="checkboxStatus"
+                                    <?php
+                                    echo $row['inv_item_status'] == true ? "checked" : "";
+                                    ?>>
                                 <div class="slider round">
                                     <span class="on">ACTIVE</span>
                                     <span class="off">INACTIVE</span>
@@ -119,37 +125,62 @@
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label class ="col-sm-3 col-form-label text-light font-weight-bolder text-right">DEPT #</label>
+                        <label class="col-sm-3 col-form-label text-light font-weight-bolder text-right">DEPT #</label>
                         <div class="col-sm">
-                            <input type="text" autocomplete="off" class="form-control  font-weight-bolder text-uppercase" style="border-radius: 0.8rem" name="county_dept_num" value="<?php echo $row['county_dept_num']; ?>">
+                            <input type="text"
+                                autocomplete="off"
+                                class="form-control  font-weight-bolder text-uppercase"
+                                style="border-radius: 0.8rem"
+                                name="county_dept_num"
+                                value="<?php echo $row['county_dept_num']; ?>">
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label class ="col-sm-3 col-form-label text-light font-weight-bolder text-right">ASSET #</label>
+                        <label class="col-sm-3 col-form-label text-light font-weight-bolder text-right">ASSET #</label>
                         <div class="col-sm">
-                            <input type="text" autocomplete="off" class="form-control  font-weight-bolder text-uppercase" style="border-radius: 0.8rem" name="county_asset_id" value="<?php echo $row['county_asset_id']; ?>">
+                            <input type="text"
+                                autocomplete="off"
+                                class="form-control  font-weight-bolder text-uppercase"
+                                style="border-radius: 0.8rem"
+                                name="county_asset_id"
+                                value="<?php echo $row['county_asset_id']; ?>">
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label class ="col-sm-3 col-form-label text-light font-weight-bolder text-right">MAKE</label>
+                        <label class="col-sm-3 col-form-label text-light font-weight-bolder text-right">MAKE</label>
                         <div class="col-sm">
-                            <input type="text" autocomplete="off" class="form-control  font-weight-bolder text-uppercase" style="border-radius: 0.8rem" name="inv_item_make" value="<?php echo $row['inv_item_make']; ?>">
+                            <input type="text"
+                                autocomplete="off"
+                                class="form-control  font-weight-bolder text-uppercase"
+                                style="border-radius: 0.8rem"
+                                name="inv_item_make"
+                                value="<?php echo $row['inv_item_make']; ?>">
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label class ="col-sm-3 col-form-labe text-light font-weight-bolder text-right">MODEL</label>
+                        <label class="col-sm-3 col-form-labe text-light font-weight-bolder text-right">MODEL</label>
                         <div class="col-sm">
-                            <input type="text" autocomplete="off" class="form-control font-weight-bolder text-uppercase" style="border-radius: 0.8rem " name="inv_item_model" value="<?php echo $row['inv_item_model']; ?>">
+                            <input type="text"
+                                autocomplete="off"
+                                class="form-control font-weight-bolder text-uppercase"
+                                style="border-radius: 0.8rem "
+                                name="inv_item_model"
+                                value="<?php echo $row['inv_item_model']; ?>">
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label class ="col-sm-3 col-form-label text-light font-weight-bolder text-right">S/N</label>
+                        <label class="col-sm-3 col-form-label text-light font-weight-bolder text-right">S/N</label>
                         <div class="col-sm">
-                            <input type="text" autocomplete="off" class="form-control  font-weight-bolder text-uppercase" style="border-radius: 0.8rem" name="inv_item_sn" value="<?php echo $row['inv_item_sn']; ?>">
+                            <input type="text"
+                                autocomplete="off"
+                                class="form-control  font-weight-bolder text-uppercase"
+                                style="border-radius: 0.8rem"
+                                name="inv_item_sn"
+                                value="<?php echo $row['inv_item_sn']; ?>">
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label class ="col-sm-3 col-form-label text-light font-weight-bolder text-right">LOCATION</label>
+                        <label class="col-sm-3 col-form-label text-light font-weight-bolder text-right">LOCATION</label>
                         <div class="col-sm">
                             <select name="inv_item_location">
                                 <?php
@@ -174,13 +205,12 @@
                                     )
                                 ):
                                     ;
-                                    ?><option value="<?php echo $location["fac_loc_number"]; ?>">
-                                                <?php
-                                                echo $location["fac_loc_number"] . " | " . $location["fac_loc_description"];
-                                                // to show the location name to the user
-                                                ?>
-                                            </option>
-                                            <?php
+                                    ?>
+                                    <option value="<?php echo $location["fac_loc_number"]; ?>"> <?php
+                                       echo $location["fac_loc_number"] . " | " . $location["fac_loc_description"];
+                                       // to show the location name to the user
+                                       ?> </option>
+                                    <?php
                                     // while loop must be terminiated
                                 endwhile;
                                 ?>
@@ -189,8 +219,12 @@
                     </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success btn-sm" data-bs-dismiss="modal"> CLOSE </button>
-                <button type="submit" name="inv_action_edit" class="btn btn-primary btn-sm"> UPDATE </a>
+                <button type="button"
+                    class="btn btn-success btn-sm"
+                    data-bs-dismiss="modal"> CLOSE </button>
+                <button type="submit"
+                    name="inv_action_edit"
+                    class="btn btn-primary btn-sm"> UPDATE </a>
             </div>
             </form>
         </div>

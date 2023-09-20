@@ -34,7 +34,7 @@
             <div class="modal-content"
                 style="border-radius: 25px">
                 <div class="modal-header">
-                    <h5 class="modal-title text-primary font-weight-bolder"
+                    <h5 class="modal-title text-dark font-weight-bolder"
                         id="ModalLabel"> SKETCH MANAGER | PROCESSOR </h5>
                 </div>
                 <div class="modal-body bg-primary text-light text-uppercase font-weight-bolder text-center"
@@ -46,10 +46,10 @@
                     <div class="modal-footer"
                         style="background-color: white;">
                         <button type="button"
-                            class="btn btn-success btn-sm"
-                            data-dismiss="modal"> CANCEL </button>
+                            class="btn btn-success btn-sm btn-cancel"
+                            data-dismiss="modal">CANCEL </button>
                         <button type="button"
-                            class="btn btn-primary btn-sm btn-process"> PROCESS </button>
+                            class="btn btn-primary btn-sm btn-process">PROCESS</button>
                     </div>
                 </div>
                 <div id="loadingGif"
@@ -93,6 +93,10 @@
                     $("#processComplete").text("An unexpected error occurred.").show();
                 }
             });
+        });
+        $(".btn-cancel").click(function() {
+            // Refresh the parent page
+            location.reload();
         });
     });
     </script>

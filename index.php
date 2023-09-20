@@ -67,16 +67,14 @@ require './logic/favicon.php';
 <body id="page-top">
     <!-- Page Wrapper -->
     <div id="wrapper">
-        <!-- Start: Side Nav Bar -->
-        <?php require "./logic/sidebar.php"; ?>
+        <!-- Start: Side Nav Bar --> <?php require "./logic/sidebar.php"; ?>
         <!-- End: Side Nav Bar -->
         <!-- Start: Content Wrapper -->
         <div id="content-wrapper"
             class="d-flex flex-column">
             <!-- Start: Main Content Area -->
             <div id="content">
-                <!-- Start: Top Bar -->
-                <?php require "./logic/topbar.php"; ?>
+                <!-- Start: Top Bar --> <?php require "./logic/topbar.php"; ?>
                 <!-- End: Top Bar -->
                 <!-- Start: Page Content -->
                 <div class="container-fluid">
@@ -87,8 +85,7 @@ require './logic/favicon.php';
                     <!-- Content Row -->
                     <!-- Start: Pending Sketch Files Card -->
                     <div class="row">
-                        <!-- Start: Pending Sketch Files Card -->
-                        <?php
+                        <!-- Start: Pending Sketch Files Card --> <?php
                         // Include statements
                         require_once './logic/utility/folder_size.php';
                         require_once './logic/utility/format_folder_size.php';
@@ -104,17 +101,15 @@ require './logic/favicon.php';
                             $disk_remaining = $SIZE_LIMIT - $disk_used;
                             $cardText = number_format($tempfilecount) . ' FILES (' . format_size($disk_used, $units) . ')';
                         }
-                        ?>
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
+                        ?> <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-dark shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-dark text-uppercase mb-1"> PENDING
                                                 SKETCH FILES TO IMPORT </div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                <?php echo $cardText; ?>
-                                            </div>
+                                                <?php echo $cardText; ?> </div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-folder-open fa-2x text-gray-300"></i>
@@ -126,7 +121,7 @@ require './logic/favicon.php';
                         <!-- End: Pending Sketch Files Card -->
                         <!-- Start: Homestead vs All Residential Card -->
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-warning shadow h-100 py-2">
+                            <div class="card border-left-dark shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
@@ -157,7 +152,7 @@ require './logic/favicon.php';
                         </div>
                         <!-- Earnings (Monthly) Card Example -->
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
+                            <div class="card border-left-dark shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
@@ -174,7 +169,7 @@ require './logic/favicon.php';
                         </div>
                         <!-- Pending Requests Card Example -->
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-danger shadow h-100 py-2">
+                            <div class="card border-left-dark shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
@@ -212,7 +207,7 @@ require './logic/favicon.php';
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Appraised Value (YTD)</h6>
+                                    <h6 class="m-0 font-weight-bold text-dark">APPRAISED VALUE (YTD)</h6>
                                     <div class="dropdown no-arrow">
                                         <a class="dropdown-toggle"
                                             href="#"
@@ -254,7 +249,7 @@ require './logic/favicon.php';
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
+                                    <h6 class="m-0 font-weight-bold text-dark">Revenue Sources</h6>
                                     <div class="dropdown no-arrow">
                                         <a class="dropdown-toggle"
                                             href="#"
@@ -285,7 +280,7 @@ require './logic/favicon.php';
                                     </div>
                                     <div class="mt-4 text-center small">
                                         <span class="mr-2">
-                                            <i class="fas fa-circle text-primary"></i> Direct </span>
+                                            <i class="fas fa-circle text-dark"></i> Direct </span>
                                         <span class="mr-2">
                                             <i class="fas fa-circle text-success"></i> Social </span>
                                         <span class="mr-2">
@@ -302,13 +297,13 @@ require './logic/favicon.php';
                             <!-- Project Card Example -->
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">HOMESTEAD COMPLETION</h6>
+                                    <h6 class="m-0 font-weight-bold text-dark">HOMESTEAD COMPLETION</h6>
                                 </div>
                                 <div class="card-body">
                                     <h4 class="small font-weight-bold">TERRITORY 1 <span class="float-right">67%</span>
                                     </h4>
                                     <div class="progress mb-4">
-                                        <div class="progress-bar bg-danger"
+                                        <div class="progress-bar bg-dark"
                                             role="progressbar"
                                             style="width: 67%"
                                             aria-valuenow="67"
@@ -318,7 +313,7 @@ require './logic/favicon.php';
                                     <h4 class="small font-weight-bold">TERRITORY 2 <span
                                             class="float-right">COMPLETE!</span></h4>
                                     <div class="progress mb-4">
-                                        <div class="progress-bar bg-warning"
+                                        <div class="progress-bar bg-dark"
                                             role="progressbar"
                                             style="width: 100%"
                                             aria-valuenow="100"
@@ -328,7 +323,7 @@ require './logic/favicon.php';
                                     <h4 class="small font-weight-bold">TERRITORY 3 <span class="float-right">83%</span>
                                     </h4>
                                     <div class="progress mb-4">
-                                        <div class="progress-bar"
+                                        <div class="progress-bar bg-dark"
                                             role="progressbar"
                                             style="width: 83%"
                                             aria-valuenow="83"
@@ -338,7 +333,7 @@ require './logic/favicon.php';
                                     <h4 class="small font-weight-bold">TERRITORY 4 <span class="float-right">19%</span>
                                     </h4>
                                     <div class="progress mb-4">
-                                        <div class="progress-bar bg-info"
+                                        <div class="progress-bar bg-dark"
                                             role="progressbar"
                                             style="width: 19%"
                                             aria-valuenow="19"
@@ -348,7 +343,7 @@ require './logic/favicon.php';
                                     <h4 class="small font-weight-bold">TERRITORY 5 <span
                                             class="float-right">COMPLETE!</span></h4>
                                     <div class="progress">
-                                        <div class="progress-bar bg-success"
+                                        <div class="progress-bar bg-dark"
                                             role="progressbar"
                                             style="width: 100%"
                                             aria-valuenow="100"
@@ -413,7 +408,7 @@ require './logic/favicon.php';
                             <!-- Illustrations -->
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Illustrations</h6>
+                                    <h6 class="m-0 font-weight-bold text-dark">Illustrations</h6>
                                 </div>
                                 <div class="card-body">
                                     <div class="text-center">
@@ -430,7 +425,7 @@ require './logic/favicon.php';
                             <!-- Approach -->
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Development Approach</h6>
+                                    <h6 class="m-0 font-weight-bold text-dark">Development Approach</h6>
                                 </div>
                                 <div class="card-body">
                                     <p>Text Area.</p>
@@ -443,8 +438,7 @@ require './logic/favicon.php';
                 <!-- /.container-fluid -->
             </div>
             <!-- End: Main Content -->
-            <!-- Start: Footer -->
-            <?php require "./logic/footer.php"; ?>
+            <!-- Start: Footer --> <?php require "./logic/footer.php"; ?>
             <!-- End: Footer -->
         </div>
         <!-- End: Content Wrapper -->

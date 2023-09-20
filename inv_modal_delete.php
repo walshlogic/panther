@@ -11,7 +11,7 @@
         <div class="modal-content"
             style="border-radius: 25px">
             <div class="modal-header">
-                <h5 class="modal-title text-primary font-weight-bolder"
+                <h5 class="modal-title text-dark font-weight-bolder"
                     id="ModalLabel"> INVENTORY ITEM | DELETE </h5>
             </div>
             <div class="modal-body bg-primary">

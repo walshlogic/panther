@@ -16,7 +16,7 @@
         <div class="modal-content"
             style="border-radius: 25px">
             <div class="modal-header">
-                <h5 class="modal-title text-primary font-weight-bolder"
+                <h5 class="modal-title text-dark font-weight-bolder"
                     id="ModalLabel">EMPLOYEE | ADD</h5>
             </div>
             <div class="modal-body bg-primary">
@@ -189,7 +189,7 @@
         <div class="modal-content"
             style="border-radius: 25px">
             <div class="modal-header">
-                <h5 class="modal-title text-primary font-weight-bolder"
+                <h5 class="modal-title text-dark font-weight-bolder"
                     id="ModalLabel"> EMPLOYEE | VIEW </h5>
             </div>
             <div class="modal-body bg-primary">
@@ -281,7 +281,7 @@
         <div class="modal-content"
             style="border-radius: 25px">
             <div class="modal-header">
-                <h5 class="modal-title text-primary font-weight-bolder"
+                <h5 class="modal-title text-dark font-weight-bolder"
                     id="ModalLabel"> EMPLOYEE | EDIT</h5>
             </div>
             <div class="modal-body bg-primary">
@@ -465,7 +465,7 @@
         <div class="modal-content"
             style="border-radius: 25px">
             <div class="modal-header">
-                <h5 class="modal-title text-primary font-weight-bolder"
+                <h5 class="modal-title text-dark font-weight-bolder"
                     id="ModalLabel"> EMPLOYEE | DELETE </h5>
             </div>
             <div class="modal-body bg-primary">
@@ -502,7 +502,7 @@
         <div class="modal-content"
             style="border-radius: 25px">
             <div class="modal-header">
-                <h5 class="modal-title text-primary font-weight-bolder"
+                <h5 class="modal-title text-dark font-weight-bolder"
                     id="ModalLabel">SUGGESTION | ADD</h5>
             </div>
             <div class="modal-body bg-primary">
@@ -569,7 +569,7 @@
         <div class="modal-content"
             style="border-radius: 25px">
             <div class="modal-header">
-                <h5 class="modal-title text-primary font-weight-bolder"
+                <h5 class="modal-title text-dark font-weight-bolder"
                     id="ModalLabel"> SUGGESTION | VIEW </h5>
             </div>
             <div class="modal-body bg-primary">
@@ -618,7 +618,7 @@
         <div class="modal-content"
             style="border-radius: 25px">
             <div class="modal-header">
-                <h5 class="modal-title text-primary font-weight-bolder"
+                <h5 class="modal-title text-dark font-weight-bolder"
                     id="ModalLabel"> SUGGESTION | EDIT</h5>
             </div>
             <div class="modal-body bg-primary">
@@ -673,7 +673,7 @@
         <div class="modal-content"
             style="border-radius: 25px">
             <div class="modal-header">
-                <h5 class="modal-title text-primary font-weight-bolder"
+                <h5 class="modal-title text-dark font-weight-bolder"
                     id="ModalLabel"> SUGGESTION | DELETE </h5>
             </div>
             <div class="modal-body bg-primary">

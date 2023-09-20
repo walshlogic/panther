@@ -144,7 +144,7 @@ if ($tempfilecount > 0) {
                     </div>
                     <br>
                     <input type="button"
-                        class="btn bg-success font-weight-bolder text-light"
+                        class="btn bg-secondary font-weight-bolder text-light"
                         style="font-size: 24px; width:34.5rem"
                         name="sketch_button_list"
                         id="sketch_button_list"

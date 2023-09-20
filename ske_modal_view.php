@@ -17,7 +17,7 @@ require_once 'ske_view_index.php';
             style="border-radius: 25px">
             <div id="printableContent">
                 <div class="modal-header">
-                    <h5 class="modal-title text-primary font-weight-bolder"
+                    <h5 class="modal-title text-dark font-weight-bolder"
                         id="ModalLabel"> SKETCH MANAGER | SKETCH VIEWER</h5>
                 </div>
                 <div class="modal-body bg-primary">
