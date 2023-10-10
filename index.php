@@ -8,7 +8,7 @@
  */
 
 // --- Screen Information ---
-$screenTitle = "Dashboard";
+$screenTitle = "PANTHER | Dashboard";
 $screenTitleRightButtonIcon = "fa-recycle";
 $screenTitleRightButtonText = " Refresh";
 // Currently not utilized: $screenTitleRightButtonAction = header("");
@@ -67,14 +67,16 @@ require './logic/favicon.php';
 <body id="page-top">
     <!-- Page Wrapper -->
     <div id="wrapper">
-        <!-- Start: Side Nav Bar --> <?php require "./logic/sidebar.php"; ?>
+        <!-- Start: Side Nav Bar -->
+        <?php require "./logic/sidebar.php"; ?>
         <!-- End: Side Nav Bar -->
         <!-- Start: Content Wrapper -->
         <div id="content-wrapper"
             class="d-flex flex-column">
             <!-- Start: Main Content Area -->
             <div id="content">
-                <!-- Start: Top Bar --> <?php require "./logic/topbar.php"; ?>
+                <!-- Start: Top Bar -->
+                <?php require "./logic/topbar.php"; ?>
                 <!-- End: Top Bar -->
                 <!-- Start: Page Content -->
                 <div class="container-fluid">
@@ -85,7 +87,8 @@ require './logic/favicon.php';
                     <!-- Content Row -->
                     <!-- Start: Pending Sketch Files Card -->
                     <div class="row">
-                        <!-- Start: Pending Sketch Files Card --> <?php
+                        <!-- Start: Pending Sketch Files Card -->
+                        <?php
                         // Include statements
                         require_once './logic/utility/folder_size.php';
                         require_once './logic/utility/format_folder_size.php';
@@ -101,7 +104,8 @@ require './logic/favicon.php';
                             $disk_remaining = $SIZE_LIMIT - $disk_used;
                             $cardText = number_format($tempfilecount) . ' FILES (' . format_size($disk_used, $units) . ')';
                         }
-                        ?> <div class="col-xl-3 col-md-6 mb-4">
+                        ?>
+                        <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-dark shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
@@ -109,7 +113,8 @@ require './logic/favicon.php';
                                             <div class="text-xs font-weight-bold text-dark text-uppercase mb-1"> PENDING
                                                 SKETCH FILES TO IMPORT </div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                <?php echo $cardText; ?> </div>
+                                                <?php echo $cardText; ?>
+                                            </div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-folder-open fa-2x text-gray-300"></i>
@@ -438,7 +443,8 @@ require './logic/favicon.php';
                 <!-- /.container-fluid -->
             </div>
             <!-- End: Main Content -->
-            <!-- Start: Footer --> <?php require "./logic/footer.php"; ?>
+            <!-- Start: Footer -->
+            <?php require "./logic/footer.php"; ?>
             <!-- End: Footer -->
         </div>
         <!-- End: Content Wrapper -->

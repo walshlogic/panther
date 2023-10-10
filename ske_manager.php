@@ -33,7 +33,7 @@ require_once './logic/utility/folder_size.php';
 require_once './logic/utility/format_folder_size.php';
 
 // Page metadata
-$screenTitle = "VISION+ | Sketch Managersss";
+$screenTitle = "VISION+ | Sketch Manager";
 $screenTitleMidText = "";
 $screenTitleRightButtonIcon = "fa-refresh";
 $screenTitleRightButtonText = " REFRESH";
