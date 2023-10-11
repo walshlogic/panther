@@ -26,15 +26,9 @@ try {
         exit;
     }
     $response = batchRenameCopyMoveAndUpdateDatabase($files, $conn);
-    echo "<pre>"; // Output will be more readable
-    print_r($response); // Display the array in a readable format
-    echo "</pre>";
 }
 catch (Exception $e) {
     $response['error'] = $e->getMessage();
-    echo "<pre>"; // Output will be more readable
-    print_r($response['error']); // Display the error in a readable format
-    echo "</pre>";
 }
 finally {
     $conn = null;

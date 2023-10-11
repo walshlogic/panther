@@ -13,11 +13,12 @@ function toggleDisplay(elementId, displayValue) {
 }
 
 // Function to make the AJAX request
-async function makeAjaxRequest(url) {
+async function makeAjaxRequest(url, params = null) {
   console.log("Making AJAX request to " + url);
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
-    xhr.open("GET", url);
+    xhr.open("POST", url);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.onreadystatechange = function () {
       console.log(`AJAX request state changed: ${xhr.readyState}`);
       if (xhr.readyState === 4) {
@@ -30,9 +31,31 @@ async function makeAjaxRequest(url) {
         }
       }
     };
-    xhr.send();
+    xhr.send(params);
   });
 }
+
+// // Function to make the AJAX request
+// async function makeAjaxRequest(url) {
+//   console.log("Making AJAX request to " + url);
+//   return new Promise((resolve, reject) => {
+//     const xhr = new XMLHttpRequest();
+//     xhr.open("GET", url);
+//     xhr.onreadystatechange = function () {
+//       console.log(`AJAX request state changed: ${xhr.readyState}`);
+//       if (xhr.readyState === 4) {
+//         if (xhr.status === 200) {
+//           console.log("xxxAJAX request successful-ske_scripts.js.");
+//           resolve(xhr.responseText);
+//         } else {
+//           console.log("AJAX request failed.");
+//           reject(xhr.status);
+//         }
+//       }
+//     };
+//     xhr.send();
+//   });
+// }
 
 // Function to show the message popup
 function showMessagePopup() {
@@ -63,7 +86,9 @@ async function processAndShowLoading(event) {
     toggleDisplay("modalBody", "none");
     toggleDisplay("loadingGif", "block");
 try {
-  const response = await makeAjaxRequest("ske_sketch_rename.php");
+  //const response = await makeAjaxRequest("ske_sketch_rename.php");
+  const response = await makeAjaxRequest("ske_sketch_rename.php", "param1=value1&param2=value2"); // Replace with your actual params
+
   console.log("AJAX success response:", response); // Debugging for success response
   const jsonResponse = JSON.parse(response);
 
