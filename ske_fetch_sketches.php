@@ -33,8 +33,5 @@ foreach ($files as $file) {
 }
 
 header('Content-Type: application/json');
-echo json_encode([
-    'totalFiles' => $totalFiles,
-    'files' => $output,
-]);
+echo json_encode(['totalFiles' => $totalFiles, 'files' => $output,]);
 ?>

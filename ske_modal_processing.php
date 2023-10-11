@@ -60,6 +60,8 @@
                 </div>
                 <div id="processComplete"
                     style="display: none; text-align: center;"> PROCESS COMPLETED </div>
+                <div id="serverResponse"
+                    style="text-align: center; display:none;"></div>
             </div>
         </div>
     </div>
@@ -78,6 +80,9 @@
                     const jsonResponse = JSON.parse(response);
                     // Hide loading gif
                     $("#loadingGif").hide();
+                    // Populate server response
+                    $("#serverResponse").html(jsonResponse.message);
+                    $("#serverResponse").show();
                     if (jsonResponse.status === 'error') {
                         // Show an error message
                         $("#processComplete").text(jsonResponse.message).show();

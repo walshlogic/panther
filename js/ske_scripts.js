@@ -22,7 +22,7 @@ async function makeAjaxRequest(url) {
       console.log(`AJAX request state changed: ${xhr.readyState}`);
       if (xhr.readyState === 4) {
         if (xhr.status === 200) {
-          console.log("AJAX request successful.");
+          console.log("xxxAJAX request successful-ske_scripts.js.");
           resolve(xhr.responseText);
         } else {
           console.log("AJAX request failed.");
@@ -62,15 +62,23 @@ async function processAndShowLoading(event) {
     console.log("processAndShowLoading function called.");
     toggleDisplay("modalBody", "none");
     toggleDisplay("loadingGif", "block");
+try {
+  const response = await makeAjaxRequest("ske_sketch_rename.php");
+  console.log("AJAX success response:", response); // Debugging for success response
+  const jsonResponse = JSON.parse(response);
 
-    try {
-      await makeAjaxRequest("ske_sketch_rename.php");
-      showMessagePopup();
-    } catch (error) {
-      console.error("Something went wrong:", error);
-    } finally {
-      toggleDisplay("loadingGif", "none");
-      toggleDisplay("modalBody", "block");
-    }
+  if (jsonResponse.status === 'error') {
+    console.error("AJAX error:", jsonResponse.message); // Debugging for error response
+    // Handle the error here, if needed.
+  } else {
+    showMessagePopup();
+  }
+} catch (error) {
+  console.error("Something went wrong:", error);
+  // Handle any exceptions here, if needed.
+} finally {
+  toggleDisplay("loadingGif", "none");
+  toggleDisplay("modalBody", "block");
+}
   }
 }
