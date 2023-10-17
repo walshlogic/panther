@@ -1,6 +1,8 @@
 <?php
 function processSketchFiles()
 {
+function processSketchFiles()
+{
     /*
       Justin puts skectches in G:\pa_photos\Sketches folder (mnt/paphotos/Sketches)
       create record in Vision
@@ -11,8 +13,15 @@ function processSketchFiles()
      */
     $baseinclude = "/var/www/html/common";
     if (is_dir($baseinclude)) {
+    $baseinclude = "/var/www/html/common";
+    if (is_dir($baseinclude)) {
         require_once "$baseinclude/PutnamBaseInclude/putDBcontrol.php";
         require_once "$baseinclude/functions/Debug.php";
+        $debugfile = "/var/tmp/convertVisionSketch.out";
+        $debuglevel = 9;
+        $debugfsize = 2000000;
+        $mypid = posix_getpid();
+    } else {
         $debugfile = "/var/tmp/convertVisionSketch.out";
         $debuglevel = 9;
         $debugfsize = 2000000;
@@ -28,10 +37,20 @@ function processSketchFiles()
     $vDb->dbState = $dbStateVision;
     $vDb->dbName = $dbNameVision;
     $errmsg = "Open db $vDb->dbName";
+    //chmod("/var/tmp/convertVisionSketch.out", 0777);
+    $dbStateVision = "production";
+    $dbNameVision = "V7_VISION";
+    $vDb = new putDBcontrol();
+    $vDb->dbState = $dbStateVision;
+    $vDb->dbName = $dbNameVision;
+    $errmsg = "Open db $vDb->dbName";
     Debug(9, $errmsg);
     if ($vDb->putDBopen()) {
         $errmsg = "database " . $vDb->dbName . " is open<br>";
+    if ($vDb->putDBopen()) {
+        $errmsg = "database " . $vDb->dbName . " is open<br>";
         Debug(9, $errmsg);
+    } else {
     } else {
         print "Database open failed for $dbNameVision";
         Debug(9, $vDb->dbErrorMessage);
@@ -86,6 +105,7 @@ function processSketchFiles()
                 }
             }
             if ($dupe == FALSE) {
+            if ($dupe == FALSE) {
                 $processedCount++;
                 $pn = pullPN($pid);
                 //echo "<br>pn = $pn";
@@ -102,6 +122,11 @@ function processSketchFiles()
                     $fileDate = date("Y-m-d", filemtime("tmp/$image"));
                     //echo "<br>fileDate = $fileDate";
                     insertRealPropRecord(
+                        $pid,
+                        $bid,
+                        $rimId,
+                        $fileName,
+                        $fileDate
                         $pid,
                         $bid,
                         $rimId,
@@ -164,9 +189,16 @@ function processSketchFiles()
         if (isset($ret[0]["REM_ACCT_NUM"]) && $ret[0]["REM_ACCT_NUM"] > 0) {
             return $ret[0]["REM_ACCT_NUM"];
         } else {
+        } else {
             return FALSE;
         }
     }
+    function insertCommonRecord($trs, $pn)
+    {
+        global $dbNameVision, $testing;
+        $newRimId = pullNewRimId();
+        if (isset($newRimId) && $newRimId > 0) {
+            $idStr = str_pad($newRimId, 8, "0", STR_PAD_LEFT);
     function insertCommonRecord($trs, $pn)
     {
         global $dbNameVision, $testing;
@@ -177,12 +209,16 @@ function processSketchFiles()
             $qs = "insert into $dbNameVision.common.reimagesimage " .
                 "(RIM_ID,RIM_MNC, RIM_LOCATION, RIM_LOCATION_TYPE) " .
                 "values($newRimId, 11054, '$trs\\$pn.$idStr.jpg', 'F')";
+            $qs = "insert into $dbNameVision.common.reimagesimage " .
+                "(RIM_ID,RIM_MNC, RIM_LOCATION, RIM_LOCATION_TYPE) " .
+                "values($newRimId, 11054, '$trs\\$pn.$idStr.jpg', 'F')";
             Debug(1, "INSERT common -> $qs");
             //echo "<br>insert common record QS = $qs";
             if ($testing == FALSE) {
                 $ret = simpleVisionQuery($qs, FALSE);
             }
             return $newRimId;
+        } else {
         } else {
             Debug(1, "Error with insertCommonRecord - no new rim id - $pn");
             return FALSE;
@@ -208,10 +244,15 @@ function processSketchFiles()
         if (isset($ret["SEQ_IMAGE_ID"]) && $ret["SEQ_IMAGE_ID"] > 0) {
             return $ret["SEQ_IMAGE_ID"];
         } else {
+        } else {
             Debug(1, "Error with pullNewRimId - $qs");
             return FALSE;
         }
     }
+    function insertRealPropRecord($pid, $bid, $rimId, $fileName, $fileDate)
+    {
+        global $dbNameVision, $testing;
+        $rimLineNum = pullRimLineNum($pid, $bid);
     function insertRealPropRecord($pid, $bid, $rimId, $fileName, $fileDate)
     {
         global $dbNameVision, $testing;
@@ -226,26 +267,39 @@ function processSketchFiles()
         Debug(1, "INSERT real prop -> $qs");
         if ($testing == FALSE) {
             $ret = simpleVisionQuery($qs, FALSE);
+        if ($testing == FALSE) {
+            $ret = simpleVisionQuery($qs, FALSE);
         }
     }
+    function simpleVisionQuery($qsStr, $retFlag)
+    {
     function simpleVisionQuery($qsStr, $retFlag)
     {
         global $vDb;
         $ret = false;
         $vDb->selectSQL = $qsStr;
+        $ret = false;
+        $vDb->selectSQL = $qsStr;
         Debug(9, $vDb->selectSQL);
         if (!$vDb->simpleSQL($vDb->selectSQL)) {
+        if (!$vDb->simpleSQL($vDb->selectSQL)) {
             // returned false - query failed //
+            print $vDb->dbErrorMessage . "<br>";
             print $vDb->dbErrorMessage . "<br>";
             Debug(1, $vDb->dbErrorMessage);
             exit(0);
         }
         if ($retFlag == TRUE) {
             $ret = $vDb->dataSetArray;
+        if ($retFlag == TRUE) {
+            $ret = $vDb->dataSetArray;
         }
+        $vDb->dataSetArray = null;
         $vDb->dataSetArray = null;
         return $ret;
     }
+    function pullRimLineNum($pid, $bid)
+    {
     function pullRimLineNum($pid, $bid)
     {
         global $dbNameVision;
@@ -258,27 +312,39 @@ function processSketchFiles()
         if (isset($ret["lineNum"]) && $ret["lineNum"] > 0) {
             return $ret["lineNum"];
         } else {
+        } else {
             return 1;
         }
     }
     function bigVisionQuery($qsStr, $retFlag)
     {
+    function bigVisionQuery($qsStr, $retFlag)
+    {
         global $vDb;
+        $row = false;
+        $vDb->selectSQL = $qsStr;
         $row = false;
         $vDb->selectSQL = $qsStr;
         Debug(9, $vDb->selectSQL);
         if (!$vDb->bigDataSQL($vDb->selectSQL)) {
+        if (!$vDb->bigDataSQL($vDb->selectSQL)) {
             // returned false - query failed //
+            print $vDb->dbErrorMessage . "<br>";
             print $vDb->dbErrorMessage . "<br>";
             Debug(1, $vDb->dbErrorMessage);
             exit(0);
         }
         if ($retFlag == TRUE) {
             $row = $vDb->prepObject->fetch(PDO::FETCH_ASSOC);
+        if ($retFlag == TRUE) {
+            $row = $vDb->prepObject->fetch(PDO::FETCH_ASSOC);
         }
+        $vDb->prepObject = null;
         $vDb->prepObject = null;
         return $row;
     }
+    function checkForDupe($pid, $bid, $fileDate)
+    {
     function checkForDupe($pid, $bid, $fileDate)
     {
         global $dbNameVision;

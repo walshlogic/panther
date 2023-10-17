@@ -7,6 +7,7 @@
                     href="#termsofuse">Terms of Use</a> | <a data-toggle="modal"
                     href="#privacypolicy">Privacy Policy</a> | <a data-toggle="modal"
                     href="#docsformsdisclaimer">Doucment & Form Disclaimer</a>
+            </span> href="#docsformsdisclaimer">Doucment & Form Disclaimer</a>
             </span>
         </div>
     </div>

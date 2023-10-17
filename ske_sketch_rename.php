@@ -22,20 +22,27 @@ include 'ske_common_functions.php';
 
 $response = [];
 
+$response = [];
+
 try {
     $files = glob(DIRECTORY_PATH . '*.*');
     if (!$files || empty($files)) {
         $response['error'] = 'No files found';
         echo json_encode($response);
+        $response['error'] = 'No files found';
+        echo json_encode($response);
         exit;
     }
+    $response = batchRenameCopyMoveAndUpdateDatabase($files, $conn);
     $response = batchRenameCopyMoveAndUpdateDatabase($files, $conn);
 }
 catch (Exception $e) {
     $response['error'] = $e->getMessage();
+    $response['error'] = $e->getMessage();
 }
 finally {
     $conn = null;
+    echo json_encode($response);
     echo json_encode($response);
 }
 ?>
