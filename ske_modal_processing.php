@@ -35,7 +35,7 @@
                 style="border-radius: 25px">
                 <div class="modal-header">
                     <h5 class="modal-title text-dark font-weight-bolder"
-                        id="ModalLabel"> SKETCH MANAGER | PROCESSOR </h5>
+                        id="ModalLabel"> SKETCH MANAGER | PROCESSOR ZZZ </h5>
                 </div>
                 <div class="modal-body bg-primary text-light text-uppercase font-weight-bolder text-center"
                     id="modalBody"> Select 'PROCESS' To Initiate Sketch Import <br><br>
@@ -64,41 +64,41 @@
         </div>
     </div>
     <script>
-    $(document).ready(function() {
-        $(".btn-process").click(function() {
-            // Show loading gif
-            $("#loadingGif").show();
-            // Start AJAX request to initiate processing
-            $.ajax({
-                url: 'ske_sketch_rename.php',
-                method: 'POST',
-                data: {},
-                success: function(response) {
-                    // Parse JSON response
-                    const jsonResponse = JSON.parse(response);
-                    // Hide loading gif
-                    $("#loadingGif").hide();
-                    if (jsonResponse.status === 'error') {
+        $(document).ready(function () {
+            $(".btn-process").click(function () {
+                // Show loading gif
+                $("#loadingGif").show();
+                // Start AJAX request to initiate processing
+                $.ajax({
+                    url: 'ske_sketch_rename.php',
+                    method: 'POST',
+                    data: {},
+                    success: function (response) {
+                        // Parse JSON response
+                        const jsonResponse = JSON.parse(response);
+                        // Hide loading gif
+                        $("#loadingGif").hide();
+                        if (jsonResponse.status === 'error') {
+                            // Show an error message
+                            $("#processComplete").text(jsonResponse.message).show();
+                        } else {
+                            // Show the process complete message
+                            $("#processComplete").text("Process Completed").show();
+                        }
+                    },
+                    error: function () {
+                        // Hide loading gif
+                        $("#loadingGif").hide();
                         // Show an error message
-                        $("#processComplete").text(jsonResponse.message).show();
-                    } else {
-                        // Show the process complete message
-                        $("#processComplete").text("Process Completed").show();
+                        $("#processComplete").text("An unexpected error occurred.").show();
                     }
-                },
-                error: function() {
-                    // Hide loading gif
-                    $("#loadingGif").hide();
-                    // Show an error message
-                    $("#processComplete").text("An unexpected error occurred.").show();
-                }
+                });
+            });
+            $(".btn-cancel").click(function () {
+                // Refresh the parent page
+                location.reload();
             });
         });
-        $(".btn-cancel").click(function() {
-            // Refresh the parent page
-            location.reload();
-        });
-    });
     </script>
 </body>
 

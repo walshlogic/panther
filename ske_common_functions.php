@@ -54,7 +54,7 @@ function createBackup($filePath, $backupDirectory)
     }
     $backupFilePath = $backupDirectory . basename($filePath);
     if (!copy($filePath, $backupFilePath)) {
-        echo "Failed to create backup for {$filePath}\n";
+        ////echo "Failed to create backup for {$filePath}\n";
     }
 }
 
@@ -62,7 +62,7 @@ function createDirectory($path)
 {
     if (!is_dir($path)) {
         if (!mkdir($path, 0755, true)) {
-            echo "Failed to create directory {$path}\n";
+            ////echo "Failed to create directory {$path}\n";
         }
     }
 }
@@ -78,7 +78,7 @@ function readCsvData($filePath)
         }
         fclose($handle);
     } else {
-        echo "Failed to open CSV file at {$filePath}\n";
+        ////echo "Failed to open CSV file at {$filePath}\n";
     }
     return $csvData;
 }
@@ -88,7 +88,7 @@ function renameFile($oldFilePath, $newFilePath)
     if (rename($oldFilePath, $newFilePath)) {
         return true;
     } else {
-        echo "Failed to rename {$oldFilePath} to {$newFilePath}\n";
+        ////echo "Failed to rename {$oldFilePath} to {$newFilePath}\n";
         return false;
     }
 }
@@ -116,6 +116,14 @@ function updateDatabase($pdo, $oldFilePath, $newFilePath, $newFileName, $bid)
         $isPrimary = "0";
         $createDate = $lastUpdate; // Assuming the create date to be the same as the last update
 
+        // Logging for debugging
+        echo "Attempting to update Database.\n";
+        echo "SQL Query: $sql\n";
+        echo "Old File Path: $oldFilePath\n";
+        echo "New File Path: $newFilePath\n";
+        echo "New File Name: $newFileName\n";
+        echo "BID: $bid\n";
+
         $stmt->bindParam(":newFilePath", $newFilePath, PDO::PARAM_STR);
         $stmt->bindParam(":lastUpdate", $lastUpdate, PDO::PARAM_STR);
         $stmt->bindParam(":subtype", $subtype, PDO::PARAM_STR);
@@ -128,7 +136,7 @@ function updateDatabase($pdo, $oldFilePath, $newFilePath, $newFileName, $bid)
         $stmt->bindParam(":bid", $bid, PDO::PARAM_STR); // Bind the BID parameter
 
         if ($stmt->execute()) {
-            echo "Database updated successfully\n";
+            echo "Database updated successfully.\n";
         } else {
             echo "Database update failed: " . json_encode($stmt->errorInfo()) . "\n";
         }
@@ -138,6 +146,7 @@ function updateDatabase($pdo, $oldFilePath, $newFilePath, $newFileName, $bid)
     }
 }
 
+
 function updateRealMastTable($conn, $vid, $newBid)
 {
     try {
@@ -146,10 +155,10 @@ function updateRealMastTable($conn, $vid, $newBid)
         $stmt->bindParam(':newBid', $newBid, PDO::PARAM_STR);
         $stmt->bindParam(':vid', $vid, PDO::PARAM_STR);
         $stmt->execute();
-        echo "REALMAST table updated successfully for VID: {$vid}\n";
+        ////echo "REALMAST table updated successfully for VID: {$vid}\n";
     }
     catch (PDOException $e) {
-        echo "Database update error: " . $e->getMessage() . "\n";
+        ////echo "Database update error: " . $e->getMessage() . "\n";
     }
 }
 
@@ -157,9 +166,15 @@ function batchRenameCopyMoveAndUpdateDatabase($files, $conn)
 {
     global $prefixCounter;
 
-    $updatesForReImages = []; // Create an array to store updates for REAL_PROP.REIMAGES table
+    // Define log file path
+    $logFilePath = '/mnt/paphotos/photos/zPantherErrorLog/Sketchdebug_log.txt';
+
+    $updatesForReImages = [];
 
     foreach ($files as $file) {
+        // Logging the current file being processed
+        file_put_contents($logFilePath, "Processing file: " . $file . PHP_EOL, FILE_APPEND);
+
         $fileInfo = pathinfo($file);
         $filePrefix = explode('_', $fileInfo['filename'])[0];
 
@@ -174,13 +189,11 @@ function batchRenameCopyMoveAndUpdateDatabase($files, $conn)
             $newPrefix = $row['PID'];
             $fileExtension = $fileInfo['extension'];
 
-            // Update the sequential number in the new file name
             $sequentialNumber = generateUniqueID($newPrefix, $conn);
             $newFileName = "{$newPrefix}.S{$sequentialNumber}.{$fileExtension}";
 
             // Fetch the BID based on the VID from the SQL table (REAL_PROP.REIMAGES)
             $bidQuery = "SELECT RIM_BID FROM REAL_PROP.REIMAGES WHERE RIM_PID = :vid";
-
             $stmtBid = $conn->prepare($bidQuery);
             $stmtBid->bindParam(':vid', $filePrefix, PDO::PARAM_STR);
             $stmtBid->execute();
@@ -189,36 +202,43 @@ function batchRenameCopyMoveAndUpdateDatabase($files, $conn)
             if ($rowBid && isset($rowBid['RIM_BID'])) {
                 $newBid = $rowBid['RIM_BID'];
 
-                // Create new file path
                 $folderName = substr($newPrefix, 3, 2) . substr($newPrefix, 6, 2) . substr($newPrefix, 0, 2);
                 $folderName = FINAL_DIRECTORY_PATH . $folderName;
                 createDirectory($folderName);
-                //createBackup($file, BACKUP_DIRECTORY);
+
                 $newFilePath = $folderName . '/' . $newFileName;
 
-                // Rename the file
                 renameFile($file, $newFilePath);
 
-                // Store updates for REAL_PROP.REIMAGES table
                 $updatesForReImages[] = [
                     'oldFilePath' => $file,
                     'newFilePath' => $newFilePath,
                     'newFileName' => $newFileName,
                     'newBid' => $newBid,
                 ];
+
+                // Logging the new file name
+                file_put_contents($logFilePath, "Processed file: " . $file . " with new file name: " . $newFileName . PHP_EOL, FILE_APPEND);
             } else {
-                echo "No matching BID found for VID: {$filePrefix}\n";
+                // Logging if no matching BID found
+                file_put_contents($logFilePath, "No matching BID found for VID: " . $filePrefix . PHP_EOL, FILE_APPEND);
             }
         } else {
-            echo "No matching PID found for VID: {$filePrefix}\n";
+            // Logging if no matching PID found
+            file_put_contents($logFilePath, "No matching PID found for VID: " . $filePrefix . PHP_EOL, FILE_APPEND);
         }
     }
+
+    // Logging the completion of batch processing
+    file_put_contents($logFilePath, "Completed batch processing. Total files processed: " . count($files) . PHP_EOL, FILE_APPEND);
 
     // Now that we have gathered all updates, update REAL_PROP.REIMAGES table
     foreach ($updatesForReImages as $update) {
         updateDatabase($conn, $update['oldFilePath'], $update['newFilePath'], $update['newFileName'], $update['newBid']);
     }
 
-    echo "Process Completed";
+    return $updatesForReImages;
 }
+
+
 ?>
