@@ -35,7 +35,7 @@
                 style="border-radius: 25px">
                 <div class="modal-header">
                     <h5 class="modal-title text-dark font-weight-bolder"
-                        id="ModalLabel"> SKETCH MANAGER | PROCESSOR ZZZ </h5>
+                        id="ModalLabel"> SKETCH MANAGER | PROCESSOR </h5>
                 </div>
                 <div class="modal-body bg-primary text-light text-uppercase font-weight-bolder text-center"
                     id="modalBody"> Select 'PROCESS' To Initiate Sketch Import <br><br>

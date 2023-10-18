@@ -46,14 +46,14 @@ function createBackup($filePath, $backupDirectory)
     }
     $backupFilePath = $backupDirectory . basename($filePath);
     if (!copy($filePath, $backupFilePath)) {
-        echo "Failed to create backup for {$filePath}\n";
+        //echo "Failed to create backup for {$filePath}\n";
     }
 }
 function createDirectory($path)
 {
     if (!is_dir($path)) {
         if (!mkdir($path, 0755, true)) {
-            echo "Failed to create directory {$path}\n";
+            //echo "Failed to create directory {$path}\n";
         }
     }
 }
@@ -68,7 +68,7 @@ function readCsvData($filePath)
         }
         fclose($handle);
     } else {
-        echo "Failed to open CSV file at {$filePath}\n";
+        //echo "Failed to open CSV file at {$filePath}\n";
     }
     return $csvData;
 }
@@ -77,7 +77,7 @@ function renameFile($oldFilePath, $newFilePath)
     if (rename($oldFilePath, $newFilePath)) {
         return true;
     } else {
-        echo "Failed to rename {$oldFilePath} to {$newFilePath}\n";
+        //echo "Failed to rename {$oldFilePath} to {$newFilePath}\n";
         return false;
     }
 }
@@ -105,12 +105,12 @@ function updateDatabase($pdo, $oldFilePath, $newFilePath, $newFileName, $bid)
         $createDate = $lastUpdate; // Assuming the create date to be the same as the last update
 
         // Logging for debugging
-        echo "Attempting to update Database.\n";
-        echo "SQL Query: $sql\n";
-        echo "Old File Path: $oldFilePath\n";
-        echo "New File Path: $newFilePath\n";
-        echo "New File Name: $newFileName\n";
-        echo "BID: $bid\n";
+        //echo "Attempting to update Database.\n";
+        //echo "SQL Query: $sql\n";
+        //echo "Old File Path: $oldFilePath\n";
+        //echo "New File Path: $newFilePath\n";
+        //echo "New File Name: $newFileName\n";
+        //echo "BID: $bid\n";
 
         $stmt->bindParam(":newFilePath", $newFilePath, PDO::PARAM_STR);
         $stmt->bindParam(":lastUpdate", $lastUpdate, PDO::PARAM_STR);
@@ -123,7 +123,7 @@ function updateDatabase($pdo, $oldFilePath, $newFilePath, $newFileName, $bid)
         $stmt->bindParam(":oldFilePath", $oldFilePath, PDO::PARAM_STR);
         $stmt->bindParam(":bid", $bid, PDO::PARAM_STR); // Bind the BID parameter
         if ($stmt->execute()) {
-            echo "Database updated successfully.\n";
+            //echo "Database updated successfully.\n";
         } else {
             print_r("Database update failed for file $oldFilePath.");
             print_r($stmt->errorInfo());
@@ -143,10 +143,10 @@ function updateRealMastTable($conn, $vid, $newBid)
         $stmt->bindParam(':newBid', $newBid, PDO::PARAM_STR);
         $stmt->bindParam(':vid', $vid, PDO::PARAM_STR);
         $stmt->execute();
-        echo "REALMAST table updated successfully for VID: {$vid}\n";
+        //echo "REALMAST table updated successfully for VID: {$vid}\n";
     }
     catch (PDOException $e) {
-        echo "Database update error: " . $e->getMessage() . "\n";
+        //echo "Database update error: " . $e->getMessage() . "\n";
     }
 }
 
