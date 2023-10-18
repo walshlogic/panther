@@ -12,10 +12,10 @@ $imageFileType = strtolower(
 if (isset($_POST['submit'])) {
     $check = getimagesize($_FILES['profile_pic']['temp_name']);
     if ($check !== false) {
-        //echo 'File is an image - '.$check['mime'].'.';
+        echo 'File is an image - ' . $check['mime'] . '.';
         $uploadOk = 1;
     } else {
-        //echo 'File is not an image';
+        echo 'File is not an image';
         $uploadOk = 0;
     }
 }

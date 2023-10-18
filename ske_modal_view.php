@@ -6,7 +6,7 @@ require_once 'ske_view_index.php';
 <!-- SKETCH: VIEW Modal -->
 <!-- \/\/\/\/ -->
 <div class="modal fade"
-    id="ske_modal_view_<?php //echo $filename ?>"
+    id="ske_modal_view_<?php echo $filename ?>"
     tabindex="-1"
     aria-labelledby="ModalLabel"
     aria-hidden="true"
@@ -27,13 +27,13 @@ require_once 'ske_view_index.php';
                         <div class="text-center">
                             <br>
                             <img class="img-responsive"
-                                src="<?php //echo $sketchImage ?>"
+                                src="<?php echo $sketchImage ?>"
                                 id="<?php $sketchImage ?>">
                         </div>
                         <br>
                         <p class="text-center text-light text-uppercase font-weight-bolder"
                             style="font-size: 24px">
-                            <?php //echo 'SKETCH FILE: ' . $filename ?>
+                            <?php echo 'SKETCH FILE: ' . $filename ?>
                         </p>
                         <?php $tempName = $filename ?>
                     </form>

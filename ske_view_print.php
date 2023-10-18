@@ -41,17 +41,17 @@ if (isset($_GET['file'])) {
 <body>
     <!-- File information -->
     <p>Putnam County Property Appraiser | PANTHER System - Field Appraiser Sketch</p>
-    <img src="data:image/jpeg;base64,<?php //echo $thumbnail; ?>"
+    <img src="data:image/jpeg;base64,<?php echo $thumbnail; ?>"
         class="img-fluid mb-2"
         style="width:600px; height:600px;">
     <p>Filename:
-        <?php //echo $filename; ?>
+        <?php echo $filename; ?>
     </p>
     <p>File Size:
-        <?php //echo formatSizeUnits($filesize); ?>
+        <?php echo formatSizeUnits($filesize); ?>
     </p>
     <p>Last Modified:
-        <?php //echo $filemtime; ?>
+        <?php echo $filemtime; ?>
     </p>
     <button onclick="closeWindow()">CLOSE</button>
     <button onclick="window.print()">PRINT</button>

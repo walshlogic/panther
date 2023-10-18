@@ -118,7 +118,7 @@ class Vision
                 $building_id,
                 $file_date
             );
-            //echo $file_date.PHP_EOL;
+            echo $file_date . PHP_EOL;
             die();
         }
         $this->log("Vision+ Processed {$sketch_count} Permits");
@@ -156,20 +156,20 @@ class Vision
         $building_id,
         $file_date
     ) {
-        //echo "file date = ".$file_date.PHP_EOL;
+        echo "file date = " . $file_date . PHP_EOL;
         $p = explode("-", $file_date);
         $yearAgo = date("Y-m-d", mktime(0, 0, 0, $p[1], $p[2], $p[0] - 1));
-        //echo "year ago = $yearAgo".PHP_EOL;
+        echo "year ago = $yearAgo" . PHP_EOL;
         $yearHalfAgo = date("Y-m-d", mktime(0, 0, 0, $p[1] - 6, $p[2], $p[0] - 1));
-        //echo "year HALF ago = $yearHalfAgo".PHP_EOL;
+        echo "year HALF ago = $yearHalfAgo" . PHP_EOL;
         $qs = "select count(*) as 'count' from real_prop.reimages " .
             "where rim_pid = $parcel_id and rim_bid = $building_id and " .
             "RIM_DESC = 'VISION SKETCH' and " .
             "rim_img_date between '$yearHalfAgo' and '$file_date'";
         if ($parcel_id == $building_id) {
-            //echo "$parcel_id - $building_id".PHP_EOL;
+            echo "$parcel_id - $building_id" . PHP_EOL;
         }
-        //echo "check for dupes QS = $qs".PHP_EOL;
+        echo "check for dupes QS = $qs" . PHP_EOL;
         die();
         //        $ret = simpleVisionQuery($qs, TRUE);
 //

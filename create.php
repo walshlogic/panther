@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 header("location: index.php");
                 exit();
             } else {
-                //echo "Oops! Something went wrong. Please try again later.";
+                echo "Oops! Something went wrong. Please try again later.";
             }
         }
 
@@ -101,36 +101,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="col-md-12">
                     <h2 class="mt-5">Create Record</h2>
                     <p>Please fill this form and submit to add employee record to the database.</p>
-                    <form action="<?php //echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"
+                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"
                         method="post">
                         <div class="form-group">
                             <label>First Name</label>
                             <input type="text"
                                 name="namefirst"
-                                class="form-control <?php //echo (!empty($firstname_err)) ? 'is-invalid' : ''; ?>"
-                                value="<?php //echo $firstname; ?>">
+                                class="form-control <?php echo (!empty($firstname_err)) ? 'is-invalid' : ''; ?>"
+                                value="<?php echo $firstname; ?>">
                             <span class="invalid-feedback">
-                                <?php //echo $firstname_err; ?>
+                                <?php echo $firstname_err; ?>
                             </span>
                         </div>
                         <div class="form-group">
                             <label>Last Name</label>
                             <input type="text"
                                 name="namelast"
-                                class="form-control <?php //echo (!empty($lastname_err)) ? 'is-invalid' : ''; ?>"
-                                value="<?php //echo $lastname; ?>">
+                                class="form-control <?php echo (!empty($lastname_err)) ? 'is-invalid' : ''; ?>"
+                                value="<?php echo $lastname; ?>">
                             <span class="invalid-feedback">
-                                <?php //echo $lastname_err; ?>
+                                <?php echo $lastname_err; ?>
                             </span>
                         </div>
                         <div class="form-group">
                             <label>Title</label>
                             <input type="text"
                                 name="jobtitle"
-                                class="form-control <?php //echo (!empty($lastname_err)) ? 'is-invalid' : ''; ?>"
-                                value="<?php //echo $lastname; ?>">
+                                class="form-control <?php echo (!empty($lastname_err)) ? 'is-invalid' : ''; ?>"
+                                value="<?php echo $lastname; ?>">
                             <span class="invalid-feedback">
-                                <?php //echo $lastname_err; ?>
+                                <?php echo $lastname_err; ?>
                             </span>
                         </div>
                         <input type="submit"

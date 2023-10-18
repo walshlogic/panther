@@ -14,17 +14,17 @@ if (isset($_POST['add'])) {
     // check if image is actual image
     $check_img = getimagesize($temp_file_name);
     if ($check_img == false) {
-        //echo 'File Is Not An Image! Please Try Again';
+        echo 'File Is Not An Image! Please Try Again';
         $uploadOk = 0;
     } else {
         $uploadOk = 1;
         if (file_exists($target_file)) {
-            //echo 'File With Same Name Alrady Uploaded!';
+            echo 'File With Same Name Alrady Uploaded!';
             $uploadOk = 0;
         } else {
             // check file size
             if ($file_size > 500000) {
-                //echo 'File Size Over 5MB. Please Select Image Under 5MB.';
+                echo 'File Size Over 5MB. Please Select Image Under 5MB.';
                 $uploadOk = 0;
             } else {
                 // allow only these image file types
@@ -32,13 +32,13 @@ if (isset($_POST['add'])) {
                     $img_file_type != "jpg" && $img_file_type != "jpeg" && $img_file_type
                     != "png"
                 ) {
-                    //echo 'Please Select A File Type Of jpg, jpeg, or png';
+                    echo 'Please Select A File Type Of jpg, jpeg, or png';
                     $uploadOk = 0;
                 } else {
                     // check if $uploadOk Is Set To '0' By An Error
                     if ($uploadOk === 0) {
 
-                        //echo 'Error!File Has Not Been Uploaded. Please Try Again.';
+                        echo 'Error!File Has Not Been Uploaded. Please Try Again.';
                     } else {
                         if (move_uploaded_file($temp_file_name, $target_file)) {
                             // use prepared statement to prevent sql injection

@@ -34,7 +34,7 @@ if (isset($_GET["id"]) && !empty(trim($_GET["id"]))) {
             }
 
         } else {
-            //echo "Oops! Something went wrong. Please try again later.";
+            echo "Oops! Something went wrong. Please try again later.";
         }
     }
 
@@ -74,19 +74,19 @@ if (isset($_GET["id"]) && !empty(trim($_GET["id"]))) {
                     <div class="form-group">
                         <label>First Name</label>
                         <p><b>
-                                <?php //echo $row["namefirst"]; ?>
+                                <?php echo $row["namefirst"]; ?>
                             </b></p>
                     </div>
                     <div class="form-group">
                         <label>Last Name</label>
                         <p><b>
-                                <?php //echo $row["namelast"]; ?>
+                                <?php echo $row["namelast"]; ?>
                             </b></p>
                     </div>
                     <div class="form-group">
                         <label>Title</label>
                         <p><b>
-                                <?php //echo $row["jobtitle"]; ?>
+                                <?php echo $row["jobtitle"]; ?>
                             </b></p>
                     </div>
                     <p><a href="index.php"

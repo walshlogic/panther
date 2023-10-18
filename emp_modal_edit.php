@@ -179,7 +179,7 @@
 <!-- EMPLOYEE: VIEW Modal -->
 <!-- \/\/\/\/ -->
 <div class="modal fade"
-    id="view_<?php //echo $row['id']; ?>"
+    id="view_<?php echo $row['id']; ?>"
     tabindex="-1"
     aria-labelledby="ModalLabel"
     aria-hidden="true"
@@ -194,13 +194,13 @@
             </div>
             <div class="modal-body bg-primary">
                 <form method="POST"
-                    action="emp_action_view.php?id=<?php //echo $row['id']; ?>">
+                    action="emp_action_view.php?id=<?php echo $row['id']; ?>">
                     <div class="mb-3 row align-self-center">
                         <label class="col-sm-3 col-form-label text-light font-weight-bolder text-right">FULL
                             NAME</label>
                         <div class="col-sm">
                             <label class="text-light font-weight-bolder text-left text-uppercase">
-                                <?php //echo $row['firstname'] . ' ' . $row['lastname']; ?>
+                                <?php echo $row['firstname'] . ' ' . $row['lastname']; ?>
                             </label>
                         </div>
                     </div>
@@ -208,7 +208,7 @@
                         <label class="col-sm-3 col-form-label text-light font-weight-bolder text-right">INITIALS</label>
                         <div class="col-sm">
                             <label class="text-light font-weight-bolder text-left text-uppercase">
-                                <?php //echo $row['initialsname']; ?>
+                                <?php echo $row['initialsname']; ?>
                             </label>
                         </div>
                     </div>
@@ -216,7 +216,7 @@
                         <label class="col-sm-3 col-form-label text-light font-weight-bolder text-right">TITLE</label>
                         <div class="col-sm">
                             <label class="text-light font-weight-bolder text-left text-uppercase">
-                                <?php //echo $row['emp_title']; ?>
+                                <?php echo $row['emp_title']; ?>
                             </label>
                         </div>
                     </div>
@@ -224,7 +224,7 @@
                         <label class="col-sm-3 col-form-label text-light font-weight-bolder text-right">EMAIL</label>
                         <div class="col-sm">
                             <label class="text-light font-weight-bolder text-left text-lowercase">
-                                <?php //echo $row['email']; ?>
+                                <?php echo $row['email']; ?>
                             </label>
                         </div>
                     </div>
@@ -232,7 +232,7 @@
                         <label class="col-sm-3 col-form-label text-light font-weight-bolder text-right">LOGIN</label>
                         <div class="col-sm">
                             <label class="text-light font-weight-bolder text-left text-lowercase">
-                                <?php //echo $row['user_login']; ?>
+                                <?php echo $row['user_login']; ?>
                             </label>
                         </div>
                     </div>
@@ -240,7 +240,7 @@
                         <label class="col-sm-3 col-form-label text-light font-weight-bolder text-right">DESK #</label>
                         <div class="col-sm">
                             <label class="text-light font-weight-bolder text-left text-lowercase">
-                                <?php //echo $row['phone_work_desk']; ?>
+                                <?php echo $row['phone_work_desk']; ?>
                             </label>
                         </div>
                     </div>
@@ -248,7 +248,7 @@
                         <label class="col-sm-3 col-form-label text-light font-weight-bolder text-right">MOBILE #</label>
                         <div class="col-sm">
                             <label class="text-light font-weight-bolder text-left text-lowercase">
-                                <?php //echo $row['phone_work_mobile']; ?>
+                                <?php echo $row['phone_work_mobile']; ?>
                             </label>
                         </div>
                     </div>
@@ -257,7 +257,7 @@
                             PIC</label>
                         <div class="col-sm">
                             <label class="text-light font-weight-bolder text-left text-lowercase">
-                                <?php //echo $row['profile_pic']; ?>
+                                <?php echo $row['profile_pic']; ?>
                             </label>
                         </div>
                     </div>
@@ -266,7 +266,7 @@
                 <button type="button"
                     class="btn btn-success btn-sm"
                     data-bs-dismiss="modal"> CLOSE </button>
-                <a href="#edit_<?php //echo $row['id']; ?>"
+                <a href="#edit_<?php echo $row['id']; ?>"
                     class="btn btn-primary btn-sm"
                     data-bs-toggle="modal"
                     data-toggle="tooltip"
@@ -281,7 +281,7 @@
 <!-- EMPLOYEE: EDIT Modal -->
 <!-- \/\/\/\/ -->
 <div class="modal fade"
-    id="edit_<?php //echo $row['id']; ?>"
+    id="edit_<?php echo $row['id']; ?>"
     tabindex="-1"
     aria-labelledby="ModalLabel"
     aria-hidden="true">
@@ -294,7 +294,7 @@
             </div>
             <div class="modal-body bg-primary">
                 <form method="POST"
-                    action="emp_action_edit.php?id=<?php //echo $row['id']; ?>">
+                    action="emp_action_edit.php?id=<?php echo $row['id']; ?>">
                     <div class="mb-3 row">
                         <label class="col-sm-3 col-form-label text-light font-weight-bolder text-right">FIRST
                             NAME</label>
@@ -304,7 +304,7 @@
                                 class="form-control  font-weight-bolder text-uppercase"
                                 style="border-radius: 0.8rem"
                                 name="firstname"
-                                value="<?php //echo $row['firstname']; ?>">
+                                value="<?php echo $row['firstname']; ?>">
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -315,7 +315,7 @@
                                 class="form-control font-weight-bolder text-uppercase"
                                 style="border-radius: 0.8rem"
                                 name="lastname"
-                                value="<?php //echo $row['lastname']; ?>">
+                                value="<?php echo $row['lastname']; ?>">
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -326,7 +326,7 @@
                                 class="form-control font-weight-bolder text-uppercase"
                                 style="border-radius: 0.8rem"
                                 name="akaname"
-                                value="<?php //echo $row['akaname']; ?>">
+                                value="<?php echo $row['akaname']; ?>">
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -337,7 +337,7 @@
                                 class="form-control font-weight-bolder text-uppercase"
                                 style="border-radius: 0.8rem"
                                 name="initialsname"
-                                value="<?php //echo $row['initialsname']; ?>">
+                                value="<?php echo $row['initialsname']; ?>">
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -348,7 +348,7 @@
                                 class="form-control  font-weight-bolder text-uppercase"
                                 style="border-radius: 0.8rem"
                                 name="emp_title"
-                                value="<?php //echo $row['emp_title']; ?>">
+                                value="<?php echo $row['emp_title']; ?>">
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -359,7 +359,7 @@
                                 class="form-control  font-weight-bolder text-lowercase"
                                 style="border-radius: 0.8rem"
                                 name="email"
-                                value="<?php //echo $row['email']; ?>">
+                                value="<?php echo $row['email']; ?>">
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -370,7 +370,7 @@
                                 class="form-control  font-weight-bolder text-lowercase"
                                 style="border-radius: 0.8rem"
                                 name="user_login"
-                                value="<?php //echo $row['user_login']; ?>">
+                                value="<?php echo $row['user_login']; ?>">
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -381,7 +381,7 @@
                                 class="form-control  font-weight-bolder text-lowercase"
                                 style="border-radius: 0.8rem"
                                 name="phone_work_desk"
-                                value="<?php //echo $row['phone_work_desk']; ?>">
+                                value="<?php echo $row['phone_work_desk']; ?>">
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -392,7 +392,7 @@
                                 class="form-control  font-weight-bolder text-lowercase"
                                 style="border-radius: 0.8rem"
                                 name="phone_work_mobile"
-                                value="<?php //echo $row['phone_work_mobile']; ?>">
+                                value="<?php echo $row['phone_work_mobile']; ?>">
                         </div>
                     </div>
                     <!-- /\/\/\/\ -->
@@ -425,9 +425,9 @@
                                 ):
                                     ;
                                     ?>
-                                    <option value="<?php //echo $location["fac_loc_number"]; ?>">
+                                    <option value="<?php echo $location["fac_loc_number"]; ?>">
                                         <?php
-                                        //echo $location["fac_loc_number"] . " | " . $location["fac_loc_description"];
+                                        echo $location["fac_loc_number"] . " | " . $location["fac_loc_description"];
                                         // to show the location name to the user
                                         ?>
                                     </option>
@@ -450,7 +450,7 @@
                                 class="form-control font-weight-bolder text-lowercase"
                                 style="border-radius: 0.8rem"
                                 name="profile_pic"
-                                value="<?php //echo $row['profile_pic']; ?>">
+                                value="<?php echo $row['profile_pic']; ?>">
                         </div>
                     </div>
             </div>
@@ -471,7 +471,7 @@
 <!-- EMPLOYEE: DELETE Modal -->
 <!-- \/\/\/\/ -->
 <div class="modal fade"
-    id="delete_<?php //echo $row['id']; ?>"
+    id="delete_<?php echo $row['id']; ?>"
     tabindex="-1"
     aria-labelledby="ModalLabel"
     aria-hidden="true">
@@ -486,7 +486,7 @@
                 <p class="text-light font-weight-bolder text-center">This Action Will Delete The Employee Record For:
                 </p>
                 <h2 class="text-light font-weight-bolder text-center text-uppercase">
-                    <?php //echo $row['firstname'] . ' ' . $row['lastname']; ?>
+                    <?php echo $row['firstname'] . ' ' . $row['lastname']; ?>
                 </h2>
                 <p class="text-warning font-weight-bolder text-center">The Delete Process CAN NOT Be Undone!</p>
             </div>
@@ -494,7 +494,7 @@
                 <button type="button"
                     class="btn btn-success btn-sm"
                     data-bs-dismiss="modal"> CLOSE </button>
-                <a href="emp_action_delete.php?id=<?php //echo $row['id']; ?>"
+                <a href="emp_action_delete.php?id=<?php echo $row['id']; ?>"
                     class="btn btn-danger btn-sm"> DELETE </a>
             </div>
         </div>
@@ -574,7 +574,7 @@
 <!-- SUGGESTION: VIEW Modal -->
 <!-- \/\/\/\/ -->
 <div class="modal fade"
-    id="sug_action_view_<?php //echo $row['id']; ?>"
+    id="sug_action_view_<?php echo $row['id']; ?>"
     tabindex="-1"
     aria-labelledby="ModalLabel"
     aria-hidden="true"
@@ -589,12 +589,12 @@
             </div>
             <div class="modal-body bg-primary">
                 <form method="POST"
-                    action="sug_action_view.php?id=<?php //echo $row['id']; ?>">
+                    action="sug_action_view.php?id=<?php echo $row['id']; ?>">
                     <div class="mb-3 row align-self-center">
                         <label class="col-sm-3 col-form-label text-light font-weight-bolder text-right">NAME</label>
                         <div class="col-sm">
                             <label class="text-light font-weight-bolder text-left text-uppercase">
-                                <?php //echo $row['name']; ?>
+                                <?php echo $row['name']; ?>
                             </label>
                         </div>
                     </div>
@@ -603,7 +603,7 @@
                             class="col-sm-3 col-form-label text-light font-weight-bolder text-right">SUGGESTION</label>
                         <div class="col-sm">
                             <label class="text-light font-weight-bolder text-left text-uppercase">
-                                <?php //echo $row['suggestion']; ?>
+                                <?php echo $row['suggestion']; ?>
                             </label>
                         </div>
                     </div>
@@ -612,7 +612,7 @@
                 <button type="button"
                     class="btn btn-success btn-sm"
                     data-bs-dismiss="modal"> CLOSE </button>
-                <a href="#sug_action_edit_<?php //echo $row['id']; ?>"
+                <a href="#sug_action_edit_<?php echo $row['id']; ?>"
                     class="btn btn-primary btn-sm"
                     data-bs-toggle="modal"
                     data-toggle="tooltip"
@@ -627,7 +627,7 @@
 <!-- SUGGESTION: EDIT Modal -->
 <!-- \/\/\/\/ -->
 <div class="modal fade"
-    id="sug_action_edit_<?php //echo $row['id']; ?>"
+    id="sug_action_edit_<?php echo $row['id']; ?>"
     tabindex="-1"
     aria-labelledby="ModalLabel"
     aria-hidden="true">
@@ -640,7 +640,7 @@
             </div>
             <div class="modal-body bg-primary">
                 <form method="POST"
-                    action="sug_action_edit.php?id=<?php //echo $row['id']; ?>">
+                    action="sug_action_edit.php?id=<?php echo $row['id']; ?>">
                     <div class="mb-3 row">
                         <label class="col-sm-3 col-form-label text-light font-weight-bolder text-right">NAME</label>
                         <div class="col-sm">
@@ -649,7 +649,7 @@
                                 class="form-control  font-weight-bolder text-uppercase"
                                 style="border-radius: 0.8rem"
                                 name="name"
-                                value="<?php //echo $row['name']; ?>">
+                                value="<?php echo $row['name']; ?>">
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -661,7 +661,7 @@
                                 class="form-control font-weight-bolder text-uppercase"
                                 style="border-radius: 0.8rem "
                                 name="suggestion"
-                                value="<?php //echo $row['suggestion']; ?>">
+                                value="<?php echo $row['suggestion']; ?>">
                         </div>
                     </div>
             </div>
@@ -682,7 +682,7 @@
 <!-- SUGGESTION: DELETE Modal -->
 <!-- \/\/\/\/ -->
 <div class="modal fade"
-    id="sug_action_delete_<?php //echo $row['id']; ?>"
+    id="sug_action_delete_<?php echo $row['id']; ?>"
     tabindex="-1"
     aria-labelledby="ModalLabel"
     aria-hidden="true">
@@ -697,7 +697,7 @@
                 <p class="text-light font-weight-bolder text-center">This Action Will Delete The Suggestion Submitted
                     By:</p>
                 <h2 class="text-light font-weight-bolder text-center text-uppercase">
-                    <?php //echo $row['name']; ?>
+                    <?php echo $row['name']; ?>
                 </h2>
                 <p class="text-warning font-weight-bolder text-center">The Delete Process CAN NOT Be Undone!</p>
             </div>
@@ -705,7 +705,7 @@
                 <button type="button"
                     class="btn btn-success btn-sm font-weight-bolder"
                     data-bs-dismiss="modal"> CLOSE </button>
-                <a href="sug_action_delete.php?id=<?php //echo $row['id']; ?>"
+                <a href="sug_action_delete.php?id=<?php echo $row['id']; ?>"
                     class="btn btn-sm  btn-danger font-weight-bolder"> DELETE </a>
             </div>
         </div>

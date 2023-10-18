@@ -44,21 +44,21 @@ function processSketchFiles()
     //$myDir = "tmp";
     $myDir = "/mnt/paphotos/Sketches"; // if running from here - dont delete?   ???
     $myImages = scandir($myDir);
-    //echo "<p>images = <pre>";
+    echo "<p>images = <pre>";
     print_r($myImages);
-    //echo "</pre>";
+    echo "</pre>";
     foreach ($myImages as $key => $value) {
         if ($value == "." || $value == ".." || $value == "savedInVision") {
             unset($myImages[$key]);
         }
     }
-    //echo "<p>image count = ".count($myImages);
+    echo "<p>image count = " . count($myImages);
     $totalCount = count($myImages);
     $dupeCount = 0;
     $processedCount = 0;
     foreach ($myImages as $image) {
         list($pid, $bid) = explode("_", $image);
-        //echo "<hr><p>image = $image<br>pid = $pid - bid = $bid";
+        echo "<hr><p>image = $image<br>pid = $pid - bid = $bid";
         Debug(1, "\n\nWORKING $pid / $bid / $image");
         if (isset($pid) && $pid > 0) {
             $bid = substr($bid, 0, -4); // ditch .jpg at end
@@ -66,41 +66,41 @@ function processSketchFiles()
             if ($checkDupes == TRUE) {
                 $fileDate = date("Y-m-d", filemtime("$myDir/$image"));
                 $dupe = checkForDupe($pid, $bid, $fileDate);
-                //echo "<p>dupe count = $dupe";
+                echo "<p>dupe count = $dupe";
                 if (isset($dupe) && $dupe > 0) {
-                    //echo "<br>DUPE!<br>";
+                    echo "<br>DUPE!<br>";
                     $dupe = TRUE;
                     $dupeCount++;
                     $destFile = "/var/www/html/pa/photo_uploader/convertVisionSketch/dupes/$image";
                     $originFile = "/var/www/html/pa/photo_uploader/convertVisionSketch/tmp/$image";
-                    //echo "<p>origin = $originFile";
-                    //echo "<br>dupeDir = $destFile";
+                    echo "<p>origin = $originFile";
+                    echo "<br>dupeDir = $destFile";
                     // PUT THIS BACK IN ????
                     //if (FALSE == copy($originFile, $destFile)) {
-                    //    //echo "<p>did not copy dupe";
+                    //    echo "<p>did not copy dupe";
                     //} else{
                     //    unlink($originFile);
                     //}
                 } else {
-                    //echo "<br>no dupe<br>";
+                    echo "<br>no dupe<br>";
                 }
             }
             if ($dupe == FALSE) {
                 $processedCount++;
                 $pn = pullPN($pid);
-                //echo "<br>pn = $pn";
+                echo "<br>pn = $pn";
                 // need error and a break if no pn is found ???
                 $p = explode("-", $pn);
                 $trs = $p[1] . $p[2] . $p[0];
                 $rimId = insertCommonRecord($trs, $pn);
-                //echo "<br>after function";
-                //echo "<br>RIM ID = $rimId";
+                echo "<br>after function";
+                echo "<br>RIM ID = $rimId";
                 if (isset($rimId) && $rimId > 0) {
                     $idStr = str_pad($rimId, 8, "0", STR_PAD_LEFT);
                     $fileName = $pn . "." . $idStr;
-                    //echo "<br>filename = $fileName";
+                    echo "<br>filename = $fileName";
                     $fileDate = date("Y-m-d", filemtime("tmp/$image"));
-                    //echo "<br>fileDate = $fileDate";
+                    echo "<br>fileDate = $fileDate";
                     insertRealPropRecord(
                         $pid,
                         $bid,
@@ -113,19 +113,19 @@ function processSketchFiles()
                         $destDir = "/var/www/html/pa/photo_uploader/convertVisionSketch/test/$trs";
                         $destFile = "$destDir/$pn.$idStr.jpg";
                         $originFile = "/var/www/html/pa/photo_uploader/convertVisionSketch/tmp/$image";
-                        //echo "<p>destFile = $destFile<br>originFile = $originFile";
+                        echo "<p>destFile = $destFile<br>originFile = $originFile";
                     } else {
                         $destDir = "/mnt/paphotos/photos/$trs";
                         $destFile = "$destDir/$pn.$idStr.jpg";
                         //$originFile = "/mnt/paphotos/Sketches/$image";
                         $originFile = "/var/www/html/pa/photo_uploader/convertVisionSketch/tmp/$image";
-                        //echo "<p>destFile = $destFile<br>originFile = $originFile";
+                        echo "<p>destFile = $destFile<br>originFile = $originFile";
                     }
                     /*  PUT THIS CRAP BACK IN ???
                       if(is_dir($destDir) === false){
-                      //echo "<br>destination dir is false";
+                      echo "<br>destination dir is false";
                       if (FALSE == mkdir($destDir,0777)){
-                      //echo "<p>Could not mkdir: $destDir";
+                      echo "<p>Could not mkdir: $destDir";
                       Debug(1,"Could not mkdir: $destDir");
                       die("ERROR");
                       }
@@ -133,33 +133,33 @@ function processSketchFiles()
                       sleep(1);
                       }
                       if (FALSE == copy($originFile, $destFile)) {
-                      //echo "<p>ERROR: Could not copy: $originFile | $destFile";
+                      echo "<p>ERROR: Could not copy: $originFile | $destFile";
                       Debug(1,"ERROR: Could not copy: $originFile | $destFile");
                       }else{
-                      //echo "<br>save new image - ID: $idStr FILE: $destFile SIZE: ".filesize($destFile);
+                      echo "<br>save new image - ID: $idStr FILE: $destFile SIZE: ".filesize($destFile);
                       Debug(1,"save new image - ID: $idStr FILE: $destFile SIZE: ".filesize($destFile));
                       // delete sketch from dir
                       Debug(1,"unlinking image = $originFile");
                       //unlink($originFile);   // PUT THIS BACK IN ????
                       //unlink("tmp/$image");
-                      //echo "<br>unlink file = $originFile";
+                      echo "<br>unlink file = $originFile";
                       }
                      */
                 } else {
-                    //echo "<br>ERROR: no rim id found";
+                    echo "<br>ERROR: no rim id found";
                 }
             } // end if($dupe == FALSE)
         } // end if(isset($pid) && $pid > 0)
     } // end foreach($myImages as $image)
-    //echo "<p>total = $totalCount".
-    "<br>dupe count = $dupeCount" .
+    echo "<p>total = $totalCount" .
+        "<br>dupe count = $dupeCount" .
         "<br>processed = $processedCount";
     function pullPN($pid)
     {
         global $dbNameVision;
         $qs = "select REM_ACCT_NUM from $dbNameVision.real_prop.realmast " .
             "where REM_PID = $pid";
-        //echo "<br>qs = $qs";
+        echo "<br>qs = $qs";
         $ret = simpleVisionQuery($qs, TRUE);
         if (isset($ret[0]["REM_ACCT_NUM"]) && $ret[0]["REM_ACCT_NUM"] > 0) {
             return $ret[0]["REM_ACCT_NUM"];
@@ -178,7 +178,7 @@ function processSketchFiles()
                 "(RIM_ID,RIM_MNC, RIM_LOCATION, RIM_LOCATION_TYPE) " .
                 "values($newRimId, 11054, '$trs\\$pn.$idStr.jpg', 'F')";
             Debug(1, "INSERT common -> $qs");
-            //echo "<br>insert common record QS = $qs";
+            echo "<br>insert common record QS = $qs";
             if ($testing == FALSE) {
                 $ret = simpleVisionQuery($qs, FALSE);
             }
@@ -194,17 +194,17 @@ function processSketchFiles()
         $qs = "UPDATE $dbNameVision.COMMON.SEQUENCES " .
             "SET SEQ_IMAGE_ID = (SEQ_IMAGE_ID + 1) " .
             "OUTPUT inserted.SEQ_IMAGE_ID as 'SEQ_IMAGE_ID'";
-        //echo "<br>pull new rim id QS = $qs";
+        echo "<br>pull new rim id QS = $qs";
         if ($testing == FALSE) {
             //$ret = simpleVisionQuery($qs, TRUE);
             $ret = bigVisionQuery($qs, TRUE);
-            //echo "<br>pullNewRimId() - rim id pulled = ".$ret["SEQ_IMAGE_ID"];
+            echo "<br>pullNewRimId() - rim id pulled = " . $ret["SEQ_IMAGE_ID"];
         } else {
             $ret["SEQ_IMAGE_ID"] = 999;
         }
-        //echo "<p>ret = <pre>";
+        echo "<p>ret = <pre>";
         print_r($ret);
-        //echo "</pre>";
+        echo "</pre>";
         if (isset($ret["SEQ_IMAGE_ID"]) && $ret["SEQ_IMAGE_ID"] > 0) {
             return $ret["SEQ_IMAGE_ID"];
         } else {
@@ -222,7 +222,7 @@ function processSketchFiles()
         $str = "RIM_MNC, RIM_PID, RIM_BID, RIM_FILE_NAME, RIM_IMG_DATE, RIM_DESC, RIM_LINE_NUM, RIM_ID, RIM_INTRNL_NOTE";
         $values = "11054, $pid, $bid, '$fileName', '$fileDate', 'VISION SKETCH', $rimLineNum, $rimId, 'APEX SKETCH JPG'";
         $qs = "insert into $dbNameVision.real_prop.reimages ($str) values($values)";
-        //echo "<br>insert real prop record QS = $qs";
+        echo "<br>insert real prop record QS = $qs";
         Debug(1, "INSERT real prop -> $qs");
         if ($testing == FALSE) {
             $ret = simpleVisionQuery($qs, FALSE);
@@ -252,9 +252,9 @@ function processSketchFiles()
         $qs = "select max(rim_line_num)+1 as 'lineNum' " .
             "from $dbNameVision.real_prop.reimages " .
             "where rim_pid = $pid and rim_bid = $bid";
-        //echo "<br>pull rim line num QS = $qs";
+        echo "<br>pull rim line num QS = $qs";
         $ret = bigVisionQuery($qs, TRUE);
-        //echo "<br>pullRimLineNum() - line num pulled = ".$ret["lineNum"];
+        echo "<br>pullRimLineNum() - line num pulled = " . $ret["lineNum"];
         if (isset($ret["lineNum"]) && $ret["lineNum"] > 0) {
             return $ret["lineNum"];
         } else {
@@ -282,12 +282,12 @@ function processSketchFiles()
     function checkForDupe($pid, $bid, $fileDate)
     {
         global $dbNameVision;
-        //echo "<p>file date = ".$fileDate;
+        echo "<p>file date = " . $fileDate;
         $p = explode("-", $fileDate);
         $yearAgo = date("Y-m-d", mktime(0, 0, 0, $p[1], $p[2], $p[0] - 1));
-        //echo "<p>year ago = $yearAgo";
+        echo "<p>year ago = $yearAgo";
         $yearHalfAgo = date("Y-m-d", mktime(0, 0, 0, $p[1] - 6, $p[2], $p[0] - 1));
-        //echo "<p>year HALF ago = $yearHalfAgo";
+        echo "<p>year HALF ago = $yearHalfAgo";
         //$qs = "select count(*) as 'count' from real_prop.reimages ".
         //      "where rim_pid = $pid and rim_bid = $bid and ".
         //      "RIM_DESC = 'VISION SKETCH' and rim_img_date like '$fileDate%'";
@@ -296,9 +296,9 @@ function processSketchFiles()
             "RIM_DESC = 'VISION SKETCH' and " .
             "rim_img_date between '$yearHalfAgo' and '$fileDate'";
         if ($pid == $bid) {
-            //echo "<br>$pid - $bid";
+            echo "<br>$pid - $bid";
         }
-        //echo "<br>check for dupes QS = $qs";
+        echo "<br>check for dupes QS = $qs";
         $ret = simpleVisionQuery($qs, TRUE);
         return $ret[0]['count'];
     }
@@ -331,12 +331,12 @@ function processSketchFiles()
       if($isPrimary == TRUE)
       finishIsPrimary($pid,$bid,$imageId,FALSE);
       else
-      ////echo "<p>NOT sending to primary function";
+      //echo "<p>NOT sending to primary function";
       //reorder picts here -- needs a rewrite ???
       ////if(isset($_POST["orderNum"]) && $_POST["orderNum"] > 0)
       //    reorderPhotos($pid,$bid,$imageId,$_POST["orderNum"]);
       //else
-      //    //echo "<p>not reordering photos";
+      //    echo "<p>not reordering photos";
       $parcelPhotoID = $imageId;  // why??? - using in designate photo below
       auditTrailRecord($_SESSION['username'],$pid,$imageId,false,$display_pn,"Saved New Photo");
       }

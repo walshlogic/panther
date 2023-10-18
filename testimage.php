@@ -10,12 +10,12 @@ foreach ($files as $file) {
     $filename = basename($file);
     $filesize = filesize($file);
 
-    //echo "File Name: $filename <br>";
-    //echo "File Size: " . formatSizeUnits($filesize) . "<br>";
+    echo "File Name: $filename <br>";
+    echo "File Size: " . formatSizeUnits($filesize) . "<br>";
 
     // Displaying thumbnail
     $thumbnail = base64_encode(file_get_contents($file));
-    //echo "<img src='data:image/jpeg;base64,$thumbnail' width='100' height='100'><br><br>";
+    echo "<img src='data:image/jpeg;base64,$thumbnail' width='100' height='100'><br><br>";
 }
 
 // Function to format file size

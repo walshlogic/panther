@@ -26,7 +26,7 @@ if (isset($_SESSION['message'])) {
     ?>
     <div class="alert alert-info text-center"
         style="margin-top:20px;">
-        <?php //echo $_SESSION['message']; ?>
+        <?php echo $_SESSION['message']; ?>
     </div>
     <?php
     unset($_SESSION['message']);
@@ -160,18 +160,18 @@ if (isset($_SESSION['message'])) {
                                                 <tr>
                                                     <td class="font-weight-bolder text-uppercase">
                                                         <center>
-                                                            <?php //echo $row['fac_loc_number'] ?>
+                                                            <?php echo $row['fac_loc_number'] ?>
                                                         </center>
                                                     </td>
                                                     <td class="font-weight-bolder text-uppercase">
-                                                        <?php //echo $row['fac_loc_type'] ?>
+                                                        <?php echo $row['fac_loc_type'] ?>
                                                     </td>
                                                     <td class="font-weight-bolder text-uppercase">
-                                                        <?php //echo $row['fac_loc_description'] ?>
+                                                        <?php echo $row['fac_loc_description'] ?>
                                                     </td>
                                                     <td>
                                                         <center>
-                                                            <a href="#fac_action_view_<?php //echo $row['id']; ?>"
+                                                            <a href="#fac_action_view_<?php echo $row['id']; ?>"
                                                                 class="btn btn-success btn-sm"
                                                                 data-bs-toggle="modal"
                                                                 data-toggle="tooltip"
@@ -188,7 +188,7 @@ if (isset($_SESSION['message'])) {
                                                                         d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
                                                                 </svg>
                                                             </a>
-                                                            <a href="#fac_action_edit_<?php //echo $row['id']; ?>"
+                                                            <a href="#fac_action_edit_<?php echo $row['id']; ?>"
                                                                 class="btn btn-warning btn-sm"
                                                                 data-bs-toggle="modal"
                                                                 data-toggle="tooltip"
@@ -202,7 +202,7 @@ if (isset($_SESSION['message'])) {
                                                                     <path
                                                                         d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
                                                                 </svg></a>
-                                                            <a href="#fac_action_delete_<?php //echo $row['id']; ?>"
+                                                            <a href="#fac_action_delete_<?php echo $row['id']; ?>"
                                                                 class="btn btn-danger btn-sm"
                                                                 data-bs-toggle="modal"
                                                                 data-toggle="tooltip"
@@ -229,7 +229,7 @@ if (isset($_SESSION['message'])) {
                                             }
                                         }
                                         catch (PDOException $e) {
-                                            //echo "ERROR! Problem with Database Connection (PANTHER Error #DB100): " . $e->getMessage();
+                                            echo "ERROR! Problem with Database Connection (PANTHER Error #DB100): " . $e->getMessage();
                                         }
                                         // close database connection
                                         $database->close();

@@ -20,10 +20,10 @@ try {
     // Process the result
     foreach ($result as $row) {
         // Do something with each row of data
-        //echo "Column1: " . $row['column1'] . ", Column2: " . $row['column2'] . "<br>";
+        echo "Column1: " . $row['column1'] . ", Column2: " . $row['column2'] . "<br>";
     }
 }
 catch (PDOException $e) {
-    //echo "Connection failed: " . $e->getMessage();
+    echo "Connection failed: " . $e->getMessage();
 }
 ?>

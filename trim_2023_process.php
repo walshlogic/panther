@@ -30,7 +30,7 @@ $inputData = json_decode(file_get_contents('php://input'), true);
 
 if (!isset($inputData['numbers'])) {
     http_response_code(400);
-    //echo json_encode(['error' => 'Missing numbers']);
+    echo json_encode(['error' => 'Missing numbers']);
     exit;
 }
 
@@ -50,7 +50,7 @@ foreach ($inputData['numbers'] as $trd_id) {
 
     if ($stmt === false) {
         http_response_code(500);
-        //echo json_encode(['error' => sqlsrv_errors()]);
+        echo json_encode(['error' => sqlsrv_errors()]);
         exit;
     }
 }
@@ -58,4 +58,4 @@ foreach ($inputData['numbers'] as $trd_id) {
 // Close the connection.
 sqlsrv_close($conn);
 
-//echo json_encode(['status' => 'success']);
+echo json_encode(['status' => 'success']);

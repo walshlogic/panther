@@ -3,7 +3,7 @@
 <!-- inventory delete modal -->
 <!-- \/\/\/\/\/\/\/\/ -->
 <div class="modal fade"
-    id="delete_inv_item_<?php //echo $row['inv_id']; ?>"
+    id="delete_inv_item_<?php echo $row['inv_id']; ?>"
     tabindex="-1"
     aria-labelledby="ModalLabel"
     aria-hidden="true">
@@ -17,7 +17,7 @@
             <div class="modal-body bg-primary">
                 <p class="text-light font-weight-bolder text-center">This Action Will Delete The Inventory Item:</p>
                 <h2 class="text-light font-weight-bolder text-center text-uppercase">
-                    <?php //echo $row['inv_item_make'] . "<br>" . $row['inv_item_model']; ?>
+                    <?php echo $row['inv_item_make'] . "<br>" . $row['inv_item_model']; ?>
                 </h2>
                 <p class="text-warning font-weight-bolder text-center">The Delete Process CAN NOT Be Undone!</p>
             </div>
@@ -25,7 +25,7 @@
                 <button type="button"
                     class="btn btn-success btn-sm"
                     data-bs-dismiss="modal"> CLOSE </button>
-                <a href="inventory_delete.php?inv_id=<?php //echo $row['inv_id']; ?>"
+                <a href="inventory_delete.php?inv_id=<?php echo $row['inv_id']; ?>"
                     class="btn btn-danger btn-sm"> DELETE </a>
             </div>
         </div>
