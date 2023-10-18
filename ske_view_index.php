@@ -43,7 +43,7 @@ $startRecord = $offset + 1;
 $endRecord = $offset + count($files);
 
 if (isset($_SESSION['message'])) {
-    echo '<div class="alert alert-info text-center" style="margin-top:20px;">' . $_SESSION['message'] . '</div>';
+    //echo '<div class="alert alert-info text-center" style="margin-top:20px;">' . $_SESSION['message'] . '</div>';
     unset($_SESSION['message']);
 }
 ?>
@@ -114,7 +114,7 @@ if (isset($_SESSION['message'])) {
                                             <!-- Previous Page Link -->
                                             <li class="page-item <?php if ($page == 1): ?>disabled<?php endif; ?>">
                                                 <a class="page-link bg-dark text-light font-weight-bolder"
-                                                    href="<?php if ($page > 1): ?>?page=<?php echo $page - 1; ?><?php endif; ?>">PREVIOUS</a>
+                                                    href="<?php if ($page > 1): ?>?page=<?php //echo $page - 1; ?><?php endif; ?>">PREVIOUS</a>
                                             </li>
                                             <!-- Dynamic Page Links -->
                                             <?php
@@ -131,9 +131,9 @@ if (isset($_SESSION['message'])) {
                                                 ?>
                                                 <li class="page-item <?php if ($i == $page): ?>active<?php endif; ?>">
                                                     <a class="page-link"
-                                                        style="color: <?php echo ($i == $page) ? '#FFFFFF' : '#696969'; ?>;"
-                                                        href="?page=<?php echo $i; ?>">
-                                                        <?php echo $i; ?>
+                                                        style="color: <?php //echo ($i == $page) ? '#FFFFFF' : '#696969'; ?>;"
+                                                        href="?page=<?php //echo $i; ?>">
+                                                        <?php //echo $i; ?>
                                                     </a>
                                                 </li>
                                             <?php endfor; ?>
@@ -141,22 +141,22 @@ if (isset($_SESSION['message'])) {
                                             <li
                                                 class="page-item <?php if ($page == $totalPages): ?>disabled<?php endif; ?>">
                                                 <a class="page-link bg-dark text-light font-weight-bolder"
-                                                    href="<?php if ($page < $totalPages): ?>?page=<?php echo $page + 1; ?><?php endif; ?>">NEXT</a>
+                                                    href="<?php if ($page < $totalPages): ?>?page=<?php //echo $page + 1; ?><?php endif; ?>">NEXT</a>
                                             </li>
                                             <!-- Last Page Link -->
                                             <li
                                                 class="page-item <?php if ($page == $totalPages): ?>disabled<?php endif; ?>">
                                                 <a class="page-link bg-dark text-light font-weight-bolder"
-                                                    href="?page=<?php echo $totalPages; ?>">LAST</a>
+                                                    href="?page=<?php //echo $totalPages; ?>">LAST</a>
                                             </li>
                                             <p
                                                 style="font-size: 1.2em; font-weight: bolder; text-align: center; color: #696969;">
                                                 &nbsp;&nbsp;&nbsp;PAGE
-                                                <?php echo $page; ?> OF
-                                                <?php echo $totalPages; ?> PAGES &nbsp;&nbsp;|&nbsp;&nbsp;VIEWING
-                                                <?php echo $startRecord; ?> -
-                                                <?php echo $endRecord; ?> OF
-                                                <?php echo $totalFiles; ?> RECORDS
+                                                <?php //echo $page; ?> OF
+                                                <?php //echo $totalPages; ?> PAGES &nbsp;&nbsp;|&nbsp;&nbsp;VIEWING
+                                                <?php //echo $startRecord; ?> -
+                                                <?php //echo $endRecord; ?> OF
+                                                <?php //echo $totalFiles; ?> RECORDS
                                             </p>
                                         </ul>
                                     </nav>
@@ -196,18 +196,18 @@ if (isset($_SESSION['message'])) {
                                             // Unique identifier for modal
                                             $modalID = "modal" . md5($filename);
 
-                                            echo "<tr>";
-                                            echo '<td class="align-middle text-center">';
-                                            echo "<img src='data:image/jpeg;base64,$thumbnail' class='my-auto' style='width:100px; height:100px;'><br><br>";
-                                            echo "</td>";
-                                            echo '<td class="font-weight-bolder text-uppercase align-middle">' . $filename . '</td>';
-                                            echo '<td class="font-weight-bolder text-uppercase align-middle text-center">' . formatSizeUnits($filesize) . '</td>';
-                                            echo '<td class="font-weight-bolder text-uppercase align-middle text-center">' . $filemtime . '</td>';
-                                            echo '<td class="font-weight-bolder text-uppercase align-middle text-center">';
-                                            echo '<button type="button" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#' . $modalID . '">VIEW</button>';
-                                            echo '</td>';
-                                            echo "</tr>";
-
+                                            //echo "<tr>";
+                                            //echo '<td class="align-middle text-center">';
+                                            //echo "<img src='data:image/jpeg;base64,$thumbnail' class='my-auto' style='width:100px; height:100px;'><br><br>";
+                                            //echo "</td>";
+                                            //echo '<td class="font-weight-bolder text-uppercase align-middle">' . $filename . '</td>';
+                                            //echo '<td class="font-weight-bolder text-uppercase align-middle text-center">' . formatSizeUnits($filesize) . '</td>';
+                                            //echo '<td class="font-weight-bolder text-uppercase align-middle text-center">' . $filemtime . '</td>';
+                                            //echo '<td class="font-weight-bolder text-uppercase align-middle text-center">';
+                                            //echo '<button type="button" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#' . $modalID . '">VIEW</button>';
+                                            //echo '</td>';
+                                            //echo "</tr>";
+                                        
                                             // Modal for each file
                                             include('ske_view_info.php');
                                         }

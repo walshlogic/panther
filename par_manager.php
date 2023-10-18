@@ -99,13 +99,13 @@ $screenTitleRightButtonText = " FILTER RECORDS";
                                                 ?>
                                                 <tr>
                                                     <td>
-                                                        <?php echo $row['REM_PID'] ?>
+                                                        <?php //echo $row['REM_PID'] ?>
                                                     </td>
                                                     <td>
-                                                        <?php echo $row['REM_ACCT_NUM'] ?>
+                                                        <?php //echo $row['REM_ACCT_NUM'] ?>
                                                     </td>
                                                     <td>
-                                                        <?php echo $row['REM_OWN_NAME'] ?>
+                                                        <?php //echo $row['REM_OWN_NAME'] ?>
                                                     </td>
                                                     <td>
                                                         <?php
@@ -113,21 +113,21 @@ $screenTitleRightButtonText = " FILTER RECORDS";
                                                             $row['REM_PRCL_LOCN']
                                                             == '00 Unassigned Location RE'
                                                         ) {
-                                                            echo '<i style="color:silver">>> NO ADDRESS ASSIGNED <<</i>';
+                                                            //echo '<i style="color:silver">>> NO ADDRESS ASSIGNED <<</i>';
                                                         } else {
-                                                            echo $row['REM_PRCL_LOCN'];
+                                                            //echo $row['REM_PRCL_LOCN'];
                                                         }
                                                         ?>
                                                     </td>
                                                     <td>
-                                                        <?php echo $row['REM_PRCL_LOCN_CITY'] ?>
+                                                        <?php //echo $row['REM_PRCL_LOCN_CITY'] ?>
                                                     </td>
                                                 </tr>
                                                 <?php
                                             }
                                         }
                                         catch (PDOException $e) {
-                                            echo "ERROR! Problem with Database Connection (PANTHER Error #DB100): " . $e->getMessage();
+                                            //echo "ERROR! Problem with Database Connection (PANTHER Error #DB100): " . $e->getMessage();
                                         }
                                         // close database connection
                                         $database->close();

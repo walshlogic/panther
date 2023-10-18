@@ -11,9 +11,9 @@ if (isset($_POST['updatedata'])) {
     $query = "UPDATE panther.employee SET firstname='$firstname', lastname='$lastname', emp_title='$emp_title', email=' $email' WHERE id='$id'  ";
     $query_run = mysqli_query($connection, $query);
     if ($query_run) {
-        echo '<script> alert("Data Updated"); </script>';
+        //echo '<script> alert("Data Updated"); </script>';
         header("Location:emp_view_index.php");
     } else {
-        echo '<script> alert("Data Not Updated"); </script>';
+        //echo '<script> alert("Data Not Updated"); </script>';
     }
 }
