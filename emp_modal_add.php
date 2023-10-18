@@ -200,49 +200,56 @@
                             NAME</label>
                         <div class="col-sm">
                             <label class="text-light font-weight-bolder text-left text-uppercase">
-                                <?php echo $row['firstname'] . ' ' . $row['lastname']; ?></label>
+                                <?php echo $row['firstname'] . ' ' . $row['lastname']; ?>
+                            </label>
                         </div>
                     </div>
                     <div class="mb-3 row align-self-center">
                         <label class="col-sm-3 col-form-label text-light font-weight-bolder text-right">INITIALS</label>
                         <div class="col-sm">
                             <label class="text-light font-weight-bolder text-left text-uppercase">
-                                <?php echo $row['initialsname']; ?></label>
+                                <?php echo $row['initialsname']; ?>
+                            </label>
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-sm-3 col-form-label text-light font-weight-bolder text-right">TITLE</label>
                         <div class="col-sm">
                             <label class="text-light font-weight-bolder text-left text-uppercase">
-                                <?php echo $row['emp_title']; ?></label>
+                                <?php echo $row['emp_title']; ?>
+                            </label>
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-sm-3 col-form-label text-light font-weight-bolder text-right">EMAIL</label>
                         <div class="col-sm">
                             <label class="text-light font-weight-bolder text-left text-lowercase">
-                                <?php echo $row['email']; ?></label>
+                                <?php echo $row['email']; ?>
+                            </label>
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-sm-3 col-form-label text-light font-weight-bolder text-right">LOGIN</label>
                         <div class="col-sm">
                             <label class="text-light font-weight-bolder text-left text-lowercase">
-                                <?php echo $row['user_login']; ?></label>
+                                <?php echo $row['user_login']; ?>
+                            </label>
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-sm-3 col-form-label text-light font-weight-bolder text-right">DESK #</label>
                         <div class="col-sm">
                             <label class="text-light font-weight-bolder text-left text-lowercase">
-                                <?php echo $row['phone_work_desk']; ?></label>
+                                <?php echo $row['phone_work_desk']; ?>
+                            </label>
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-sm-3 col-form-label text-light font-weight-bolder text-right">MOBILE #</label>
                         <div class="col-sm">
-                            <label
-                                class="text-light font-weight-bolder text-left text-lowercase"><?php echo $row['phone_work_mobile']; ?></label>
+                            <label class="text-light font-weight-bolder text-left text-lowercase">
+                                <?php echo $row['phone_work_mobile']; ?>
+                            </label>
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -250,7 +257,8 @@
                             PIC</label>
                         <div class="col-sm">
                             <label class="text-light font-weight-bolder text-left text-lowercase">
-                                <?php echo $row['profile_pic']; ?></label>
+                                <?php echo $row['profile_pic']; ?>
+                            </label>
                         </div>
                     </div>
             </div>
@@ -393,35 +401,41 @@
                     <div class="mb-3 row">
                         <label class="col-sm-3 col-form-label text-light font-weight-bolder text-right">LOCATION</label>
                         <div class="col-sm">
-                            <select name="emp_location"> <?php
-                            // connect to database
-                            $con = mysqli_connect(
-                                "localhost",
-                                "root",
-                                "Dixie!104",
-                                "panther"
-                            );
-                            // mysqli_connect("servername","username","password","database_name")
-                            // get all the categories from category table
-                            $sql = "SELECT * FROM `facility` ORDER BY fac_loc_number ASC";
-                            $all_locations = mysqli_query($con, $sql);
-                            // use a while loop to fetch data
-                            // from the $all_locations variable
-                            // and individually display as an option
-                            while (
-                                $location = mysqli_fetch_array(
-                                    $all_locations,
-                                    MYSQLI_ASSOC
-                                )
-                            ):
-                                ;
-                                ?><option value="<?php echo $location["fac_loc_number"]; ?>"> <?php
-                                  echo $location["fac_loc_number"] . " | " . $location["fac_loc_description"];
-                                  // to show the location name to the user
-                                  ?> </option> <?php
-                                // while loop must be terminiated
-                            endwhile;
-                            ?> </select>
+                            <select name="emp_location">
+                                <?php
+                                // connect to database
+                                $con = mysqli_connect(
+                                    "localhost",
+                                    "root",
+                                    "Dixie!104",
+                                    "panther"
+                                );
+                                // mysqli_connect("servername","username","password","database_name")
+                                // get all the categories from category table
+                                $sql = "SELECT * FROM `facility` ORDER BY fac_loc_number ASC";
+                                $all_locations = mysqli_query($con, $sql);
+                                // use a while loop to fetch data
+                                // from the $all_locations variable
+                                // and individually display as an option
+                                while (
+                                    $location = mysqli_fetch_array(
+                                        $all_locations,
+                                        MYSQLI_ASSOC
+                                    )
+                                ):
+                                    ;
+                                    ?>
+                                    <option value="<?php echo $location["fac_loc_number"]; ?>">
+                                        <?php
+                                        echo $location["fac_loc_number"] . " | " . $location["fac_loc_description"];
+                                        // to show the location name to the user
+                                        ?>
+                                    </option>
+                                    <?php
+                                    // while loop must be terminiated
+                                endwhile;
+                                ?>
+                            </select>
                         </div>
                     </div>
                     <!-- ||| -->
@@ -472,7 +486,8 @@
                 <p class="text-light font-weight-bolder text-center">This Action Will Delete The Employee Record For:
                 </p>
                 <h2 class="text-light font-weight-bolder text-center text-uppercase">
-                    <?php echo $row['firstname'] . ' ' . $row['lastname']; ?></h2>
+                    <?php echo $row['firstname'] . ' ' . $row['lastname']; ?>
+                </h2>
                 <p class="text-warning font-weight-bolder text-center">The Delete Process CAN NOT Be Undone!</p>
             </div>
             <div class="modal-footer">
@@ -579,7 +594,8 @@
                         <label class="col-sm-3 col-form-label text-light font-weight-bolder text-right">NAME</label>
                         <div class="col-sm">
                             <label class="text-light font-weight-bolder text-left text-uppercase">
-                                <?php echo $row['name']; ?></label>
+                                <?php echo $row['name']; ?>
+                            </label>
                         </div>
                     </div>
                     <div class="mb-3 row align-self-center">
@@ -587,7 +603,8 @@
                             class="col-sm-3 col-form-label text-light font-weight-bolder text-right">SUGGESTION</label>
                         <div class="col-sm">
                             <label class="text-light font-weight-bolder text-left text-uppercase">
-                                <?php echo $row['suggestion']; ?></label>
+                                <?php echo $row['suggestion']; ?>
+                            </label>
                         </div>
                     </div>
             </div>
@@ -679,7 +696,9 @@
             <div class="modal-body bg-primary">
                 <p class="text-light font-weight-bolder text-center">This Action Will Delete The Suggestion Submitted
                     By:</p>
-                <h2 class="text-light font-weight-bolder text-center text-uppercase"><?php echo $row['name']; ?></h2>
+                <h2 class="text-light font-weight-bolder text-center text-uppercase">
+                    <?php echo $row['name']; ?>
+                </h2>
                 <p class="text-warning font-weight-bolder text-center">The Delete Process CAN NOT Be Undone!</p>
             </div>
             <div class="modal-footer">

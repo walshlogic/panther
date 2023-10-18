@@ -278,10 +278,12 @@
                                     <option value="<?php
                                     echo $location["loc_number"];
                                     // the value we usually set is the primary key
-                                    ?>"> <?php
-                                    echo $location["loc_number"] . " | " . $location["loc_description"];
-                                    // to show the location name to the user
-                                    ?> </option>
+                                    ?>">
+                                        <?php
+                                        echo $location["loc_number"] . " | " . $location["loc_description"];
+                                        // to show the location name to the user
+                                        ?>
+                                    </option>
                                     <?php
                                 endwhile;
                                 // While loop must be terminated

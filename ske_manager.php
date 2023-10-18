@@ -79,9 +79,7 @@ if ($tempfilecount > 0) {
         content="Will Walsh | wbwalsh@gmail.com">
     <meta name="version"
         content="0.6">
-    <title>
-        <?php echo $screenTitle; ?>
-    </title>
+    <title> <?php echo $screenTitle; ?> </title>
     <link href="vendor/fontawesome-free/css/all.min.css"
         rel="stylesheet"
         type="text/css">
@@ -101,15 +99,10 @@ if ($tempfilecount > 0) {
 </head>
 
 <body id="page-top">
-    <div id="wrapper">
-        <?php require "./logic/sidebar.php"; ?>
-        <div id="content-wrapper"
+    <div id="wrapper"> <?php require "./logic/sidebar.php"; ?> <div id="content-wrapper"
             class="d-flex flex-column">
-            <div id="content">
-                <?php require "./logic/topbar.php"; ?>
-                <div class="container-fluid">
-                    <?php require "./logic/screentitlebar.php"; ?>
-                </div>
+            <div id="content"> <?php require "./logic/topbar.php"; ?> <div class="container-fluid">
+                    <?php require "./logic/screentitlebar.php"; ?> </div>
                 <div class="col mb-5">
                     <div class="card-deck"
                         style="width:36rem">
@@ -127,18 +120,14 @@ if ($tempfilecount > 0) {
                             <div class="card-body text-center">
                                 <p class="card-text text-light"><b>FILES READY FOR<br>PROCESSING</b></p>
                                 <p class="card-text text-light"
-                                    style="font-size: 40px"><b>
-                                        <?php echo $filesReadyText; ?>
-                                    </b></p>
+                                    style="font-size: 40px"><b> <?php echo $filesReadyText; ?> </b></p>
                             </div>
                         </div>
                         <div class="card bg-dark">
                             <div class="card-body text-center">
                                 <p class="card-text text-light"><b>COMBINED SIZE<br>OF ALL FILES</b></p>
                                 <p class="card-text text-light"
-                                    style="font-size: 40px"><b>
-                                        <?php echo $combinedSizeText; ?>
-                                    </b></p>
+                                    style="font-size: 40px"><b> <?php echo $combinedSizeText; ?> </b></p>
                             </div>
                         </div>
                     </div>
@@ -163,8 +152,7 @@ if ($tempfilecount > 0) {
                         data-backdrop='static'
                         <?php echo ($tempfilecount == 0) ? 'disabled' : ''; ?> />
                 </div>
-            </div>
-            <?php require "./logic/footer.php"; ?>
+            </div> <?php require "./logic/footer.php"; ?>
         </div>
     </div>
     <a class="scroll-to-top rounded"

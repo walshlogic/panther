@@ -4047,7 +4047,7 @@
 		};
 	
 		// DataTables 1.9- compatible method
-		param( 'sEcho',          settings.iDraw );
+		param( 'secho',          settings.iDraw );
 		param( 'iColumns',       columnCount );
 		param( 'sColumns',       _pluck( columns, 'sName' ).join(',') );
 		param( 'iDisplayStart',  displayStart );
@@ -4128,7 +4128,7 @@
 	 * Data the data from the server (nuking the old) and redraw the table
 	 *  @param {object} oSettings dataTables settings object
 	 *  @param {object} json json data return from the server.
-	 *  @param {string} json.sEcho Tracking flag for DataTables to match requests
+	 *  @param {string} json.secho Tracking flag for DataTables to match requests
 	 *  @param {int} json.iTotalRecords Number of records in the data set, not accounting for filtering
 	 *  @param {int} json.iTotalDisplayRecords Number of records in the data set, accounting for filtering
 	 *  @param {array} json.aaData The data to display on this page
@@ -4144,7 +4144,7 @@
 		};
 	
 		var data = _fnAjaxDataSrc( settings, json );
-		var draw            = compat( 'sEcho',                'draw' );
+		var draw            = compat( 'secho',                'draw' );
 		var recordsTotal    = compat( 'iTotalRecords',        'recordsTotal' );
 		var recordsFiltered = compat( 'iTotalDisplayRecords', 'recordsFiltered' );
 	

@@ -425,10 +425,12 @@
                                 ):
                                     ;
                                     ?>
-                                    <option value="<?php echo $location["fac_loc_number"]; ?>"> <?php
-                                       echo $location["fac_loc_number"] . " | " . $location["fac_loc_description"];
-                                       // to show the location name to the user
-                                       ?> </option>
+                                    <option value="<?php echo $location["fac_loc_number"]; ?>">
+                                        <?php
+                                        echo $location["fac_loc_number"] . " | " . $location["fac_loc_description"];
+                                        // to show the location name to the user
+                                        ?>
+                                    </option>
                                     <?php
                                     // while loop must be terminiated
                                 endwhile;

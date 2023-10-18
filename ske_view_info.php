@@ -21,15 +21,9 @@
                 <!-- Display File Information -->
                 <img src="data:image/jpeg;base64,<?php echo $thumbnail; ?>"
                     class="img-fluid mb-2">
-                <p>Filename:
-                    <?php echo $filename; ?>
-                </p>
-                <p>File Size:
-                    <?php echo formatSizeUnits($filesize); ?>
-                </p>
-                <p>Last Modified:
-                    <?php echo $filemtime; ?>
-                </p>
+                <p>Filename: <?php echo $filename; ?> </p>
+                <p>File Size: <?php echo formatSizeUnits($filesize); ?> </p>
+                <p>Last Modified: <?php echo $filemtime; ?> </p>
             </div>
             <div class="modal-footer">
                 <button type="button"
