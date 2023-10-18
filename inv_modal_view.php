@@ -3,7 +3,7 @@
 <!-- inventory view modal -->
 <!-- \/\/\/\/\/\/\/\/ -->
 <div class="modal fade"
-    id="view_inv_item_<?php echo $row['inv_id']; ?>"
+    id="view_inv_item_<?php //echo $row['inv_id']; ?>"
     tabindex="-1"
     aria-labelledby="ModalLabel"
     aria-hidden="true"
@@ -18,12 +18,12 @@
             </div>
             <div class="modal-body bg-primary">
                 <form method="POST"
-                    action="inventory_view.php?inv_id=<?php echo $row['inv_id']; ?>">
+                    action="inventory_view.php?inv_id=<?php //echo $row['inv_id']; ?>">
                     <div class="mb-3 row align-self-center">
                         <label class="col-sm-3 col-form-label text-light font-weight-bolder text-right">STATUS</label>
                         <div class="col-sm">
                             <label class="text-light font-weight-bolder text-left text-uppercase">
-                                <?php echo $row['inv_item_status']; ?>
+                                <?php //echo $row['inv_item_status']; ?>
                             </label>
                         </div>
                     </div>
@@ -31,7 +31,7 @@
                         <label class="col-sm-3 col-form-label text-light font-weight-bolder text-right">MAKE</label>
                         <div class="col-sm">
                             <label class="text-light font-weight-bolder text-left text-uppercase">
-                                <?php echo $row['inv_item_make']; ?>
+                                <?php //echo $row['inv_item_make']; ?>
                             </label>
                         </div>
                     </div>
@@ -39,7 +39,7 @@
                         <label class="col-sm-3 col-form-label text-light font-weight-bolder text-right">MODEL</label>
                         <div class="col-sm">
                             <label class="text-light font-weight-bolder text-left text-uppercase">
-                                <?php echo $row['inv_item_model']; ?>
+                                <?php //echo $row['inv_item_model']; ?>
                             </label>
                         </div>
                     </div>
@@ -48,7 +48,7 @@
                 <button type="button"
                     class="btn btn-success btn-sm"
                     data-bs-dismiss="modal"> CLOSE </button>
-                <a href="#edit_inv_item_<?php echo $row['inv_id']; ?>"
+                <a href="#edit_inv_item_<?php //echo $row['inv_id']; ?>"
                     class="btn btn-primary btn-sm"
                     data-bs-toggle="modal"
                     data-toggle="tooltip"

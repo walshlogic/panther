@@ -2,7 +2,7 @@
 <!-- facility delete modal -->
 <!-- \/\/\/\/\/\/\/\/ -->
 <div class="modal fade"
-    id="fac_action_delete_<?php echo $row['id']; ?>"
+    id="fac_action_delete_<?php //echo $row['id']; ?>"
     tabindex="-1"
     aria-labelledby="ModalLabel"
     aria-hidden="true">
@@ -17,10 +17,10 @@
                 <p class="text-light font-weight-bolder text-center">This Action Will Delete The Facility Location Item:
                 </p>
                 <h2 class="text-light font-weight-bolder text-center text-uppercase">
-                    <?php echo $row['fac_loc_number']; ?>
+                    <?php //echo $row['fac_loc_number']; ?>
                 </h2>
                 <h2 class="text-light font-weight-bolder text-center text-uppercase">
-                    <?php echo $row['fac_loc_description']; ?>
+                    <?php //echo $row['fac_loc_description']; ?>
                 </h2>
                 <p class="text-warning font-weight-bolder text-center">The Delete Process CAN NOT Be Undone!</p>
             </div>
@@ -28,7 +28,7 @@
                 <button type="button"
                     class="btn btn-success btn-sm"
                     data-bs-dismiss="modal"> CLOSE </button>
-                <a href="fac_action_delete.php?id=<?php echo $row['id']; ?>"
+                <a href="fac_action_delete.php?id=<?php //echo $row['id']; ?>"
                     class="btn btn-danger btn-sm"> DELETE </a>
             </div>
         </div>

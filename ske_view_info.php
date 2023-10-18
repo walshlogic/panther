@@ -1,5 +1,5 @@
 <div class="modal fade"
-    id="<?php echo $modalID; ?>"
+    id="<?php //echo $modalID; ?>"
     tabindex="-1"
     role="dialog"
     aria-labelledby="fileModalLabel"
@@ -19,16 +19,16 @@
             </div>
             <div class="modal-body">
                 <!-- Display File Information -->
-                <img src="data:image/jpeg;base64,<?php echo $thumbnail; ?>"
+                <img src="data:image/jpeg;base64,<?php //echo $thumbnail; ?>"
                     class="img-fluid mb-2">
                 <p>Filename:
-                    <?php echo $filename; ?>
+                    <?php //echo $filename; ?>
                 </p>
                 <p>File Size:
-                    <?php echo formatSizeUnits($filesize); ?>
+                    <?php //echo formatSizeUnits($filesize); ?>
                 </p>
                 <p>Last Modified:
-                    <?php echo $filemtime; ?>
+                    <?php //echo $filemtime; ?>
                 </p>
             </div>
             <div class="modal-footer">
@@ -37,7 +37,7 @@
                     data-dismiss="modal">CLOSE</button>
                 <button type="button"
                     class="btn btn-primary"
-                    onclick="window.open('ske_view_print.php?file=<?php echo urlencode($file); ?>')">PRINT</button>
+                    onclick="window.open('ske_view_print.php?file=<?php //echo urlencode($file); ?>')">PRINT</button>
             </div>
         </div>
     </div>

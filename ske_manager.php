@@ -80,7 +80,7 @@ if ($tempfilecount > 0) {
     <meta name="version"
         content="0.6">
     <title>
-        <?php echo $screenTitle; ?>
+        <?php //echo $screenTitle; ?>
     </title>
     <link href="vendor/fontawesome-free/css/all.min.css"
         rel="stylesheet"
@@ -128,7 +128,7 @@ if ($tempfilecount > 0) {
                                 <p class="card-text text-light"><b>FILES READY FOR<br>PROCESSING</b></p>
                                 <p class="card-text text-light"
                                     style="font-size: 40px"><b>
-                                        <?php echo $filesReadyText; ?>
+                                        <?php //echo $filesReadyText; ?>
                                     </b></p>
                             </div>
                         </div>
@@ -137,7 +137,7 @@ if ($tempfilecount > 0) {
                                 <p class="card-text text-light"><b>COMBINED SIZE<br>OF ALL FILES</b></p>
                                 <p class="card-text text-light"
                                     style="font-size: 40px"><b>
-                                        <?php echo $combinedSizeText; ?>
+                                        <?php //echo $combinedSizeText; ?>
                                     </b></p>
                             </div>
                         </div>
@@ -149,8 +149,8 @@ if ($tempfilecount > 0) {
                         name="sketch_button_list"
                         id="sketch_button_list"
                         value=" VIEW FILE LIST "
-                        onClick="<?php echo ($tempfilecount != 0) ? "parent.location='ske_view_index.php'" : ""; ?>"
-                        <?php echo ($tempfilecount == 0) ? 'disabled' : ''; ?> />
+                        onClick="<?php //echo ($tempfilecount != 0) ? "parent.location='ske_view_index.php'" : ""; ?>"
+                        <?php //echo ($tempfilecount == 0) ? 'disabled' : ''; ?> />
                     <br><br>
                     <input type="button"
                         class="btn btn-danger font-weight-bolder"
@@ -161,7 +161,7 @@ if ($tempfilecount > 0) {
                         data-toggle="modal"
                         data-target="#SketchProcessingModal"
                         data-backdrop='static'
-                        <?php echo ($tempfilecount == 0) ? 'disabled' : ''; ?> />
+                        <?php //echo ($tempfilecount == 0) ? 'disabled' : ''; ?> />
                 </div>
             </div>
             <?php require "./logic/footer.php"; ?>

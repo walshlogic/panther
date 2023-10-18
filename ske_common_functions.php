@@ -9,11 +9,9 @@ function getUniqueCounter($prefix)
     }
     return str_pad($prefixCounter[$prefix], 2, '0', STR_PAD_LEFT);
 }
-
 function generateUniqueID($filePrefix, $conn)
 {
     global $prefixCounter;
-
     // Fetch the current sequential number and last update timestamp from the database
     $query = "SELECT SEQ_IMAGE_ID, SEQ_LAST_UPDATE FROM COMMON.SEQUENCES";
     $stmt = $conn->prepare($query);
@@ -21,10 +19,8 @@ function generateUniqueID($filePrefix, $conn)
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
     $sequentialNumber = $row['SEQ_IMAGE_ID'];
     $lastUpdateTimestamp = $row['SEQ_LAST_UPDATE'];
-
     // Increment the sequential number
     $sequentialNumber++;
-
     // Update the database with the new sequential number and last update timestamp
     $currentTimestamp = date('Y-m-d H:i:s.v');
     $updateQuery = "UPDATE COMMON.SEQUENCES SET SEQ_IMAGE_ID = :sequentialNumber, SEQ_LAST_UPDATE = :currentTimestamp";
@@ -32,21 +28,17 @@ function generateUniqueID($filePrefix, $conn)
     $updateStmt->bindParam(':sequentialNumber', $sequentialNumber, PDO::PARAM_INT);
     $updateStmt->bindParam(':currentTimestamp', $currentTimestamp, PDO::PARAM_STR);
     $updateStmt->execute();
-
-    // Ensure the sequential number is always 6 digits long
+    // Ensure the sequential number is always 7 digits long
     $formattedSequentialNumber = str_pad($sequentialNumber, 7, '0', STR_PAD_LEFT);
-
     return $formattedSequentialNumber;
 }
-
 function generateFolderName($uniqueID)
 {
-    $secondSet = substr($uniqueID, 2, 2); // MM - 2nd set of 2 digits
-    $thirdSet = substr($uniqueID, 4, 2); // XX - 3rd set of 2 digits
-    $firstSet = substr($uniqueID, 0, 2); // YY - 1st set of 2 digits
+    $secondSet = substr($uniqueID, 2, 2); // 2nd set of 2 digits
+    $thirdSet = substr($uniqueID, 4, 2); // 3rd set of 2 digits
+    $firstSet = substr($uniqueID, 0, 2); // 1st set of 2 digits
     return $secondSet . $thirdSet . $firstSet;
 }
-
 function createBackup($filePath, $backupDirectory)
 {
     if (!is_dir($backupDirectory)) {
@@ -57,7 +49,6 @@ function createBackup($filePath, $backupDirectory)
         //echo "Failed to create backup for {$filePath}\n";
     }
 }
-
 function createDirectory($path)
 {
     if (!is_dir($path)) {
@@ -66,7 +57,6 @@ function createDirectory($path)
         }
     }
 }
-
 function readCsvData($filePath)
 {
     $csvData = [];
@@ -82,7 +72,6 @@ function readCsvData($filePath)
     }
     return $csvData;
 }
-
 function renameFile($oldFilePath, $newFilePath)
 {
     if (rename($oldFilePath, $newFilePath)) {
@@ -92,7 +81,6 @@ function renameFile($oldFilePath, $newFilePath)
         return false;
     }
 }
-
 function updateDatabase($pdo, $oldFilePath, $newFilePath, $newFileName, $bid)
 {
     try {
@@ -134,15 +122,15 @@ function updateDatabase($pdo, $oldFilePath, $newFilePath, $newFileName, $bid)
         $stmt->bindParam(":createDate", $createDate, PDO::PARAM_STR);
         $stmt->bindParam(":oldFilePath", $oldFilePath, PDO::PARAM_STR);
         $stmt->bindParam(":bid", $bid, PDO::PARAM_STR); // Bind the BID parameter
-
         if ($stmt->execute()) {
             echo "Database updated successfully.\n";
         } else {
-            echo "Database update failed: " . json_encode($stmt->errorInfo()) . "\n";
+            print_r("Database update failed for file $oldFilePath.");
+            print_r($stmt->errorInfo());
         }
     }
     catch (PDOException $e) {
-        echo "Database update error: " . $e->getMessage() . "\n";
+        print_r("Caught Exception: " . $e->getMessage());
     }
 }
 
@@ -178,7 +166,6 @@ function batchRenameCopyMoveAndUpdateDatabase($files, $conn)
         $fileInfo = pathinfo($file);
         $filePrefix = explode('_', $fileInfo['filename'])[0];
 
-        // Fetch the PID based on the VID from the SQL table (REAL_PROP.REALMAST)
         $query = "SELECT REM_ACCT_NUM AS PID FROM REAL_PROP.REALMAST WHERE REM_PID = :vid";
         $stmt = $conn->prepare($query);
         $stmt->bindParam(':vid', $filePrefix, PDO::PARAM_STR);
@@ -192,7 +179,6 @@ function batchRenameCopyMoveAndUpdateDatabase($files, $conn)
             $sequentialNumber = generateUniqueID($newPrefix, $conn);
             $newFileName = "{$newPrefix}.S{$sequentialNumber}.{$fileExtension}";
 
-            // Fetch the BID based on the VID from the SQL table (REAL_PROP.REIMAGES)
             $bidQuery = "SELECT RIM_BID FROM REAL_PROP.REIMAGES WHERE RIM_PID = :vid";
             $stmtBid = $conn->prepare($bidQuery);
             $stmtBid->bindParam(':vid', $filePrefix, PDO::PARAM_STR);

@@ -77,7 +77,7 @@ function processSketchFiles()
                     echo "<br>dupeDir = $destFile";
                     // PUT THIS BACK IN ????
                     //if (FALSE == copy($originFile, $destFile)) {
-                    //    echo "<p>did not copy dupe";
+                    //    //echo "<p>did not copy dupe";
                     //} else{
                     //    unlink($originFile);
                     //}
@@ -123,9 +123,9 @@ function processSketchFiles()
                     }
                     /*  PUT THIS CRAP BACK IN ???
                       if(is_dir($destDir) === false){
-                      echo "<br>destination dir is false";
+                      //echo "<br>destination dir is false";
                       if (FALSE == mkdir($destDir,0777)){
-                      echo "<p>Could not mkdir: $destDir";
+                      //echo "<p>Could not mkdir: $destDir";
                       Debug(1,"Could not mkdir: $destDir");
                       die("ERROR");
                       }
@@ -133,16 +133,16 @@ function processSketchFiles()
                       sleep(1);
                       }
                       if (FALSE == copy($originFile, $destFile)) {
-                      echo "<p>ERROR: Could not copy: $originFile | $destFile";
+                      //echo "<p>ERROR: Could not copy: $originFile | $destFile";
                       Debug(1,"ERROR: Could not copy: $originFile | $destFile");
                       }else{
-                      echo "<br>save new image - ID: $idStr FILE: $destFile SIZE: ".filesize($destFile);
+                      //echo "<br>save new image - ID: $idStr FILE: $destFile SIZE: ".filesize($destFile);
                       Debug(1,"save new image - ID: $idStr FILE: $destFile SIZE: ".filesize($destFile));
                       // delete sketch from dir
                       Debug(1,"unlinking image = $originFile");
                       //unlink($originFile);   // PUT THIS BACK IN ????
                       //unlink("tmp/$image");
-                      echo "<br>unlink file = $originFile";
+                      //echo "<br>unlink file = $originFile";
                       }
                      */
                 } else {
@@ -331,12 +331,12 @@ function processSketchFiles()
       if($isPrimary == TRUE)
       finishIsPrimary($pid,$bid,$imageId,FALSE);
       else
-      //echo "<p>NOT sending to primary function";
+      ////echo "<p>NOT sending to primary function";
       //reorder picts here -- needs a rewrite ???
       ////if(isset($_POST["orderNum"]) && $_POST["orderNum"] > 0)
       //    reorderPhotos($pid,$bid,$imageId,$_POST["orderNum"]);
       //else
-      //    echo "<p>not reordering photos";
+      //    //echo "<p>not reordering photos";
       $parcelPhotoID = $imageId;  // why??? - using in designate photo below
       auditTrailRecord($_SESSION['username'],$pid,$imageId,false,$display_pn,"Saved New Photo");
       }

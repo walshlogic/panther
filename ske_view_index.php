@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en"> <?php
+<html lang="en">
+<?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -42,7 +43,7 @@ $startRecord = $offset + 1;
 $endRecord = $offset + count($files);
 
 if (isset($_SESSION['message'])) {
-    echo '<div class="alert alert-info text-center" style="margin-top:20px;">' . $_SESSION['message'] . '</div>';
+    //echo '<div class="alert alert-info text-center" style="margin-top:20px;">' . $_SESSION['message'] . '</div>';
     unset($_SESSION['message']);
 }
 ?>
@@ -52,7 +53,8 @@ if (isset($_SESSION['message'])) {
         href="./img/favicons/white/favicon.ico"
         type="image/ico"
         sizes="16x16">
-    <!-- places favicon from img/favicons/??color?? onto pages --> <?php require_once './logic/favicon.php'; ?>
+    <!-- places favicon from img/favicons/??color?? onto pages -->
+    <?php require_once './logic/favicon.php'; ?>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible"
         content="IE=edge">
@@ -82,14 +84,16 @@ if (isset($_SESSION['message'])) {
 <body id="page-top">
     <!-- Page Wrapper -->
     <div id="wrapper">
-        <!-- Start: Side Nav Bar --> <?php require "./logic/sidebar.php"; ?>
+        <!-- Start: Side Nav Bar -->
+        <?php require "./logic/sidebar.php"; ?>
         <!-- End: Side Nav Bar -->
         <!-- Content Wrapper -->
         <div id="content-wrapper"
             class="d-flex flex-column">
             <!-- Main Content -->
             <div id="content">
-                <!-- Start: Top Bar --> <?php require "./logic/topbar.php"; ?>
+                <!-- Start: Top Bar -->
+                <?php require "./logic/topbar.php"; ?>
                 <!-- End: Top Bar -->
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
@@ -110,9 +114,10 @@ if (isset($_SESSION['message'])) {
                                             <!-- Previous Page Link -->
                                             <li class="page-item <?php if ($page == 1): ?>disabled<?php endif; ?>">
                                                 <a class="page-link bg-dark text-light font-weight-bolder"
-                                                    href="<?php if ($page > 1): ?>?page=<?php echo $page - 1; ?><?php endif; ?>">PREVIOUS</a>
+                                                    href="<?php if ($page > 1): ?>?page=<?php //echo $page - 1; ?><?php endif; ?>">PREVIOUS</a>
                                             </li>
-                                            <!-- Dynamic Page Links --> <?php
+                                            <!-- Dynamic Page Links -->
+                                            <?php
                                             $start = max($page - 5, 1);
                                             $end = min($page + 4, $totalPages);
                                             if ($page <= 6) {
@@ -123,30 +128,36 @@ if (isset($_SESSION['message'])) {
                                             }
 
                                             for ($i = $start; $i <= $end; $i++):
-                                                ?> <li
-                                                class="page-item <?php if ($i == $page): ?>active<?php endif; ?>">
-                                                <a class="page-link"
-                                                    style="color: <?php echo ($i == $page) ? '#FFFFFF' : '#696969'; ?>;"
-                                                    href="?page=<?php echo $i; ?>"> <?php echo $i; ?> </a>
-                                            </li> <?php endfor; ?>
+                                                ?>
+                                                <li class="page-item <?php if ($i == $page): ?>active<?php endif; ?>">
+                                                    <a class="page-link"
+                                                        style="color: <?php echo ($i == $page) ? '#FFFFFF' : '#696969'; ?>;"
+                                                        href="?page=<?php echo $i; ?>">
+                                                        <?php echo $i; ?>
+                                                    </a>
+                                                </li>
+                                            <?php endfor; ?>
                                             <!-- Next Page Link -->
                                             <li
                                                 class="page-item <?php if ($page == $totalPages): ?>disabled<?php endif; ?>">
                                                 <a class="page-link bg-dark text-light font-weight-bolder"
-                                                    href="<?php if ($page < $totalPages): ?>?page=<?php echo $page + 1; ?><?php endif; ?>">NEXT</a>
+                                                    href="<?php if ($page < $totalPages): ?>?page=<?php //echo $page + 1; ?><?php endif; ?>">NEXT</a>
                                             </li>
                                             <!-- Last Page Link -->
                                             <li
                                                 class="page-item <?php if ($page == $totalPages): ?>disabled<?php endif; ?>">
                                                 <a class="page-link bg-dark text-light font-weight-bolder"
-                                                    href="?page=<?php echo $totalPages; ?>">LAST</a>
+                                                    href="?page=<?php //echo $totalPages; ?>">LAST</a>
                                             </li>
                                             <p
                                                 style="font-size: 1.2em; font-weight: bolder; text-align: center; color: #696969;">
-                                                &nbsp;&nbsp;&nbsp;PAGE <?php echo $page; ?> OF
+                                                &nbsp;&nbsp;&nbsp;PAGE
+                                                <?php echo $page; ?> OF
                                                 <?php echo $totalPages; ?> PAGES &nbsp;&nbsp;|&nbsp;&nbsp;VIEWING
-                                                <?php echo $startRecord; ?> - <?php echo $endRecord; ?> OF
-                                                <?php echo $totalFiles; ?> RECORDS </p>
+                                                <?php echo $startRecord; ?> -
+                                                <?php echo $endRecord; ?> OF
+                                                <?php echo $totalFiles; ?> RECORDS
+                                            </p>
                                         </ul>
                                     </nav>
                                 </div>
@@ -174,7 +185,8 @@ if (isset($_SESSION['message'])) {
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tbody> <?php
+                                    <tbody>
+                                        <?php
                                         foreach ($files as $file) {
                                             $filename = basename($file);
                                             $filesize = filesize($file);
@@ -184,24 +196,25 @@ if (isset($_SESSION['message'])) {
                                             // Unique identifier for modal
                                             $modalID = "modal" . md5($filename);
 
-                                            echo "<tr>";
-                                            echo '<td class="align-middle text-center">';
-                                            echo "<img src='data:image/jpeg;base64,$thumbnail' class='my-auto' style='width:100px; height:100px;'><br><br>";
-                                            echo "</td>";
-                                            echo '<td class="font-weight-bolder text-uppercase align-middle">' . $filename . '</td>';
-                                            echo '<td class="font-weight-bolder text-uppercase align-middle text-center">' . formatSizeUnits($filesize) . '</td>';
-                                            echo '<td class="font-weight-bolder text-uppercase align-middle text-center">' . $filemtime . '</td>';
-                                            echo '<td class="font-weight-bolder text-uppercase align-middle text-center">';
-                                            echo '<button type="button" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#' . $modalID . '">VIEW</button>';
-                                            echo '</td>';
-                                            echo "</tr>";
-
+                                            //echo "<tr>";
+                                            //echo '<td class="align-middle text-center">';
+                                            //echo "<img src='data:image/jpeg;base64,$thumbnail' class='my-auto' style='width:100px; height:100px;'><br><br>";
+                                            //echo "</td>";
+                                            //echo '<td class="font-weight-bolder text-uppercase align-middle">' . $filename . '</td>';
+                                            //echo '<td class="font-weight-bolder text-uppercase align-middle text-center">' . formatSizeUnits($filesize) . '</td>';
+                                            //echo '<td class="font-weight-bolder text-uppercase align-middle text-center">' . $filemtime . '</td>';
+                                            //echo '<td class="font-weight-bolder text-uppercase align-middle text-center">';
+                                            //echo '<button type="button" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#' . $modalID . '">VIEW</button>';
+                                            //echo '</td>';
+                                            //echo "</tr>";
+                                        
                                             // Modal for each file
                                             include('ske_view_info.php');
                                         }
 
 
-                                        ?> </tbody>
+                                        ?>
+                                    </tbody>
                                     <tfoot class="bg-dark">
                                         <tr>
                                             <th class="text-light font-weight-bolder">
@@ -225,8 +238,9 @@ if (isset($_SESSION['message'])) {
                             </div>
                         </div>
                     </div>
-                    <!-- Start: Footer --> <?php require "./logic/footer.php"; ?> <script
-                        src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
+                    <!-- Start: Footer -->
+                    <?php require "./logic/footer.php"; ?>
+                    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
                         integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE"
                         crossorigin="anonymous"></script>
                     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"
@@ -285,27 +299,28 @@ if (isset($_SESSION['message'])) {
         <!-- Page level custom scripts -->
         <!-- <script src="js/demo/datatables-demo.js"></script> -->
         <script>
-        $(document).ready(function() {
-            $('#dataTable').DataTable({
-                "retrieve": true,
-                "paging": false,
-                "pageLength": 50,
-                "lengthChange": false,
-                "lengthMenu": [
-                    [50, 50, 50, 50],
-                    [50, 50, 50, 50]
-                ] // Show 50 rows only
+            $(document).ready(function () {
+                $('#dataTable').DataTable({
+                    "retrieve": true,
+                    "paging": false,
+                    "pageLength": 50,
+                    "lengthChange": false,
+                    "lengthMenu": [
+                        [50, 50, 50, 50],
+                        [50, 50, 50, 50]
+                    ] // Show 50 rows only
+                });
             });
-        });
         </script>
         <style>
-        div.dataTables_length {
-            display: none;
-        }
+            div.dataTables_length {
+                display: none;
+            }
         </style>
 </body>
 
-</html> <?php
+</html>
+<?php
 // convert filesize into readable format using kb, mb, or gb
 function formatSizeUnits($bytes)
 {
