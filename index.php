@@ -113,7 +113,7 @@ require './logic/favicon.php';
                                             <div class="text-xs font-weight-bold text-dark text-uppercase mb-1"> PENDING
                                                 SKETCH FILES TO IMPORT </div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                <?php //echo $cardText; ?>
+                                                <?php echo $cardText; ?>
                                             </div>
                                         </div>
                                         <div class="col-auto">

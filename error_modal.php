@@ -17,13 +17,13 @@
             </div>
             <div class="modal-body bg-primary">
                 <form method="POST"
-                    action="emp_action_view.php?id=<?php //echo $row['id']; ?>">
+                    action="emp_action_view.php?id=<?php echo $row['id']; ?>">
                     <div class="mb-3 row align-self-center">
                         <label class="col-sm-3 col-form-label text-light font-weight-bolder text-right">CURRENT
                             DATE/TIME:</label>
                         <div class="col-sm">
                             <label class="text-light font-weight-bolder text-left text-uppercase">
-                                <?php //echo date("m-d-Y"); ?>
+                                <?php echo date("m-d-Y"); ?>
                             </label>
                         </div>
                     </div>

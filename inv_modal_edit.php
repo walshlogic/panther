@@ -90,7 +90,7 @@
     }
 </style>
 <div class="modal fade"
-    id="edit_inv_item_<?php //echo $row['inv_id']; ?>"
+    id="edit_inv_item_<?php echo $row['inv_id']; ?>"
     tabindex="-1"
     aria-labelledby="ModalLabel"
     aria-hidden="true">
@@ -103,7 +103,7 @@
             </div>
             <div class="modal-body bg-primary">
                 <form method="POST"
-                    action="inv_action_edit.php?inv_id=<?php //echo $row['inv_id']; ?>">
+                    action="inv_action_edit.php?inv_id=<?php echo $row['inv_id']; ?>">
                     <div class="mb-3 row">
                         <label class="col-sm-3 col-form-label text-light font-weight-bolder text-right">STATUS</label>
                         <div class="col-sm">
@@ -115,7 +115,7 @@
                                     name="checkboxStatus"
                                     id="checkboxStatus"
                                     <?php
-                                    //echo $row['inv_item_status'] == true ? "checked" : "";
+                                    echo $row['inv_item_status'] == true ? "checked" : "";
                                     ?>>
                                 <div class="slider round">
                                     <span class="on">ACTIVE</span>
@@ -132,7 +132,7 @@
                                 class="form-control  font-weight-bolder text-uppercase"
                                 style="border-radius: 0.8rem"
                                 name="county_dept_num"
-                                value="<?php //echo $row['county_dept_num']; ?>">
+                                value="<?php echo $row['county_dept_num']; ?>">
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -143,7 +143,7 @@
                                 class="form-control  font-weight-bolder text-uppercase"
                                 style="border-radius: 0.8rem"
                                 name="county_asset_id"
-                                value="<?php //echo $row['county_asset_id']; ?>">
+                                value="<?php echo $row['county_asset_id']; ?>">
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -154,7 +154,7 @@
                                 class="form-control  font-weight-bolder text-uppercase"
                                 style="border-radius: 0.8rem"
                                 name="inv_item_make"
-                                value="<?php //echo $row['inv_item_make']; ?>">
+                                value="<?php echo $row['inv_item_make']; ?>">
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -165,7 +165,7 @@
                                 class="form-control font-weight-bolder text-uppercase"
                                 style="border-radius: 0.8rem "
                                 name="inv_item_model"
-                                value="<?php //echo $row['inv_item_model']; ?>">
+                                value="<?php echo $row['inv_item_model']; ?>">
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -176,7 +176,7 @@
                                 class="form-control  font-weight-bolder text-uppercase"
                                 style="border-radius: 0.8rem"
                                 name="inv_item_sn"
-                                value="<?php //echo $row['inv_item_sn']; ?>">
+                                value="<?php echo $row['inv_item_sn']; ?>">
                         </div>
                     </div>
                     <div class="mb-3 row">

@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 header("location: index.php");
                 exit();
             } else {
-                //echo "Oops! Something went wrong. Please try again later.";
+                echo "Oops! Something went wrong. Please try again later.";
             }
         }
 

@@ -22,7 +22,7 @@ class Connection
             return $this->conn;
         }
         catch (PDOException $e) {
-            //echo "ERROR! Problem with Database Connection (PANTHER Error #DB101): " . $e->getMessage();
+            echo "ERROR! Problem with Database Connection (PANTHER Error #DB101): " . $e->getMessage();
         }
     }
 

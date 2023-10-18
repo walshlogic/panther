@@ -42,7 +42,7 @@ try {
 }
 catch (Exception $e) {
     logMessage("ERROR retrieving highest RIM_ID: " . $e->getMessage());
-    //echo "An error occurred: " . $e->getMessage();
+    echo "An error occurred: " . $e->getMessage();
     die($e->getMessage());
 }
 
@@ -164,7 +164,7 @@ try {
 }
 catch (Exception $e) {
     logMessage("ERROR: " . $e->getMessage());
-    //echo "An error occurred: " . $e->getMessage();
+    echo "An error occurred: " . $e->getMessage();
 }
 finally {
     $conn = null; // close the connection

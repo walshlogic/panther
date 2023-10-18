@@ -19,6 +19,6 @@ if (file_exists($directory) && is_dir($directory)) {
         }
     }
 }
-//echo '<pre>$files:-';
+echo '<pre>$files:-';
 print_r($files);
-//echo '</pre>';
+echo '</pre>';

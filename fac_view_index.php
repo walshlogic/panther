@@ -229,7 +229,7 @@ if (isset($_SESSION['message'])) {
                                             }
                                         }
                                         catch (PDOException $e) {
-                                            //echo "ERROR! Problem with Database Connection (PANTHER Error #DB100): " . $e->getMessage();
+                                            echo "ERROR! Problem with Database Connection (PANTHER Error #DB100): " . $e->getMessage();
                                         }
                                         // close database connection
                                         $database->close();
