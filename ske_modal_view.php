@@ -18,7 +18,7 @@ require_once 'ske_view_index.php';
             <div id="printableContent">
                 <div class="modal-header">
                     <h5 class="modal-title text-dark font-weight-bolder"
-                        id="ModalLabel"> SKETCH MANAGER | SKETCH VIEWER</h5>
+                        id="ModalLabel"> SKETCH MANAGER | SKETCH VIEWER </h5>
                 </div>
                 <div class="modal-body bg-primary">
                     <form method="POST"
@@ -32,7 +32,9 @@ require_once 'ske_view_index.php';
                         </div>
                         <br>
                         <p class="text-center text-light text-uppercase font-weight-bolder"
-                            style="font-size: 24px"> <?php echo 'SKETCH FILE: ' . $filename ?> </p>
+                            style="font-size: 24px">
+                            <?php echo 'SKETCH FILE: ' . $filename ?>
+                        </p>
                         <?php $tempName = $filename ?>
                     </form>
                 </div>
