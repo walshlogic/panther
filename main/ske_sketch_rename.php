@@ -1,11 +1,11 @@
 <?php
 
 // Turn on error reporting for debugging
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+//ini_set('display_errors', 1);
+//ini_set('display_startup_errors', 1);
+//error_reporting(E_ALL);
 
-include 'db/dbconn_vision.php';
+include 'logic/db/dbconn_vision.php';
 include 'config/constants.php';
 include 'lib/file_operations.php';
 include 'lib/csv_operations.php';
@@ -22,7 +22,7 @@ $dbConnection = new Connection();
 $conn = $dbConnection->getConnection(); // Updated the method name here
 
 if (!$conn) {
-    logMessage("Failed to establish database connection.");
+    //logMessage("Failed to establish database connection.");
     die("Database connection failed!");
 }
 
@@ -41,9 +41,9 @@ try {
     $startNumericCounter = strval($result['max_id'] + 1); // Variable name updated to camelCase
 }
 catch (Exception $e) {
-    logMessage("ERROR retrieving highest RIM_ID: " . $e->getMessage());
-    echo "An error occurred: " . $e->getMessage();
-    die($e->getMessage());
+    //logMessage("ERROR retrieving highest RIM_ID: " . $e->getMessage());
+    //echo "An error occurred: " . $e->getMessage();
+    //die($e->getMessage());
 }
 
 function logMessage($message, $logFilePath = './logs/log.txt')
@@ -83,10 +83,10 @@ function generateNewFileName($csvData, $fileInfo, &$numericCounter)
 function renameFile($oldFilePath, $newFilePath)
 {
     if (rename($oldFilePath, $newFilePath)) {
-        logMessage("File '" . basename($oldFilePath) . "' renamed to '" . basename($newFilePath) . "'");
+        //logMessage("File '" . basename($oldFilePath) . "' renamed to '" . basename($newFilePath) . "'");
         return true;
     } else {
-        logMessage("Failed to rename file '" . basename($oldFilePath) . "'");
+        //logMessage("Failed to rename file '" . basename($oldFilePath) . "'");
         return false;
     }
 }
@@ -95,10 +95,10 @@ function renameFile($oldFilePath, $newFilePath)
 function copyFileToDestination($srcPath, $destPath)
 {
     if (copy($srcPath, $destPath)) {
-        logMessage("File '" . basename($srcPath) . "' copied to '" . $destPath . "'");
+        //logMessage("File '" . basename($srcPath) . "' copied to '" . $destPath . "'");
         return true;
     } else {
-        logMessage("Failed to copy file '" . basename($srcPath) . "' to '" . $destPath . "'");
+        //logMessage("Failed to copy file '" . basename($srcPath) . "' to '" . $destPath . "'");
         return false;
     }
 }
@@ -130,7 +130,7 @@ function batchRenameCopyMoveAndUpdateCsv($files, $csvData, $startNumericCounter)
                 if (!file_exists($finalFilePath)) {
                     copyFileToDestination($newFilePath, $finalFilePath);
                 } else {
-                    logMessage("File '{$newFileName}' already exists in the final folder.");
+                    //logMessage("File '{$newFileName}' already exists in the final folder.");
                 }
 
                 $numericCounter++;
@@ -163,8 +163,8 @@ try {
     // Process unique folder names if needed
 }
 catch (Exception $e) {
-    logMessage("ERROR: " . $e->getMessage());
-    echo "An error occurred: " . $e->getMessage();
+    //logMessage("ERROR: " . $e->getMessage());
+    //echo "An error occurred: " . $e->getMessage();
 }
 finally {
     $conn = null; // close the connection

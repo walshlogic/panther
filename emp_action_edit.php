@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once('./db/dbconn.php');
+include_once('./logic/dbconn.php');
 if (isset($_POST['edit'])) {
     $database = new Connection();
     $db = $database->open();

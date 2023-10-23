@@ -47,26 +47,6 @@ function generateFolderName($uniqueID)
     return $secondSet . $thirdSet . $firstSet;
 }
 
-function createBackup($filePath, $backupDirectory)
-{
-    if (!is_dir($backupDirectory)) {
-        createDirectory($backupDirectory);
-    }
-    $backupFilePath = $backupDirectory . basename($filePath);
-    if (!copy($filePath, $backupFilePath)) {
-        //echo "Failed to create backup for {$filePath}\n";
-    }
-}
-
-function createDirectory($path)
-{
-    if (!is_dir($path)) {
-        if (!mkdir($path, 0755, true)) {
-            //echo "Failed to create directory {$path}\n";
-        }
-    }
-}
-
 function readCsvData($filePath)
 {
     $csvData = [];
@@ -81,6 +61,15 @@ function readCsvData($filePath)
         //echo "Failed to open CSV file at {$filePath}\n";
     }
     return $csvData;
+}
+
+function createDirectory($path)
+{
+    if (!is_dir($path)) {
+        if (!mkdir($path, 0755, true)) {
+            //echo "Failed to create directory {$path}\n";
+        }
+    }
 }
 
 function renameFile($oldFilePath, $newFilePath)
@@ -117,12 +106,12 @@ function updateDatabase($pdo, $oldFilePath, $newFilePath, $newFileName, $bid)
         $createDate = $lastUpdate; // Assuming the create date to be the same as the last update
 
         // Logging for debugging
-        echo "Attempting to update Database.\n";
-        echo "SQL Query: $sql\n";
-        echo "Old File Path: $oldFilePath\n";
-        echo "New File Path: $newFilePath\n";
-        echo "New File Name: $newFileName\n";
-        echo "BID: $bid\n";
+        //echo "Attempting to update Database.\n";
+        //echo "SQL Query: $sql\n";
+        //echo "Old File Path: $oldFilePath\n";
+        //echo "New File Path: $newFilePath\n";
+        //echo "New File Name: $newFileName\n";
+        //echo "BID: $bid\n";
 
         $stmt->bindParam(":newFilePath", $newFilePath, PDO::PARAM_STR);
         $stmt->bindParam(":lastUpdate", $lastUpdate, PDO::PARAM_STR);
@@ -136,13 +125,13 @@ function updateDatabase($pdo, $oldFilePath, $newFilePath, $newFileName, $bid)
         $stmt->bindParam(":bid", $bid, PDO::PARAM_STR); // Bind the BID parameter
 
         if ($stmt->execute()) {
-            echo "Database updated successfully.\n";
+            //echo "Database updated successfully.\n";
         } else {
-            echo "Database update failed: " . json_encode($stmt->errorInfo()) . "\n";
+            //echo "Database update failed: " . json_encode($stmt->errorInfo()) . "\n";
         }
     }
     catch (PDOException $e) {
-        echo "Database update error: " . $e->getMessage() . "\n";
+        //echo "Database update error: " . $e->getMessage() . "\n";
     }
 }
 
@@ -166,26 +155,22 @@ function batchRenameCopyMoveAndUpdateDatabase($files, $conn)
 {
     global $prefixCounter;
 
-    // Define log file path
-    $logFilePath = '/mnt/paphotos/photos/zPantherErrorLog/Sketchdebug_log.txt';
-
     $updatesForReImages = [];
 
     foreach ($files as $file) {
-        // Logging the current file being processed
-        file_put_contents($logFilePath, "Processing file: " . $file . PHP_EOL, FILE_APPEND);
-
         $fileInfo = pathinfo($file);
         $filePrefix = explode('_', $fileInfo['filename'])[0];
 
-        // Fetch the PID based on the VID from the SQL table (REAL_PROP.REALMAST)
-        $query = "SELECT REM_ACCT_NUM AS PID FROM REAL_PROP.REALMAST WHERE REM_PID = :vid";
+        // Fetch the PID (REM_PID) based on the VID from the SQL table (REAL_PROP.REALMAST)
+        $query = "SELECT REM_PID, REM_ACCT_NUM AS PID FROM REAL_PROP.REALMAST WHERE REM_PID = :vid";
         $stmt = $conn->prepare($query);
         $stmt->bindParam(':vid', $filePrefix, PDO::PARAM_STR);
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($row && isset($row['PID'])) {
+            $REM_PID = $row['REM_PID']; // Store REM_PID
+
             $newPrefix = $row['PID'];
             $fileExtension = $fileInfo['extension'];
 
@@ -215,29 +200,59 @@ function batchRenameCopyMoveAndUpdateDatabase($files, $conn)
                     'newFilePath' => $newFilePath,
                     'newFileName' => $newFileName,
                     'newBid' => $newBid,
+                    'REM_PID' => $REM_PID,
                 ];
-
-                // Logging the new file name
-                file_put_contents($logFilePath, "Processed file: " . $file . " with new file name: " . $newFileName . PHP_EOL, FILE_APPEND);
-            } else {
-                // Logging if no matching BID found
-                file_put_contents($logFilePath, "No matching BID found for VID: " . $filePrefix . PHP_EOL, FILE_APPEND);
             }
-        } else {
-            // Logging if no matching PID found
-            file_put_contents($logFilePath, "No matching PID found for VID: " . $filePrefix . PHP_EOL, FILE_APPEND);
         }
     }
 
-    // Logging the completion of batch processing
-    file_put_contents($logFilePath, "Completed batch processing. Total files processed: " . count($files) . PHP_EOL, FILE_APPEND);
-
     // Now that we have gathered all updates, update REAL_PROP.REIMAGES table
     foreach ($updatesForReImages as $update) {
-        updateDatabase($conn, $update['oldFilePath'], $update['newFilePath'], $update['newFileName'], $update['newBid']);
+        updateREAL_MAST($conn, $update['newFileName'], $update['REM_PID'], $update['newBid']); // Use REM_PID
     }
 
     return $updatesForReImages;
+}
+
+//new function to try to fix issue with updating database (10/20/2023 after working with James)
+function updateREAL_MAST($conn, $newFileName, $RIM_PID, $newBid)
+{
+    $myRIM_MNC = 11054;
+    //$myRIM_PID = ''; // You need to set this to the appropriate value
+    //$myRIM_BID = ''; // You need to set this to the appropriate value
+    $myRIM_TYPE = 'Sketch';
+    $myRIM_SUBTYPE = 'JPG';
+    $myRIM_DESC = "Sketch Upload";
+    $myRIM_FILE_NAME = $newFileName;
+    $myRIM_INTRNL_NOTE = 'Panther System';
+    $myRIM_IS_PPROP = 0;
+    $myRIM_ISPRIMARY = 0;
+    $myRIM_CREATE_DATE = date('Y-m-d H:i:s.v');
+    $myRIM_LAST_UPDATE = date('Y-m-d H:i:s.v');
+    $myRIM_ID = ''; // You need to set this to the appropriate value
+
+    $updateQuery = "UPDATE REAL_PROP.REIMAGES SET RIM_MNC = :RIM_MNC, RIM_PID = :RIM_PID, RIM_BID = :RIM_BID, RIM_TYPE = :RIM_TYPE, RIM_SUBTYPE = :RIM_SUBTYPE, RIM_DESC = :RIM_DESC, RIM_FILE_NAME = :RIM_FILE_NAME, RIM_INTRNL_NOTE = :RIM_INTRNL_NOTE, RIM_IS_PPROP = :RIM_IS_PPROP, RIM_ISPRIMARY = :RIM_ISPRIMARY, RIM_CREATE_DATE = :RIM_CREATE_DATE, RIM_LAST_UPDATE = :RIM_LAST_UPDATE, RIM_ID = :RIM_ID";
+
+    // Prepare the update statement
+    $stmt = $conn->prepare($updateQuery);
+
+    // Bind values to placeholders
+    $stmt->bindParam(':RIM_MNC', $myRIM_MNC, PDO::PARAM_INT);
+    $stmt->bindParam(':RIM_PID', $RIM_PID, PDO::PARAM_STR);
+    $stmt->bindParam(':RIM_BID', $newBid, PDO::PARAM_STR);
+    $stmt->bindParam(':RIM_TYPE', $myRIM_TYPE, PDO::PARAM_STR);
+    $stmt->bindParam(':RIM_SUBTYPE', $myRIM_SUBTYPE, PDO::PARAM_STR);
+    $stmt->bindParam(':RIM_DESC', $myRIM_DESC, PDO::PARAM_STR);
+    $stmt->bindParam(':RIM_FILE_NAME', $myRIM_FILE_NAME, PDO::PARAM_STR);
+    $stmt->bindParam(':RIM_INTRNL_NOTE', $myRIM_INTRNL_NOTE, PDO::PARAM_STR);
+    $stmt->bindParam(':RIM_IS_PPROP', $myRIM_IS_PPROP, PDO::PARAM_INT);
+    $stmt->bindParam(':RIM_ISPRIMARY', $myRIM_ISPRIMARY, PDO::PARAM_INT);
+    $stmt->bindParam(':RIM_CREATE_DATE', $myRIM_CREATE_DATE, PDO::PARAM_STR);
+    $stmt->bindParam(':RIM_LAST_UPDATE', $myRIM_LAST_UPDATE, PDO::PARAM_STR);
+    $stmt->bindParam(':RIM_ID', $myRIM_ID, PDO::PARAM_STR);
+
+    // Execute the update
+    $stmt->execute();
 }
 
 

@@ -1,5 +1,5 @@
 <?php
-require './db/dbconn.php';
+require './logic/dbconn.php';
 // $start and $display essential for pagination
 $database = new Connection();
 $db = $database->open();

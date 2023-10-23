@@ -1,5 +1,5 @@
 <?php
-require './db/dbconn.php';
+require './logic/dbconn.php';
 require 'util.php';
 // screen name text and button information to display top of this page
 $screenTitle = "VISION+ | QUICK VIEW";

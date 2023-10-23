@@ -3,7 +3,7 @@
 // add inventory item
 // \/\/\/\/\/\/\/\/
 session_start();
-include_once './db/dbconn.php';
+include_once './logic/dbconn.php';
 if (isset($_POST['add'])) {
     $database = new Connection();
     $db = $database->open();

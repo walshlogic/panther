@@ -150,7 +150,7 @@ if (isset($_SESSION['message'])) {
                                     </tfoot>
                                     <tbody>
                                         <?php
-                                        include_once('./db/dbconn.php');
+                                        include_once('./logic/dbconn.php');
                                         $database = new Connection();
                                         $db = $database->open();
                                         try {

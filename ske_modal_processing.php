@@ -64,41 +64,47 @@
         </div>
     </div>
     <script>
-        $(document).ready(function () {
-            $(".btn-process").click(function () {
-                // Show loading gif
-                $("#loadingGif").show();
-                // Start AJAX request to initiate processing
-                $.ajax({
-                    url: 'ske_sketch_rename.php',
-                    method: 'POST',
-                    data: {},
-                    success: function (response) {
-                        // Parse JSON response
+    $(document).ready(function() {
+        $(".btn-process").click(function() {
+            // Show loading gif
+            $("#loadingGif").show();
+            // Start AJAX request to initiate processing
+            $.ajax({
+                url: 'ske_sketch_rename.php',
+                method: 'POST',
+                data: {},
+                success: function(response) {
+                    // Parse JSON response
+                    try {
                         const jsonResponse = JSON.parse(response);
-                        // Hide loading gif
-                        $("#loadingGif").hide();
-                        if (jsonResponse.status === 'error') {
-                            // Show an error message
-                            $("#processComplete").text(jsonResponse.message).show();
-                        } else {
-                            // Show the process complete message
-                            $("#processComplete").text("Process Completed").show();
-                        }
-                    },
-                    error: function () {
-                        // Hide loading gif
-                        $("#loadingGif").hide();
-                        // Show an error message
-                        $("#processComplete").text("An unexpected error occurred.").show();
+                        // Rest of your code for handling the JSON response
+                    } catch (error) {
+                        console.error("JSON parsing error:", error);
+                        // Handle the parsing error here, if needed.
                     }
-                });
-            });
-            $(".btn-cancel").click(function () {
-                // Refresh the parent page
-                location.reload();
+                    // Hide loading gif
+                    $("#loadingGif").hide();
+                    if (jsonResponse.status === 'error') {
+                        // Show an error message
+                        $("#processComplete").text(jsonResponse.message).show();
+                    } else {
+                        // Show the process complete message
+                        $("#processComplete").text("Process Completed").show();
+                    }
+                },
+                error: function() {
+                    // Hide loading gif
+                    $("#loadingGif").hide();
+                    // Show an error message
+                    $("#processComplete").text("An unexpected error occurred.").show();
+                }
             });
         });
+        $(".btn-cancel").click(function() {
+            // Refresh the parent page
+            location.reload();
+        });
+    });
     </script>
 </body>
 

@@ -1,5 +1,5 @@
 <?php
-require './db/dbconn_vision.php';
+require './logic/db/dbconn_vision.php';
 require 'util.php';
 // screen name text and button information to display top of this page
 $screenTitle = "VISION+ | JOB STATUS";
