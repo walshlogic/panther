@@ -135,7 +135,6 @@ function updateDatabase($pdo, $oldFilePath, $newFilePath, $newFileName, $bid)
     }
 }
 
-
 function updateRealMastTable($conn, $vid, $newBid)
 {
     try {
@@ -150,7 +149,6 @@ function updateRealMastTable($conn, $vid, $newBid)
         //echo "Database update error: " . $e->getMessage() . "\n";
     }
 }
-
 function batchRenameCopyMoveAndUpdateDatabase($files, $conn)
 {
     global $prefixCounter;
@@ -195,46 +193,67 @@ function batchRenameCopyMoveAndUpdateDatabase($files, $conn)
 
                 renameFile($file, $newFilePath);
 
+                // Insert into REAL_PROP.REIMAGES
+                insertRealMast_Reimages($conn, $newFileName, $REM_PID, $newBid, $sequentialNumber);
+
+                $uniqueID = generateUniqueID($newPrefix, $conn);
+
+                // Insert into COMMON.REIMAGESIMAGES
+                insertCommonReimages($conn, $newFileName, $sequentialNumber, $newFilePath, $uniqueID);
+
                 $updatesForReImages[] = [
                     'oldFilePath' => $file,
                     'newFilePath' => $newFilePath,
                     'newFileName' => $newFileName,
                     'newBid' => $newBid,
                     'REM_PID' => $REM_PID,
+                    'REM_ID' => $sequentialNumber,
                 ];
             }
         }
     }
 
-    // Now that we have gathered all updates, update REAL_PROP.REIMAGES table
-    foreach ($updatesForReImages as $update) {
-        updateREAL_MAST($conn, $update['newFileName'], $update['REM_PID'], $update['newBid']); // Use REM_PID
-    }
-
     return $updatesForReImages;
 }
 
-//new function to try to fix issue with updating database (10/20/2023 after working with James)
-function updateREAL_MAST($conn, $newFileName, $RIM_PID, $newBid)
+function insertRealMast_Reimages($conn, $newFileName, $RIM_PID, $newBid, $REM_ID)
 {
+    // Calculate the next RIM_LINE_NUM
+    $highestLineNumQuery = "SELECT MAX(RIM_LINE_NUM) AS max_line_num FROM REAL_PROP.REIMAGES WHERE RIM_PID = :RIM_PID AND RIM_BID = :RIM_BID";
+    $stmtHighestLineNum = $conn->prepare($highestLineNumQuery);
+    $stmtHighestLineNum->bindParam(':RIM_PID', $RIM_PID, PDO::PARAM_STR);
+    $stmtHighestLineNum->bindParam(':RIM_BID', $newBid, PDO::PARAM_STR);
+    $stmtHighestLineNum->execute();
+    $rowHighestLineNum = $stmtHighestLineNum->fetch(PDO::FETCH_ASSOC);
+
+    if ($rowHighestLineNum && isset($rowHighestLineNum['max_line_num'])) {
+        $nextRimLineNum = $rowHighestLineNum['max_line_num'] + 1;
+    } else {
+        // If no existing records, start with 1
+        $nextRimLineNum = 1;
+    }
+
+    // Use the $newFileName parameter directly in your SQL query
     $myRIM_MNC = 11054;
-    //$myRIM_PID = ''; // You need to set this to the appropriate value
-    //$myRIM_BID = ''; // You need to set this to the appropriate value
-    $myRIM_TYPE = 'Sketch';
+    $myRIM_TYPE = 'SKETCH';
     $myRIM_SUBTYPE = 'JPG';
-    $myRIM_DESC = "Sketch Upload";
-    $myRIM_FILE_NAME = $newFileName;
-    $myRIM_INTRNL_NOTE = 'Panther System';
+    $myRIM_DESC = "SKETCH UPLOAD";
+    $myRIM_FILE_NAME = $newFileName; // Use the parameter directly
+    $myRIM_INTRNL_NOTE = 'PANTHER SYSTEM';
     $myRIM_IS_PPROP = 0;
     $myRIM_ISPRIMARY = 0;
+    $myRIM_STATUS_DATE = date('Y-m-d H:i:s.v');
+    $myRIM_IMG_DATE = date('Y-m-d H:i:s.v');
     $myRIM_CREATE_DATE = date('Y-m-d H:i:s.v');
     $myRIM_LAST_UPDATE = date('Y-m-d H:i:s.v');
-    $myRIM_ID = ''; // You need to set this to the appropriate value
 
-    $updateQuery = "UPDATE REAL_PROP.REIMAGES SET RIM_MNC = :RIM_MNC, RIM_PID = :RIM_PID, RIM_BID = :RIM_BID, RIM_TYPE = :RIM_TYPE, RIM_SUBTYPE = :RIM_SUBTYPE, RIM_DESC = :RIM_DESC, RIM_FILE_NAME = :RIM_FILE_NAME, RIM_INTRNL_NOTE = :RIM_INTRNL_NOTE, RIM_IS_PPROP = :RIM_IS_PPROP, RIM_ISPRIMARY = :RIM_ISPRIMARY, RIM_CREATE_DATE = :RIM_CREATE_DATE, RIM_LAST_UPDATE = :RIM_LAST_UPDATE, RIM_ID = :RIM_ID";
+    $insertQuery = "INSERT INTO REAL_PROP.REIMAGES 
+                   (RIM_MNC, RIM_PID, RIM_BID, RIM_TYPE, RIM_SUBTYPE, RIM_DESC, RIM_FILE_NAME, RIM_INTRNL_NOTE, RIM_IS_PPROP, RIM_ISPRIMARY, RIM_STATUS_DATE, RIM_IMG_DATE, RIM_CREATE_DATE, RIM_LAST_UPDATE, RIM_ID, RIM_LINE_NUM) 
+                   VALUES 
+                   (:RIM_MNC, :RIM_PID, :RIM_BID, :RIM_TYPE, :RIM_SUBTYPE, :RIM_DESC, :RIM_FILE_NAME, :RIM_INTRNL_NOTE, :RIM_IS_PPROP, :RIM_ISPRIMARY, :RIM_STATUS_DATE, :RIM_IMG_DATE, :RIM_CREATE_DATE, :RIM_LAST_UPDATE, :RIM_ID, :RIM_LINE_NUM)";
 
-    // Prepare the update statement
-    $stmt = $conn->prepare($updateQuery);
+    // Prepare the insert statement
+    $stmt = $conn->prepare($insertQuery);
 
     // Bind values to placeholders
     $stmt->bindParam(':RIM_MNC', $myRIM_MNC, PDO::PARAM_INT);
@@ -247,13 +266,59 @@ function updateREAL_MAST($conn, $newFileName, $RIM_PID, $newBid)
     $stmt->bindParam(':RIM_INTRNL_NOTE', $myRIM_INTRNL_NOTE, PDO::PARAM_STR);
     $stmt->bindParam(':RIM_IS_PPROP', $myRIM_IS_PPROP, PDO::PARAM_INT);
     $stmt->bindParam(':RIM_ISPRIMARY', $myRIM_ISPRIMARY, PDO::PARAM_INT);
+    $stmt->bindParam(':RIM_STATUS_DATE', $myRIM_STATUS_DATE, PDO::PARAM_STR);
+    $stmt->bindParam(':RIM_IMG_DATE', $myRIM_IMG_DATE, PDO::PARAM_STR);
     $stmt->bindParam(':RIM_CREATE_DATE', $myRIM_CREATE_DATE, PDO::PARAM_STR);
     $stmt->bindParam(':RIM_LAST_UPDATE', $myRIM_LAST_UPDATE, PDO::PARAM_STR);
-    $stmt->bindParam(':RIM_ID', $myRIM_ID, PDO::PARAM_STR);
+    $stmt->bindParam(':RIM_ID', $REM_ID, PDO::PARAM_INT);
+    $stmt->bindParam(':RIM_LINE_NUM', $nextRimLineNum, PDO::PARAM_INT);
 
-    // Execute the update
+    // Execute the insert
     $stmt->execute();
 }
+function insertCommonReimages($conn, $newFileName, $REM_ID, $newFilePath, $uniqueID)
+{
+    $myRIM_MNC = 11054;
+    $myRIM_IMAGE = null;
+    $myRIM_LOCATION_TYPE = 'F';
+    $myRIM_CREATE_DATE = date('Y-m-d H:i:s.v');
+    $myRIM_LAST_UPDATE = date('Y-m-d H:i:s.v');
+    $myRIM_ISPRIMARY = 0;
 
+    // Extract the folder name based on the 2nd, 3rd, and 1st set of 2 digits in the new file name
+    $folderName = substr($newFileName, 3, 2) . substr($newFileName, 6, 2) . substr($newFileName, 0, 2);
+
+    // Concatenate the directory name and the new file name with a directory separator
+    $myRIM_LOCATION = $folderName . DIRECTORY_SEPARATOR . $newFileName;
+
+    // Log the values to the server's error log for verification
+    error_log('myRIM_MNC: ' . $myRIM_MNC);
+    error_log('myRIM_IMAGE: ' . $myRIM_IMAGE);
+    error_log('myRIM_LOCATION: ' . $myRIM_LOCATION);
+    error_log('myRIM_LOCATION_TYPE: ' . $myRIM_LOCATION_TYPE);
+    error_log('myRIM_CREATE_DATE: ' . $myRIM_CREATE_DATE);
+    error_log('myRIM_LAST_UPDATE: ' . $myRIM_LAST_UPDATE);
+    error_log('myRIM_ISPRIMARY: ' . $myRIM_ISPRIMARY);
+    error_log('newFilePath: ' . $newFilePath);
+    error_log('uniqueID: ' . $uniqueID);
+
+    $insertQuery = "INSERT INTO COMMON.REIMAGESIMAGE 
+                   (RIM_MNC, RIM_ID, RIM_IMAGE, RIM_LOCATION, RIM_LOCATION_TYPE, RIM_CREATE_DATE, RIM_LAST_UPDATE, RIM_ISPRIMARY) 
+                   VALUES 
+                   (:RIM_MNC, :RIM_ID, :RIM_IMAGE, :RIM_LOCATION, :RIM_LOCATION_TYPE, :RIM_CREATE_DATE, :RIM_LAST_UPDATE, :RIM_ISPRIMARY)";
+
+    $stmt = $conn->prepare($insertQuery);
+
+    $stmt->bindParam(':RIM_MNC', $myRIM_MNC, PDO::PARAM_INT);
+    $stmt->bindParam(':RIM_ID', $REM_ID, PDO::PARAM_STR);
+    $stmt->bindParam(':RIM_IMAGE', $myRIM_IMAGE, PDO::PARAM_STR);
+    $stmt->bindParam(':RIM_LOCATION', $myRIM_LOCATION, PDO::PARAM_STR);
+    $stmt->bindParam(':RIM_LOCATION_TYPE', $myRIM_LOCATION_TYPE, PDO::PARAM_STR);
+    $stmt->bindParam(':RIM_CREATE_DATE', $myRIM_CREATE_DATE, PDO::PARAM_STR);
+    $stmt->bindParam(':RIM_LAST_UPDATE', $myRIM_LAST_UPDATE, PDO::PARAM_STR);
+    $stmt->bindParam(':RIM_ISPRIMARY', $myRIM_ISPRIMARY, PDO::PARAM_INT);
+
+    $stmt->execute();
+}
 
 ?>

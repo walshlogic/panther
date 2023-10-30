@@ -88,6 +88,8 @@ if ($tempfilecount > 0) {
         rel="stylesheet">
     <link href="css/sb-admin-2.min.css"
         rel="stylesheet">
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript"
         src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
         integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE"
@@ -132,6 +134,8 @@ if ($tempfilecount > 0) {
                         </div>
                     </div>
                     <br>
+                    <!-- button to view sketch files -->
+                    <!-- opens ske_view_index.php screen -->
                     <input type="button"
                         class="btn bg-secondary font-weight-bolder text-light"
                         style="font-size: 24px; width:34.5rem"
@@ -141,6 +145,8 @@ if ($tempfilecount > 0) {
                         onClick="<?php echo ($tempfilecount != 0) ? "parent.location='ske_view_index.php'" : ""; ?>"
                         <?php echo ($tempfilecount == 0) ? 'disabled' : ''; ?> />
                     <br><br>
+                    <!-- button to process sketch files -->
+                    <!-- opens the SketchProcessingModal -->
                     <input type="button"
                         class="btn btn-danger font-weight-bolder"
                         style="font-size: 24px; width:34.5rem"
@@ -193,6 +199,14 @@ if ($tempfilecount > 0) {
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="js/sb-admin-2.min.js"></script>
+    <script>
+    // JavaScript code for handling the modal
+    $(document).ready(function() {
+        $('#sketch_button_process').on('click', function() {
+            $('#SketchProcessingModal').modal('show');
+        });
+    });
+    </script>
 </body>
 
 </html>
