@@ -29,4 +29,4 @@ if (isset($_POST['edit'])) {
 } else {
     $_SESSION['message'] = 'All Fields Required!';
 }
-header('location: emp_view_index.php');
+header('location: app_view_index.php');

@@ -72,16 +72,6 @@ function createDirectory($path)
     }
 }
 
-function renameFile($oldFilePath, $newFilePath)
-{
-    if (rename($oldFilePath, $newFilePath)) {
-        return true;
-    } else {
-        //echo "Failed to rename {$oldFilePath} to {$newFilePath}\n";
-        return false;
-    }
-}
-
 function updateDatabase($pdo, $oldFilePath, $newFilePath, $newFileName, $bid)
 {
     try {
@@ -103,15 +93,7 @@ function updateDatabase($pdo, $oldFilePath, $newFilePath, $newFileName, $bid)
         $description = "PANTHER SKETCH UPLOAD";
         $internalNote = "Panther Upload";
         $isPrimary = "0";
-        $createDate = $lastUpdate; // Assuming the create date to be the same as the last update
-
-        // Logging for debugging
-        //echo "Attempting to update Database.\n";
-        //echo "SQL Query: $sql\n";
-        //echo "Old File Path: $oldFilePath\n";
-        //echo "New File Path: $newFilePath\n";
-        //echo "New File Name: $newFileName\n";
-        //echo "BID: $bid\n";
+        $createDate = $lastUpdate;
 
         $stmt->bindParam(":newFilePath", $newFilePath, PDO::PARAM_STR);
         $stmt->bindParam(":lastUpdate", $lastUpdate, PDO::PARAM_STR);
@@ -172,27 +154,19 @@ function batchRenameCopyMoveAndUpdateDatabase($files, $conn)
             $newPrefix = $row['PID'];
             $fileExtension = $fileInfo['extension'];
 
+            $newBid = extractBidFromFilename($fileInfo['filename']); // Extract the BID from the filename
+
             $sequentialNumber = generateUniqueID($newPrefix, $conn);
             $newFileName = "{$newPrefix}.S{$sequentialNumber}.{$fileExtension}";
 
-            // Fetch the BID based on the VID from the SQL table (REAL_PROP.REIMAGES)
-            $bidQuery = "SELECT RIM_BID FROM REAL_PROP.REIMAGES WHERE RIM_PID = :vid";
-            $stmtBid = $conn->prepare($bidQuery);
-            $stmtBid->bindParam(':vid', $filePrefix, PDO::PARAM_STR);
-            $stmtBid->execute();
-            $rowBid = $stmtBid->fetch(PDO::FETCH_ASSOC);
+            $folderName = substr($newPrefix, 3, 2) . substr($newPrefix, 6, 2) . substr($newPrefix, 0, 2);
+            $folderName = FINAL_DIRECTORY_PATH . $folderName;
+            createDirectory($folderName);
 
-            if ($rowBid && isset($rowBid['RIM_BID'])) {
-                $newBid = $rowBid['RIM_BID'];
+            $newFilePath = $folderName . '/' . $newFileName;
 
-                $folderName = substr($newPrefix, 3, 2) . substr($newPrefix, 6, 2) . substr($newPrefix, 0, 2);
-                $folderName = FINAL_DIRECTORY_PATH . $folderName;
-                createDirectory($folderName);
-
-                $newFilePath = $folderName . '/' . $newFileName;
-
-                renameFile($file, $newFilePath);
-
+            // Move the file to the new directory with the new name
+            if (renameFile($file, $newFilePath)) {
                 // Insert into REAL_PROP.REIMAGES
                 insertRealMast_Reimages($conn, $newFileName, $REM_PID, $newBid, $sequentialNumber);
 
@@ -214,6 +188,47 @@ function batchRenameCopyMoveAndUpdateDatabase($files, $conn)
     }
 
     return $updatesForReImages;
+}
+
+// Function to extract BID from the filename
+function extractBidFromFilename($filename)
+{
+    // You may need to implement custom logic to extract the BID based on your file naming conventions
+    // This function assumes that the BID is the second part of the filename separated by an underscore
+    $parts = explode('_', $filename);
+    if (count($parts) > 1) {
+        return $parts[1];
+    } else {
+        // Handle the case when the filename doesn't contain a second part
+        return null;
+    }
+}
+
+// Function to calculate newBid based on your logic
+function calculateNewBid($filePrefix)
+{
+    // Implement your logic to determine the correct newBid here
+    // For example, extract the second number from the filePrefix
+    $parts = explode('_', $filePrefix);
+    if (count($parts) > 1) {
+        return $parts[1];
+    } else {
+        // Handle the case when the filePrefix doesn't contain a second number
+        return null;
+    }
+}
+
+// Updated function to move and rename files
+function renameFile($oldFilePath, $newFilePath)
+{
+    // Use rename() function to move and rename the file
+    if (rename($oldFilePath, $newFilePath)) {
+        return true;
+    } else {
+        // Handle any errors if the rename fails
+        // You can add error handling here to log or handle the failure
+        return false;
+    }
 }
 
 function insertRealMast_Reimages($conn, $newFileName, $RIM_PID, $newBid, $REM_ID)
@@ -321,4 +336,20 @@ function insertCommonReimages($conn, $newFileName, $REM_ID, $newFilePath, $uniqu
     $stmt->execute();
 }
 
+function countParcelRecords($conn)
+{
+    $myREM_ACCT_NUM = '';
+
+    $query = "SELECT COUNT(REM_ACCT_NUM) AS TotalRecords FROM [V7_VISION].[REAL_PROP].[REALMAST]";
+    $result = $conn->query($query);
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $tempparcelcount = $row["TotalRecords"];
+        }
+    } else {
+        $tempparcelcount = 0; // Set a default value if no records are found
+    }
+    $conn->close();
+}
 ?>

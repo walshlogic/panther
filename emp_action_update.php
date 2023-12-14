@@ -1,5 +1,4 @@
-<?php require_once './logic/favicon.php'; ?>
-<?php
+<?php require_once './logic/favicon.php'; ?> <?php
 $connection = mysqli_connect("localhost", "root", "Dixie!104");
 $db = mysqli_select_db($connection, 'panther.employee');
 if (isset($_POST['updatedata'])) {
@@ -12,7 +11,7 @@ if (isset($_POST['updatedata'])) {
     $query_run = mysqli_query($connection, $query);
     if ($query_run) {
         echo '<script> alert("Data Updated"); </script>';
-        header("Location:emp_view_index.php");
+        header("Location:app_view_index.php");
     } else {
         echo '<script> alert("Data Not Updated"); </script>';
     }

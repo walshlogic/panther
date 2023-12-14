@@ -13,7 +13,14 @@
                 class="form-control bg-light border-0 small"
                 placeholder="Enter VID#, Parcel#, or Street Address..."
                 aria-label="Search"
-                aria-describedby="basic-addon2">
+                aria-describedby="basic-addon2"
+                name="searchQuery"
+                id="searchQuery">
+            <!-- <input type="text"
+                class="form-control bg-light border-0 small"
+                placeholder="Enter VID#, Parcel#, or Street Address..."
+                aria-label="Search"
+                aria-describedby="basic-addon2"> -->
             <div class="input-group-append">
                 <button class="btn btn-dark"
                     type="button">

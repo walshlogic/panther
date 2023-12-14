@@ -8,7 +8,7 @@
  */
 // Load favicon, db connection and utilities
 require './logic/favicon.php';
-require './logic/dbconn.php';
+require './logic/db/dbconn.php';
 require 'util.php';
 // screen name text and button information to display top of this page
 $screenTitle = "VISION+ | PARCEL MANAGER";
@@ -49,15 +49,13 @@ $screenTitleRightButtonText = " FILTER RECORDS";
 <body id="page-top">
     <!-- Page Wrapper -->
     <div id="wrapper">
-        <!-- Nav Sidebar -->
-        <?php require "./logic/sidebar.php"; ?>
+        <!-- Nav Sidebar --> <?php require "./logic/sidebar.php"; ?>
         <!-- Content Wrapper -->
         <div id="content-wrapper"
             class="d-flex flex-column">
             <!-- Main Content -->
             <div id="content">
-                <!-- Topbar -->
-                <?php require "./logic/topbar.php"; ?>
+                <!-- Topbar --> <?php require "./logic/topbar.php"; ?>
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     <!-- Start: Screen Title Bar (info displayed below top bar identifiy screen) -->
@@ -88,27 +86,18 @@ $screenTitleRightButtonText = " FILTER RECORDS";
                                             <th class="text-light font-weight-bolder">CITY</th>
                                         </tr>
                                     </tfoot>
-                                    <tbody>
-                                        <?php
+                                    <tbody> <?php
                                         // $start and $display essential for pagination
                                         $database = new Connection();
                                         $db = $database->open();
                                         try {
                                             $sql = 'SELECT * FROM vision_plus ORDER BY rem_acct_num ASC';
                                             foreach ($db->query($sql) as $row) {
-                                                ?>
-                                                <tr>
-                                                    <td>
-                                                        <?php echo $row['REM_PID'] ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $row['REM_ACCT_NUM'] ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $row['REM_OWN_NAME'] ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php
+                                                ?> <tr>
+                                            <td> <?php echo $row['REM_PID'] ?> </td>
+                                            <td> <?php echo $row['REM_ACCT_NUM'] ?> </td>
+                                            <td> <?php echo $row['REM_OWN_NAME'] ?> </td>
+                                            <td> <?php
                                                         if (
                                                             $row['REM_PRCL_LOCN']
                                                             == '00 Unassigned Location RE'
@@ -117,13 +106,9 @@ $screenTitleRightButtonText = " FILTER RECORDS";
                                                         } else {
                                                             echo $row['REM_PRCL_LOCN'];
                                                         }
-                                                        ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $row['REM_PRCL_LOCN_CITY'] ?>
-                                                    </td>
-                                                </tr>
-                                                <?php
+                                                        ?> </td>
+                                            <td> <?php echo $row['REM_PRCL_LOCN_CITY'] ?> </td>
+                                        </tr> <?php
                                             }
                                         }
                                         catch (PDOException $e) {
@@ -131,8 +116,7 @@ $screenTitleRightButtonText = " FILTER RECORDS";
                                         }
                                         // close database connection
                                         $database->close();
-                                        ?>
-                                    </tbody>
+                                        ?> </tbody>
                                 </table>
                             </div>
                         </div>
@@ -140,8 +124,7 @@ $screenTitleRightButtonText = " FILTER RECORDS";
                 </div>
             </div>
             <!-- Main Content -->
-            <!-- Footer -->
-            <?php require "./logic/footer.php"; ?>
+            <!-- Footer --> <?php require "./logic/footer.php"; ?>
         </div>
     </div>
     <!-- Scroll to Top Button-->

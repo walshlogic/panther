@@ -53,15 +53,36 @@
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item"
-                    href="vis_parcel_manager.php">PARCEL MANAGER</a>
-                <a class="collapse-item"
-                    href="pho_manager.php">PHOTO MANAGER</a>
-                <a class="collapse-item"
                     href="ske_manager.php">SKETCH MANAGER</a>
                 <a class="collapse-item"
                     href="vis_job_view.php">JOB STATUS/HISTORY</a>
                 <a class="collapse-item"
                     href="trim_2023_query.php">2023 TRIM QUERY</a>
+            </div>
+        </div>
+    </li>
+    <!-- /\\//\\//\\//\\//\\//\\//\\//\\//\ -->
+    <!-- Nav Item - Field Appraiser Collapse Menu -->
+    <!-- \//\\//\\//\\//\\//\\//\\//\\//\\/ -->
+    <li class="nav-item">
+        <a class="nav-link collapsed"
+            href="#"
+            data-toggle="collapse"
+            data-target="#collapseFieldAppraiser"
+            aria-expanded="true"
+            aria-controls="collapseFieldAppraiser">
+            <i class="fas fa-fw fa-blind"></i>
+            <span>FIELD APPRAISER</span>
+        </a>
+        <div id="collapseFieldAppraiser"
+            class="collapse"
+            aria-labelledby="headingFieldAppraiser"
+            data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item"
+                    href="par_manager.php">PARCEL MANAGER</a>
+                <a class="collapse-item"
+                    href="pho_manager.php">PHOTO MANAGER</a>
             </div>
         </div>
     </li>
@@ -110,6 +131,8 @@
             aria-labelledby="headingSystems"
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item"
+                    href="inv_manager.php">INVENTORY MANAGER</a>
                 <a class="collapse-item"
                     href="http://putmine/projects/pacalltracker/issues?query_id=295"
                     target="_blank">ISSUE TRACKER</a>
@@ -213,7 +236,7 @@
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item"
-                    href="./emp_view_index.php">EMPLOYEE MANAGER</a>
+                    href="./app_view_index.php">APPRAISER MANAGER</a>
                 <a class="collapse-item"
                     href="./fac_view_index.php">FACILITY MANAGER</a>
                 <a class="collapse-item"

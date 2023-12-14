@@ -19,4 +19,4 @@ if (isset($_GET['id'])) {
 } else {
     $_SESSION['message'] = 'Select An Employee Record To Delete!';
 }
-header('location: emp_view_index.php');
+header('location: app_view_index.php');

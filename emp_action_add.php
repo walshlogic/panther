@@ -67,4 +67,4 @@ if (isset($_POST['add'])) {
 } else {
     $_SESSION['message'] = 'All Fields Are Required! (PANTHER MESSAGE #DF100)';
 }
-header('location: emp_view_index.php');
+header('location: app_view_index.php');
