@@ -1,19 +1,16 @@
 <?php
 require './util.php';
-///////////////
-// START |||| Screen Container Header Information ||||
-// Unique text for the title in the page's container
-$screenTitle = 'PANTHER | APPRAISER MANAGER';
-// Unique text for the middle text section of the page's container
-$screenTitleMidText = '';
-// Unique icon for the page's container action button (right side)
-$screenTitleRightButtonIcon = 'fa-plus';
-// Unique text/title for the page's container action button (right side)
-$screenTitleRightButtonText = ' ADD APPRAISER';
-// Unique ID for the page's container action button (right side)
+// screen name text and button information to display top of this page
+$screenTitle = "ADMIN | PHOTO MANAGER - SITE VISIT CODES";
+$screenTitleMidText = "";
+// title button icon sent to screentitlebar.
+$screenTitleRightButtonIcon = "fa-plus";
+// title button text sent to screentitlebar.php
+$screenTitleRightButtonText = " ADD VISIT CODE";
+// title button action sent to screentitlebar.php
+$screenTitleRightButtonLink = "set_visit_codes_form.php";
 // This ID links the button's action to the script (bottom of page)
-$screenTitleRightButtonId = "addAppraiserButton";
-// END   |||| Screen Container Header Information ||||
+$screenTitleRightButtonId = "addVisitCodeButton";
 
 
 session_start();
@@ -23,22 +20,36 @@ if (isset($_SESSION['message'])) {
 }
 
 // Read data from CSV file
-$csvFilePath = './data/appraisers.csv';
-$csvData = readCSV($csvFilePath); // Add this line to define $csvData
+$csvFilePath = './data/photoVisitCodes.csv';
+$csvData = readVisitCodesCSV($csvFilePath); // Add this line to define $csvData
 
-function readCSV($csvFile)
+// Function to read data from the new CSV file
+function readVisitCodesCSV($csvFile)
 {
     $file_handle = fopen($csvFile, 'r');
+    $lines = [];
     while (!feof($file_handle)) {
-        $line_of_text[] = fgetcsv($file_handle, 1024);
+        $line = fgetcsv($file_handle, 1024);
+        if ($line) {
+            $lines[] = $line;
+        }
     }
     fclose($file_handle);
-    return $line_of_text;
+
+    // Sort the array based on the Visit Code field
+    usort($lines, function ($a, $b) {
+        return strcmp($a[1], $b[1]);
+    });
+
+    return $lines;
 }
+
+
 ?>
 
 <head>
-    <!-- places favicon from img/favicons/??color?? onto pages --> <?php require_once './logic/favicon.php'; ?>
+    <!-- places favicon from img/favicons/??color?? onto pages -->
+    <?php require_once './logic/favicon.php'; ?>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible"
         content="IE=edge">
@@ -68,14 +79,16 @@ function readCSV($csvFile)
 <body id="page-top">
     <!-- Page Wrapper -->
     <div id="wrapper">
-        <!-- START: Nav Sidebar --> <?php require "./logic/sidebar.php"; ?>
+        <!-- START: Nav Sidebar -->
+        <?php require "./logic/sidebar.php"; ?>
         <!-- END: Nav Sidebar -->
         <!-- Content Wrapper -->
         <div id="content-wrapper"
             class="d-flex flex-column">
             <!-- Main Content -->
             <div id="content">
-                <!-- START: Topbar --> <?php require "./logic/topbar.php"; ?>
+                <!-- START: Topbar -->
+                <?php require "./logic/topbar.php"; ?>
                 <!-- END: Topbar -->
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
@@ -91,27 +104,32 @@ function readCSV($csvFile)
                                     cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>FIRST NAME</th>
-                                            <th>LAST NAME</th>
-                                            <th>ACTIVE</th>
-                                            <th>ACTIONS</th>
-                                            <!-- Add more headers as needed -->
+                                            <th>Visit Code</th>
+                                            <th>Visit Text</th>
+                                            <th>Active</th>
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
-                                    <tbody> <?php
-                                        $index = 0; // Initialize the index
-                                        foreach ($csvData as $row) {
-                                            if (is_array($row)) {
-                                                echo "<tr>";
-                                                echo "<td>" . htmlspecialchars($row[1]) . "</td>";
-                                                echo "<td>" . htmlspecialchars($row[2]) . "</td>";
-                                                echo "<td>" . ($row[3] == 1 ? 'Yes' : 'No') . "</td>";
-                                                echo "<td><a href='app_edit_form.php?edit=" . $index . "' class='btn btn-primary'>Edit</a></td>"; // Edit button
-                                                echo "</tr>";
-                                                $index++; // Increment the index
-                                            }
-                                        }
-                                        ?> </tbody>
+                                    <tbody>
+                                        <?php foreach ($csvData as $index => $row): ?>
+                                            <tr>
+                                                <td>
+                                                    <?= htmlspecialchars($row[1]) ?>
+                                                </td>
+                                                <td>
+                                                    <?= htmlspecialchars($row[2]) ?>
+                                                </td>
+                                                <td>
+                                                    <?= $row[3] == 1 ? 'Yes' : 'No' ?>
+                                                </td>
+                                                <td>
+                                                    <!-- Actions like Edit/Delete based on your application logic -->
+                                                    <a href="edit_visit_code.php?edit=<?= $index ?>"
+                                                        class="btn btn-primary">Edit</a>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -161,7 +179,8 @@ function readCSV($csvFile)
                     </div>
                 </div>
             </div>
-            <!-- Start: Footer --> <?php require "./logic/footer.php"; ?>
+            <!-- Start: Footer -->
+            <?php require "./logic/footer.php"; ?>
         </div>
         <!-- Bootstrap core JavaScript-->
         <script src="vendor/jquery/jquery.min.js"></script>
@@ -176,12 +195,12 @@ function readCSV($csvFile)
         <!-- Page level custom scripts -->
         <script src="js/demo/datatables-demo.js"></script>
         <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Event listener for the 'addAppraiserButton' to open 'app_edit_form.php' page
-            document.getElementById('addAppraiserButton').addEventListener('click', function() {
-                window.location.href = 'app_edit_form.php';
+            document.addEventListener('DOMContentLoaded', function () {
+                // Event listener for the 'addVisitCodeButton' to open 'app_edit_form.php' page
+                document.getElementById('addVisitCodeButton').addEventListener('click', function () {
+                    window.location.href = 'set_visit_codes_form.php';
+                });
             });
-        });
         </script>
 </body>
 

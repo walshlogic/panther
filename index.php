@@ -1,28 +1,25 @@
 <?php
-/**
- * index.php
- * Dashboard for Panther application.
- * 
- * @author Will Walsh | wbwalsh@gmail.com
- * @version 0.6
- */
-
-// --- Screen Information ---
+//\\//\\// START: Screen Container Header Information
+// Unique text for the title in the page's container
 $screenTitle = "PANTHER | Dashboard";
-$screenTitleRightButtonIcon = "fa-recycle";
-$screenTitleRightButtonText = " Refresh";
-// Currently not utilized: $screenTitleRightButtonAction = header("");
-
-// --- Date and Time Information ---
+// Get current date/time to display in the middle text section
 $currentDateTime = new DateTime('now', new DateTimeZone('America/New_York'));
+// Unique text for the middle text section of the page's container
 $screenTitleMidText = "Last Updated: " . $currentDateTime->format("l, F jS, Y @ g:i A");
-
-// --- File and Directory Information ---
+// Unique icon for the page's container action button (right side)
+$screenTitleRightButtonIcon = "fa-recycle";
+// Unique text/title for the page's container action button (right side)
+$screenTitleRightButtonText = " REFRESH";
+// Unique ID for the page's container action button (right side)
+// This ID links the button's action to the script (bottom of page)
+$screenTitleRightButtonId = "refreshButton";
+//\\//\\// END: Screen Container Header Information
+//\\//\\// START: File and Directory Information
 $tempdirectory = "/mnt/paphotos/Sketches/";
 $tempfilecount = count(glob($tempdirectory . "*"));
-
-// --- County REM_ACCT_NUM from REAL_PROP.REALMAST for parcel count
-$tempparcelcount = "TEST2";
+//\\//\\// END: File and Directory Information
+//\\//\\// START:County REM_ACCT_NUM from REAL_PROP.REALMAST for parcel count
+//$tempparcelcount = "TEST2";
 //include 'ske_common_functions';
 require './logic/favicon.php'; ?>
 <!DOCTYPE html>
@@ -68,16 +65,14 @@ require './logic/favicon.php'; ?>
 <body id="page-top">
     <!-- Page Wrapper -->
     <div id="wrapper">
-        <!-- Start: Side Nav Bar -->
-        <?php require "./logic/sidebar.php"; ?>
+        <!-- Start: Side Nav Bar --> <?php require "./logic/sidebar.php"; ?>
         <!-- End: Side Nav Bar -->
         <!-- Start: Content Wrapper -->
         <div id="content-wrapper"
             class="d-flex flex-column">
             <!-- Start: Main Content Area -->
             <div id="content">
-                <!-- Start: Top Bar -->
-                <?php require "./logic/topbar.php"; ?>
+                <!-- Start: Top Bar --> <?php require "./logic/topbar.php"; ?>
                 <!-- End: Top Bar -->
                 <!-- Start: Page Content -->
                 <div class="container-fluid">
@@ -88,8 +83,7 @@ require './logic/favicon.php'; ?>
                     <!-- Content Row -->
                     <!-- Start: Pending Sketch Files Card -->
                     <div class="row">
-                        <!-- Start: Pending Sketch Files Card -->
-                        <?php
+                        <!-- Start: Pending Sketch Files Card --> <?php
                         // Include statements
                         require_once './logic/utility/folder_size.php';
                         require_once './logic/utility/format_folder_size.php';
@@ -105,8 +99,7 @@ require './logic/favicon.php'; ?>
                             $disk_remaining = $SIZE_LIMIT - $disk_used;
                             $cardText = number_format($tempfilecount) . ' FILES (' . format_size($disk_used, $units) . ')';
                         }
-                        ?>
-                        <div class="col-xl-3 col-md-6 mb-4">
+                        ?> <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-dark shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
@@ -114,8 +107,7 @@ require './logic/favicon.php'; ?>
                                             <div class="text-xs font-weight-bold text-dark text-uppercase mb-1"> PENDING
                                                 SKETCH FILES TO IMPORT </div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                <?php echo $cardText; ?>
-                                            </div>
+                                                <?php echo $cardText; ?> </div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-folder-open fa-2x text-gray-300"></i>
@@ -435,8 +427,7 @@ require './logic/favicon.php'; ?>
                 <!-- /.container-fluid -->
             </div>
             <!-- End: Main Content -->
-            <!-- Start: Footer -->
-            <?php require "./logic/footer.php"; ?>
+            <!-- Start: Footer --> <?php require "./logic/footer.php"; ?>
             <!-- End: Footer -->
         </div>
         <!-- End: Content Wrapper -->
@@ -490,6 +481,18 @@ require './logic/favicon.php'; ?>
     <!-- Page level custom scripts -->
     <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
+    <script>
+    // Add event listener for the refresh button in the title bar
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add event listener to the refresh button
+        var refreshButton = document.getElementById('refreshButton');
+        if (refreshButton) {
+            refreshButton.addEventListener('click', function() {
+                location.reload(); // Reloads the current page
+            });
+        }
+    });
+    </script>
 </body>
 
 </html>

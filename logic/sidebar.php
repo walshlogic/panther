@@ -236,7 +236,7 @@
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item"
-                    href="./app_view_index.php">APPRAISER MANAGER</a>
+                    href="./sys_settings.php">SYSTEM SETTINGS</a>
                 <a class="collapse-item"
                     href="./fac_view_index.php">FACILITY MANAGER</a>
                 <a class="collapse-item"

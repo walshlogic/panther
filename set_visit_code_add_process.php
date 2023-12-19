@@ -8,29 +8,23 @@ echo "</pre>";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = $_POST['id'];
-    $firstName = $_POST['firstName'];
-    $lastName = $_POST['lastName'];
+    $visitCode = $_POST['visitCode'];
+    $visitDescription = $_POST['visitDescription'];
     $active = isset($_POST['active']) ? 1 : 0;
-    $username = $_POST['username'];
-    $workemail = $_POST['workemail'];
-    $deskPhone = $_POST['deskPhone'];
-    $workMobile = $_POST['workMobile'];
-    $personalMobile = $_POST['personalMobile'];
+    $visitData = [$visitCode, $visitDescription, $active];
 
-    $appraiserData = [$firstName, $lastName, $active, $username, $workemail, $deskPhone, $workMobile, $personalMobile];
-
-    $filePath = './data/appraisers.csv';
+    $filePath = './data/photoVisitCodes.csv';
 
     if (!empty($id) && $id !== '0') {
         // Existing record: Update
-        updateAppraiser($id, array_merge([$id], $appraiserData));
+        updateVisitCode($id, array_merge([$id], $visitData));
     } else {
         // New record: Add
-        addAppraiser($appraiserData);
+        addVisitCode($visitData);
     }
 }
 
-function addAppraiser($data)
+function addVisitCode($data)
 {
     global $filePath;
     $file = fopen($filePath, 'a+');
@@ -53,21 +47,21 @@ function getNewId($file)
     return $lastId + 1;
 }
 
-function updateAppraiser($id, $data)
+function updateVisitCode($id, $data)
 {
     global $filePath;
-    $tempPath = 'appraisers_temp.csv';
+    $tempPath = 'visitCode_temp.csv';
 
     $originalFile = fopen($filePath, 'r');
     $tempFile = fopen($tempPath, 'w');
 
     $found = false;
-    while (($appraiser = fgetcsv($originalFile)) !== false) {
-        if ($appraiser[0] == $id) {
+    while (($photoVisitCodes = fgetcsv($originalFile)) !== false) {
+        if ($photoVisitCodes[0] == $id) {
             fputcsv($tempFile, $data);
             $found = true;
         } else {
-            fputcsv($tempFile, $appraiser);
+            fputcsv($tempFile, $photoVisitCodes);
         }
     }
 
@@ -86,6 +80,6 @@ function updateAppraiser($id, $data)
 }
 
 
-header('Location: app_view_index.php');
+header('Location: set_visit_codes.php');
 exit;
 ?>
