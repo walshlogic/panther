@@ -97,12 +97,10 @@ $screenTitleRightButtonId = "";
                             <div class='settings-header'>OFFICE MANAGER</div>
                             <button id="visitCodesButton"
                                 class="btn btn-primary settings-button"
-                                onclick="location.href='./app_view_index.php';">PROPERTY APPRAISER</button>
-                            <button class='btn btn-primary settings-button'>OFFICE STAFF</button>
-                            <button id="visitCodesButton"
-                                class="btn btn-primary settings-button"
-                                onclick="location.href='./app_view_index.php';">FIELD APPRAISERS</button>
-                            <button class='btn btn-primary settings-button'>DEEDS</button>
+                                onclick="location.href='./emp_manager.php';">EMPLOYEES</button>
+                            <button class='btn btn-primary settings-button'>DEPARTMENTS</button>
+                            <button class='btn btn-primary settings-button'>Button 3</button>
+                            <button class='btn btn-primary settings-button'>INVENTORY</button>
                         </div>
                         <!-- Column 2 -->
                         <div class='settings-column'>

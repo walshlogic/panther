@@ -3,16 +3,16 @@ require './util.php';
 ///////////////
 // START |||| Screen Container Header Information ||||
 // Unique text for the title in the page's container
-$screenTitle = 'PANTHER | APPRAISER MANAGER';
+$screenTitle = 'PANTHER | EMPLOYEE MANAGER';
 // Unique text for the middle text section of the page's container
 $screenTitleMidText = '';
 // Unique icon for the page's container action button (right side)
 $screenTitleRightButtonIcon = 'fa-plus';
 // Unique text/title for the page's container action button (right side)
-$screenTitleRightButtonText = ' ADD APPRAISER';
+$screenTitleRightButtonText = ' ADD EMPLOYEE';
 // Unique ID for the page's container action button (right side)
 // This ID links the button's action to the script (bottom of page)
-$screenTitleRightButtonId = "addAppraiserButton";
+$screenTitleRightButtonId = "addEmployeeButton";
 // END   |||| Screen Container Header Information ||||
 
 
@@ -23,7 +23,7 @@ if (isset($_SESSION['message'])) {
 }
 
 // Read data from CSV file
-$csvFilePath = './data/appraisers.csv';
+$csvFilePath = './data/employees.csv';
 $csvData = readCSV($csvFilePath); // Add this line to define $csvData
 
 function readCSV($csvFile)
@@ -49,7 +49,7 @@ function readCSV($csvFile)
     <meta name="author"
         content="">
     <!-- windows tab title pulled from the var in above php section -->
-    <title>PANTHER | Appraiser Manager</title>
+    <title>PANTHER | Employee Manager</title>
     <!-- Custom fonts for this template -->
     <link href="./vendor/fontawesome-free/css/all.min.css"
         rel="stylesheet"
@@ -91,11 +91,13 @@ function readCSV($csvFile)
                                     cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>FIRST NAME</th>
+                                            <!-- Headers for the employee table -->
                                             <th>LAST NAME</th>
+                                            <th>FIRST NAME</th>
+                                            <th>TITLE</th>
+                                            <th>DEPARTMENT</th>
                                             <th>ACTIVE</th>
                                             <th>ACTIONS</th>
-                                            <!-- Add more headers as needed -->
                                         </tr>
                                     </thead>
                                     <tbody> <?php
@@ -103,10 +105,12 @@ function readCSV($csvFile)
                                         foreach ($csvData as $row) {
                                             if (is_array($row)) {
                                                 echo "<tr>";
-                                                echo "<td>" . htmlspecialchars($row[1]) . "</td>";
                                                 echo "<td>" . htmlspecialchars($row[2]) . "</td>";
+                                                echo "<td>" . htmlspecialchars($row[1]) . "</td>";
+                                                echo "<td>" . htmlspecialchars($row[6]) . "</td>";
+                                                echo "<td>" . htmlspecialchars($row[5]) . "</td>";
                                                 echo "<td>" . ($row[3] == 1 ? 'Yes' : 'No') . "</td>";
-                                                echo "<td><a href='app_edit_form.php?edit=" . $index . "' class='btn btn-primary'>Edit</a></td>"; // Edit button
+                                                echo "<td><a href='emp_form.php?edit=" . $index . "' class='btn btn-primary'>Edit</a></td>"; // Edit button
                                                 echo "</tr>";
                                                 $index++; // Increment the index
                                             }
@@ -144,7 +148,7 @@ function readCSV($csvFile)
                                         type="button"
                                         data-dismiss="modal"
                                         aria-label="Close">
-                                        <span aria-hidden="true">×</span>
+                                        <span aria-hidden="true"></span>
                                     </button>
                                 </div>
                                 <div class="modal-body">Select "Logout" below if you are ready to end your current
@@ -177,9 +181,9 @@ function readCSV($csvFile)
         <script src="js/demo/datatables-demo.js"></script>
         <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Event listener for the 'addAppraiserButton' to open 'app_edit_form.php' page
-            document.getElementById('addAppraiserButton').addEventListener('click', function() {
-                window.location.href = 'app_edit_form.php';
+            // Event listener for the 'addEmployeeButton' to open 'emp_form.php' page
+            document.getElementById('addEmployeeButton').addEventListener('click', function() {
+                window.location.href = 'emp_form.php';
             });
         });
         </script>

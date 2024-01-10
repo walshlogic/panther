@@ -14,7 +14,7 @@ class Connection
                 // Retrieve database credentials from environment variables
                 $server = getenv('DB_SERVER') ?? "sqlsrv:server=PUTSVISP01; database=V7_VISION";
                 $username = getenv('DB_USERNAME') ?? "wwal21";
-                $password = getenv('DB_PASSWORD') ?? "Dixie!104Gizmo!104";
+                $password = getenv('DB_PASSWORD') ?? "Lady!104Misty!104";
 
                 try {
                         $this->conn = new PDO($server, $username, $password, $this->options);

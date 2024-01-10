@@ -196,7 +196,7 @@ function readVisitCodesCSV($csvFile)
         <script src="js/demo/datatables-demo.js"></script>
         <script>
             document.addEventListener('DOMContentLoaded', function () {
-                // Event listener for the 'addVisitCodeButton' to open 'app_edit_form.php' page
+                // Event listener for the 'addVisitCodeButton' to open 'emp_form.php' page
                 document.getElementById('addVisitCodeButton').addEventListener('click', function () {
                     window.location.href = 'set_visit_codes_form.php';
                 });

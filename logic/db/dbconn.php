@@ -8,7 +8,7 @@ class Connection
     private
     $username = "root";
     private
-    $password = "Dixie!104";
+    $password = "Lady!104Misty!104";
     private
     $options = array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, );
 

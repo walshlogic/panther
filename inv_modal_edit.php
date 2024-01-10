@@ -188,7 +188,7 @@
                                 $con = mysqli_connect(
                                     "localhost",
                                     "root",
-                                    "Dixie!104",
+                                    "Lady!104Misty!104",
                                     "panther"
                                 );
                                 // mysqli_connect("servername","username","password","database_name")
