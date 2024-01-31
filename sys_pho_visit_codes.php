@@ -1,54 +1,58 @@
 <?php
 require './util.php';
-// screen name text and button information to display top of this page
-$screenTitle = "ADMIN | PHOTO MANAGER - SITE VISIT CODES";
-$screenTitleMidText = "";
-// title button icon sent to screentitlebar.
-$screenTitleRightButtonIcon = "fa-plus";
-// title button text sent to screentitlebar.php
-$screenTitleRightButtonText = " ADD VISIT CODE";
-// title button action sent to screentitlebar.php
-$screenTitleRightButtonLink = "set_visit_codes_form.php";
-// This ID links the button's action to the script (bottom of page)
-$screenTitleRightButtonId = "addVisitCodeButton";
+$util = new Util();
 
-
+// Initialize the session and check for any flash messages
 session_start();
+$flashMessage = '';
 if (isset($_SESSION['message'])) {
-    echo "<div class='alert alert-info text-center' style='margin-top:20px;'>" . $_SESSION['message'] . "</div>";
+    $flashMessage = $_SESSION['message'];
     unset($_SESSION['message']);
 }
 
-// Read data from CSV file
-$csvFilePath = './data/photoVisitCodes.csv';
-$csvData = readVisitCodesCSV($csvFilePath); // Add this line to define $csvData
+// Determine if inactive codes should be included based on the query parameter
+$includeInactive = filter_input(INPUT_GET, 'includeInactive', FILTER_VALIDATE_BOOLEAN);
 
-// Function to read data from the new CSV file
-function readVisitCodesCSV($csvFile)
+// Define the path to the CSV file
+$csvFilePath = './data/photoVisitCodes.csv';
+
+// Read data from CSV file, passing the $includeInactive flag to the function
+$csvData = readVisitCodesCSV($csvFilePath, $includeInactive);
+
+// Visit Codes Function to read visit codes from CSV file
+function readVisitCodesCSV($csvFile, $includeInactive = false)
 {
-    $file_handle = fopen($csvFile, 'r');
     $lines = [];
-    while (!feof($file_handle)) {
-        $line = fgetcsv($file_handle, 1024);
-        if ($line) {
+    if (($file_handle = fopen($csvFile, 'r')) !== FALSE) {
+        while (($line = fgetcsv($file_handle, 1024)) !== FALSE) {
+            // Skip inactive codes if not including them
+            if (!$includeInactive && $line[2] == '0') {
+                continue;
+            }
             $lines[] = $line;
         }
+        fclose($file_handle);
+
+        // Sort by Visit Code field
+        usort($lines, function ($a, $b) {
+            return strcmp($a[1], $b[1]);
+        });
     }
-    fclose($file_handle);
-
-    // Sort the array based on the Visit Code field
-    usort($lines, function ($a, $b) {
-        return strcmp($a[1], $b[1]);
-    });
-
     return $lines;
 }
 
-
+// Page setup - uniformed/unique page headers
+$screenTitle = "ADMIN | PHOTO MANAGER - SITE VISIT CODES";
+$screenTitleMidText = "";
+$screenTitleRightButtonIcon = "fa-plus";
+$screenTitleRightButtonText = "ADD VISIT CODE";
+$screenTitleRightButtonLink = "sys_pho_visit_codes_form.php";
+$screenTitleRightButtonId = "addVisitCodeButton";
 ?>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-    <!-- places favicon from img/favicons/??color?? onto pages -->
     <?php require_once './logic/favicon.php'; ?>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible"
@@ -59,42 +63,57 @@ function readVisitCodesCSV($csvFile)
         content="">
     <meta name="author"
         content="">
-    <!-- windows tab title pulled from the var in above php section -->
     <title>PANTHER | Appraiser Manager</title>
-    <!-- Custom fonts for this template -->
     <link href="./vendor/fontawesome-free/css/all.min.css"
         rel="stylesheet"
         type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
-    <!-- Custom styles for this template -->
     <link href="css/sb-admin-2.min.css"
         rel="stylesheet">
-    <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css"
         rel="stylesheet">
+    <style>
+        .include-inactive-container {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: blue;
+        }
+
+        #includeInactive {
+            margin: 0 10px 0 0;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+
+        .include-inactive-container label {
+            font-weight: bold;
+            margin: 0;
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body id="page-top">
-    <!-- Page Wrapper -->
     <div id="wrapper">
-        <!-- START: Nav Sidebar -->
         <?php require "./logic/sidebar.php"; ?>
-        <!-- END: Nav Sidebar -->
-        <!-- Content Wrapper -->
         <div id="content-wrapper"
             class="d-flex flex-column">
-            <!-- Main Content -->
             <div id="content">
-                <!-- START: Topbar -->
                 <?php require "./logic/topbar.php"; ?>
-                <!-- END: Topbar -->
-                <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    <!-- Start: Screen Title Bar (info displayed below top bar identifiy screen) -->
                     <?php require "./logic/screentitlebar.php"; ?>
-                    <!-- DataTales Example -->
+                    <?php if ($flashMessage): ?>
+                        <div class='alert alert-info text-center'
+                            style='margin-top:20px;'>
+                            <?= $flashMessage ?>
+                        </div>
+                    <?php endif; ?>
                     <div class="card shadow mb-4">
                         <div class="card-body">
                             <div class="table-responsive">
@@ -104,7 +123,6 @@ function readVisitCodesCSV($csvFile)
                                     cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Visit Code</th>
                                             <th>Visit Text</th>
                                             <th>Active</th>
                                             <th>Actions</th>
@@ -117,20 +135,25 @@ function readVisitCodesCSV($csvFile)
                                                     <?= htmlspecialchars($row[1]) ?>
                                                 </td>
                                                 <td>
-                                                    <?= htmlspecialchars($row[2]) ?>
-                                                </td>
-                                                <td>
-                                                    <?= $row[3] == 1 ? 'Yes' : 'No' ?>
+                                                    <?= $row[2] == 1 ? 'Yes' : 'No' ?>
                                                 </td>
                                                 <td>
                                                     <!-- Actions like Edit/Delete based on your application logic -->
-                                                    <a href="edit_visit_code.php?edit=<?= $index ?>"
+                                                    <a href="sys_pho_visit_codes_form.php?edit=<?= htmlspecialchars($row[0]) ?>"
                                                         class="btn btn-primary">Edit</a>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>
                                 </table>
+                                <!-- Checkbox to include Inactive codes -->
+                                <div class="include-inactive-container">
+                                    <input type="checkbox"
+                                        id="includeInactive"
+                                        name="includeInactive"
+                                        onclick="toggleInactiveCodes()">
+                                    <label for="includeInactive">Include Inactive Codes in the List</label>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -196,11 +219,24 @@ function readVisitCodesCSV($csvFile)
         <script src="js/demo/datatables-demo.js"></script>
         <script>
             document.addEventListener('DOMContentLoaded', function () {
-                // Event listener for the 'addVisitCodeButton' to open 'emp_form.php' page
+                // Event listener for the 'addVisitCodeButton' to open 'sys_emp_form.php' page
                 document.getElementById('addVisitCodeButton').addEventListener('click', function () {
-                    window.location.href = 'set_visit_codes_form.php';
+                    window.location.href = 'sys_pho_visit_codes_form.php';
                 });
             });
+        </script>
+        <script>
+            // Script to toggle between only active codes and all codes
+            function toggleInactiveCodes() {
+                // Check the current state of the checkbox
+                var includeInactive = document.getElementById('includeInactive').checked;
+                // Redirect to the same page with the 'includeInactive' parameter
+                // The value passed in the URL must be a string 'true' or 'false'
+                window.location.href = '?includeInactive=' + (includeInactive ? 'true' : 'false');
+            }
+            // Set the checkbox state based on the URL parameter when the page loads
+            document.getElementById('includeInactive').checked = new URLSearchParams(window.location.search).get(
+                'includeInactive') === 'true';
         </script>
 </body>
 

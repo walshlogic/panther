@@ -40,17 +40,23 @@ function getExistingemployeeData($index)
 
 ?>
 <!DOCTYPE html>
-<html lang="en"> <?php
+<html lang="en">
+<?php
 session_start();
 if (isset($_SESSION['message'])) {
-    ?> <div class="alert alert-info text-center"
-    style="margin-top:20px;"> <?php echo $_SESSION['message']; ?> </div> <?php
+    ?>
+    <div class="alert alert-info text-center"
+        style="margin-top:20px;">
+        <?php echo $_SESSION['message']; ?>
+    </div>
+    <?php
     unset($_SESSION['message']);
 }
 ?>
 
 <head>
-    <!-- places favicon from img/favicons/??color?? onto pages --> <?php require_once './logic/favicon.php'; ?>
+    <!-- places favicon from img/favicons/??color?? onto pages -->
+    <?php require_once './logic/favicon.php'; ?>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible"
         content="IE=edge">
@@ -76,153 +82,155 @@ if (isset($_SESSION['message'])) {
     <link href="vendor/datatables/dataTables.bootstrap4.min.css"
         rel="stylesheet">
     <style>
-    .form-container {
-        background: #ffffff;
-        padding: 20px;
-        border-radius: 4px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        margin: 20px auto;
-        max-width: 800px;
-    }
-
-    .form-group {
-        display: flex;
-        align-items: center;
-        margin-bottom: 15px;
-        margin-right: 0;
-    }
-
-    .form-group label {
-        flex-basis: 25%;
-        justify-content: flex-end;
-        margin-right: 10px;
-        text-align: right;
-        display: flex;
-        align-items: center;
-        margin-bottom: 0;
-    }
-
-    .form-group .checkbox-container {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        flex-grow: 2;
-        padding-left: 0px;
-        padding-right: 10px;
-    }
-
-    .form-group .checkbox-align input[type="checkbox"] {
-        border: 1px solid #ced4da;
-        /* This should match the border of text inputs */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-right: 0px;
-        transform: scale(2.5);
-        margin-left: 8px;
-    }
-
-    .button-container {
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-        margin-top: 20px;
-    }
-
-    .button {
-        background-color: #4e73df;
-        color: white;
-        padding: 10px 15px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 18px;
-        margin-top: 20px;
-        min-width: 120px;
-        width: auto;
-        align-self: flex-start;
-    }
-
-    .button:hover {
-        background-color: #2e59d9;
-    }
-
-    .button.cancel {
-        background-color: #e74a3b;
-    }
-
-    .button.cancel:hover {
-        background-color: #d6331c;
-    }
-
-    .button.clear {
-        background-color: #E07907;
-    }
-
-    .button.clear:hover {
-        background-color: #cc7000;
-    }
-
-    .input-container {
-        flex-basis: 75%;
-        display: flex;
-        align-items: center;
-    }
-
-    .input-container input,
-    .input-container select {
-        box-sizing: border-box;
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ced4da;
-        border-radius: 0.25rem;
-        margin-bottom: 0;
-    }
-
-    /* Removed the specific checkbox-align input[type="checkbox"] styling */
-    input[type="submit"] {
-        background-color: #4e73df;
-        color: white;
-        padding: 10px 15px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 18px;
-        margin-top: 20px;
-        min-width: 120px;
-        width: auto;
-        align-self: flex-start;
-    }
-
-    @media (max-width: 768px) {
-        .form-group {
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .form-group label,
-        .input-container {
-            flex-basis: 100%;
-        }
-
         .form-container {
-            width: 90%;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            max-width: 800px;
         }
-    }
+
+        .form-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            margin-right: 0;
+        }
+
+        .form-group label {
+            flex-basis: 25%;
+            justify-content: flex-end;
+            margin-right: 10px;
+            text-align: right;
+            display: flex;
+            align-items: center;
+            margin-bottom: 0;
+        }
+
+        .form-group .checkbox-container {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            flex-grow: 2;
+            padding-left: 0px;
+            padding-right: 10px;
+        }
+
+        .form-group .checkbox-align input[type="checkbox"] {
+            border: 1px solid #ced4da;
+            /* This should match the border of text inputs */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 0px;
+            transform: scale(2.5);
+            margin-left: 8px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .button {
+            background-color: #4e73df;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 20px;
+            min-width: 120px;
+            width: auto;
+            align-self: flex-start;
+        }
+
+        .button:hover {
+            background-color: #2e59d9;
+        }
+
+        .button.cancel {
+            background-color: #e74a3b;
+        }
+
+        .button.cancel:hover {
+            background-color: #d6331c;
+        }
+
+        .button.clear {
+            background-color: #E07907;
+        }
+
+        .button.clear:hover {
+            background-color: #cc7000;
+        }
+
+        .input-container {
+            flex-basis: 75%;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-container input,
+        .input-container select {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            margin-bottom: 0;
+        }
+
+        /* Removed the specific checkbox-align input[type="checkbox"] styling */
+        input[type="submit"] {
+            background-color: #4e73df;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 20px;
+            min-width: 120px;
+            width: auto;
+            align-self: flex-start;
+        }
+
+        @media (max-width: 768px) {
+            .form-group {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .form-group label,
+            .input-container {
+                flex-basis: 100%;
+            }
+
+            .form-container {
+                width: 90%;
+            }
+        }
     </style>
 </head>
 
 <body id="page-top">
     <!-- Page Wrapper -->
     <div id="wrapper">
-        <!-- START: Nav Sidebar --> <?php require "./logic/sidebar.php"; ?>
+        <!-- START: Nav Sidebar -->
+        <?php require "./logic/sidebar.php"; ?>
         <!-- END: Nav Sidebar -->
         <!-- Content Wrapper -->
         <div id="content-wrapper"
             class="d-flex flex-column">
             <!-- Main Content -->
             <div id="content">
-                <!-- START: Topbar --> <?php require "./logic/topbar.php"; ?>
+                <!-- START: Topbar -->
+                <?php require "./logic/topbar.php"; ?>
                 <!-- END: Topbar -->
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
@@ -232,7 +240,7 @@ if (isset($_SESSION['message'])) {
                     <div class="card shadow mb-4">
                         <div class="form-container">
                             <!-- This div wraps the entire form and applies the container styling -->
-                            <form action="emp_process.php"
+                            <form action="sys_emp_process.php"
                                 method="post">
                                 <input type="hidden"
                                     name="empId"
@@ -374,7 +382,7 @@ if (isset($_SESSION['message'])) {
                                     value="<?php echo $editing ? 'UPDATE EMPLOYEE' : 'ADD EMPLOYEE'; ?>"
                                     class="button">
                                 <button type="button"
-                                    onclick="location.href='emp_manager.php'"
+                                    onclick="location.href='sys_emp_manager.php'"
                                     class="button cancel">CANCEL</button>
                                 <button type="button"
                                     onclick="clearFormFields()"
@@ -383,8 +391,9 @@ if (isset($_SESSION['message'])) {
                         </form>
                     </div>
                 </div>
-                <!-- Start: Footer --> <?php require "./logic/footer.php"; ?> <script
-                    src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
+                <!-- Start: Footer -->
+                <?php require "./logic/footer.php"; ?>
+                <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
                     integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE"
                     crossorigin="anonymous"></script>
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"
@@ -431,20 +440,20 @@ if (isset($_SESSION['message'])) {
         </div>
     </div>
     <script>
-    window.onload = function() {
-        document.getElementById('empFirstName').focus();
-    };
+        window.onload = function () {
+            document.getElementById('empFirstName').focus();
+        };
     </script>
     <script>
-    function clearFormFields() {
-        // This will clear all text input fields
-        document.querySelectorAll('.form-container input[type="text"], .form-container input[type="email"]').forEach(
-            input => input.value = '');
-        // Uncheck the active checkbox
-        document.getElementById('active').checked = false;
-        // Set focus to the 'First Name' textbox
-        document.getElementById('empFirstName').focus();
-    }
+        function clearFormFields() {
+            // This will clear all text input fields
+            document.querySelectorAll('.form-container input[type="text"], .form-container input[type="email"]').forEach(
+                input => input.value = '');
+            // Uncheck the active checkbox
+            document.getElementById('active').checked = false;
+            // Set focus to the 'First Name' textbox
+            document.getElementById('empFirstName').focus();
+        }
     </script>
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>

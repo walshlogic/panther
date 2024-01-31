@@ -1,28 +1,22 @@
 <?php
 
-// utility methods for input sanitization and displaying success and error messages dynamically
-class Util {
+class Util
+{
+    // ... existing methods ...
 
-    // Method of input value sanitization
-    public
-            function testInput($data) {
-        $data = trim($data);
-        $data = stripslashes($data);
-        $data = htmlspecialchars($data);
-        $data = strip_tags($data);
+    public function renderHeaderButton($screenTitleRightButtonId, $screenTitleRightButtonLink, $screenTitleRightButtonIcon, $screenTitleRightButtonText, $additionalButton = null)
+    {
+        // Render the main right button
+        echo '<a id="' . $screenTitleRightButtonId . '" href="' . $screenTitleRightButtonLink . '" class="btn btn-primary">' . $screenTitleRightButtonText . '</a>';
 
-        return $data;
+        // Check if there is an additional button to render
+        if ($additionalButton) {
+            echo '<button id="' . $additionalButton['id'] . '" class="' . $additionalButton['class'] . '">' . $additionalButton['text'] . '</button>';
+
+            // If there is a script, echo it
+            if (isset($additionalButton['script'])) {
+                echo '<script>' . $additionalButton['script'] . '</script>';
+            }
+        }
     }
-
-    // Method for displaying Success And Error Message
-    public
-            function showMessage($type, $message) {
-        return '<div class="alert alert-' . $type . ' alert-dismissible fade show" role="alert">
-                <strong>' . $message . '</strong>
-                <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
-              </div>';
-    }
-
 }
-
-?>

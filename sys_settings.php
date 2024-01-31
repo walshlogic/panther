@@ -95,19 +95,25 @@ $screenTitleRightButtonId = "";
                         <!-- Column 1 -->
                         <div class='settings-column'>
                             <div class='settings-header'>OFFICE MANAGER</div>
-                            <button id="visitCodesButton"
+                            <button id="systemPropertyAppraiserManager"
                                 class="btn btn-primary settings-button"
-                                onclick="location.href='./emp_manager.php';">EMPLOYEES</button>
-                            <button class='btn btn-primary settings-button'>DEPARTMENTS</button>
-                            <button class='btn btn-primary settings-button'>Button 3</button>
-                            <button class='btn btn-primary settings-button'>INVENTORY</button>
+                                onclick="location.href='';">PROPERTY APPRAISER</button>
+                            <button id="systemEmployeeManager"
+                                class="btn btn-primary settings-button"
+                                onclick="location.href='./sys_emp_manager.php';">EMPLOYEES</button>
+                            <button id="systemDepartmentManager"
+                                class="btn btn-primary settings-button"
+                                onclick="location.href='';">DEPARTMENTS</button>
+                            <button id="systemInventoryManager"
+                                class="btn btn-primary settings-button"
+                                onclick="location.href='';">INVENTORY</button>
                         </div>
                         <!-- Column 2 -->
                         <div class='settings-column'>
                             <div class='settings-header'>PHOTO MANAGER</div>
                             <button id="visitCodesButton"
                                 class="btn btn-primary settings-button"
-                                onclick="location.href='set_visit_codes.php';">VISIT CODES</button>
+                                onclick="location.href='sys_pho_visit_codes.php';">VISIT CODES</button>
                             <button class='btn btn-primary settings-button'>Button 2</button>
                             <button class='btn btn-primary settings-button'>Button 3</button>
                             <button class='btn btn-primary settings-button'>Button 4</button>

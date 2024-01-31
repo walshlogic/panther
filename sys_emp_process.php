@@ -24,15 +24,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $empDateTerm = isset($_POST['empDateTerm']) ? $_POST['empDateTerm'] : '';
 
     $employeeData = [
-        $empFirstName, $empLastName, $empActive, $empPhotoManager, $empDepartment,
-        $empTitle, $empUsername, $empWorkArea, $empWorkEmail,
-        $empDeskPhone, $empWorkMobile, $empPersonalMobile,
-        $empDateHire, $empDateTerm
+        $empFirstName,
+        $empLastName,
+        $empActive,
+        $empPhotoManager,
+        $empDepartment,
+        $empTitle,
+        $empUsername,
+        $empWorkArea,
+        $empWorkEmail,
+        $empDeskPhone,
+        $empWorkMobile,
+        $empPersonalMobile,
+        $empDateHire,
+        $empDateTerm
     ];
 
     $filePath = './data/employees.csv';
 
-    if (!empty($empId) && $empId !== '0') {
+    if ($empId !== null) { // Check if empId is not null
         // Existing record: Update
         updateEmployee($empId, array_merge([$empId], $employeeData));
     } else {
@@ -67,7 +77,7 @@ function getNewId($file)
 function updateEmployee($empId, $data)
 {
     global $filePath;
-    $tempPath = 'employees_temp.csv';
+    $tempPath = 'sys_employees_temp.csv';
 
     $originalFile = fopen($filePath, 'r');
     $tempFile = fopen($tempPath, 'w');
@@ -85,18 +95,22 @@ function updateEmployee($empId, $data)
     fclose($originalFile);
     fclose($tempFile);
 
+    echo "Debug: empId = $empId<br>";
+    echo "Debug: found = " . ($found ? 'true' : 'false') . "<br>";
+
     if ($found) {
         if (!rename($tempPath, $filePath)) {
-            echo "Error: unable to rename the file.";
+            echo "Error: unable to rename the file.<br>";
             // Display specific error details
             print_r(error_get_last());
+        } else {
+            echo "Debug: File renamed successfully.<br>";
         }
     } else {
-        echo "Record with ID $empId not found.\n";
+        echo "Debug: Record with ID $empId not found in the original file.<br>";
     }
 }
 
 
-header('Location: emp_manager.php');
+header('Location: sys_emp_manager.php');
 exit;
-?>

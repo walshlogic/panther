@@ -1,52 +1,64 @@
 <?php
 // Include the database connection class
-include 'logic/db/dbconn_vision.php'; // Update the path as needed.
+include 'logic/db/dbconn_vision.php';
 
-// Enable error reporting for debugging (remove this in production)
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+// Set header to indicate JSON response
+header('Content-Type: application/json');
 
-// Fetch the VID from the POST request
 $numberVID = isset($_POST['numberVID']) ? $_POST['numberVID'] : '';
-
-// Get the singleton instance of the database connection
-$dbConnection = Connection::getInstance();
-$conn = $dbConnection->getConnection();
-
-// Check connection
-if (!$conn) {
-    die("Connection failed: Unable to connect to the database");
-}
-
-$response = [];
+$accountNumber = isset($_POST['accountNumber']) ? $_POST['accountNumber'] : '';
 
 try {
-    // Prepare the SQL statement
-    $stmt = $conn->prepare("SELECT REM_PRCL_LOCN FROM REAL_PROP.REALMAST WHERE REM_PID = ?");
-    $stmt->bindParam(1, $numberVID, PDO::PARAM_STR);
+    // Get the database connection
+    $dbConnection = Connection::getInstance();
+    $conn = $dbConnection->getConnection();
+
+    // Check if the connection is successful
+    if (!$conn) {
+        throw new Exception('Connection failed: Unable to connect to the database');
+    }
+
+    // Initialize response array
+    $response = [];
+
+    // Prepare SQL query based on whether numberVID or accountNumber is provided
+    if ($numberVID) {
+        $stmt = $conn->prepare('SELECT REM_PRCL_LOCN, REM_ACCT_NUM FROM REAL_PROP.REALMAST WHERE REM_PID = ?');
+        $stmt->bindParam(1, $numberVID, PDO::PARAM_STR);
+    } elseif ($accountNumber) {
+        $stmt = $conn->prepare('SELECT REM_PRCL_LOCN, REM_PID FROM REAL_PROP.REALMAST WHERE REM_ACCT_NUM = ?');
+        $stmt->bindParam(1, $accountNumber, PDO::PARAM_STR);
+    } else {
+        throw new Exception('No valid identifier provided');
+    }
 
     // Execute the query
     $stmt->execute();
 
     // Fetch the result
     if ($row = $stmt->fetch()) {
-        echo $row['REM_PRCL_LOCN'];  // Directly output the address
-        exit(); // Stop script execution
+        $response = [
+            'address' => $row['REM_PRCL_LOCN'],
+            'numberVID' => $numberVID ? $numberVID : (isset($row['REM_PID']) ? $row['REM_PID'] : null), // Include numberVID from input or fetched from DB
+            'accountNum' => $accountNumber ? $accountNumber : (isset($row['REM_ACCT_NUM']) ? $row['REM_ACCT_NUM'] : null) // Include accountNumber from input or fetched from DB
+        ];
     } else {
-        echo "No Record Found for VID:" . $numberVID;  // Output an error message
-        exit(); // Stop script execution
+        throw new Exception('No Record Found');
     }
+
+    // Return the JSON response
+    echo json_encode($response);
 }
-catch (PDOException $e) {
-    $response['error'] = "An error occurred: " . $e->getMessage();
+catch (Exception $e) {
+    // Return a JSON-encoded error message
+    echo json_encode(['error' => $e->getMessage() . ". Please Try Again."]);
 }
 finally {
-    // Close the statement and the connection
-    $stmt = null;
-    $dbConnection->close();
+    // Close statement and connection if they exist
+    if ($stmt) {
+        $stmt = null;
+    }
+    if ($dbConnection) {
+        $dbConnection->close();
+    }
 }
-
-// Send the response as JSON
-echo json_encode($response);
-?>
