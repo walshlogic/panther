@@ -15,7 +15,7 @@ if ($editing) {
     $employeeData = getExistingemployeeData($_GET['edit']);
 } else {
     // Initialize with 14 empty values including empId
-    $employeeData = ['', '', '', '', '', '', '', '', '', '', '', '', '', '', ''];
+    $employeeData = ['', '', '', "", '', '', '', '', '', '', '', '', '', '', '', '', ''];
 }
 
 function getExistingemployeeData($index)
@@ -35,7 +35,7 @@ function getExistingemployeeData($index)
 
     fclose($file);
     // Return an empty array with 14 placeholders if the record is not found
-    return ['', '', '', '', '', '', '', '', '', '', '', '', '', '', ''];
+    return ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''];
 }
 
 ?>
@@ -185,7 +185,6 @@ if (isset($_SESSION['message'])) {
             margin-bottom: 0;
         }
 
-        /* Removed the specific checkbox-align input[type="checkbox"] styling */
         input[type="submit"] {
             background-color: #4e73df;
             color: white;
@@ -276,13 +275,25 @@ if (isset($_SESSION['message'])) {
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="empPhotoManager">APPRAISER</label>
+                                    <label for="empPhotoManager">ELECTED OFFICAL</label>
                                     <div class="checkbox-container">
                                         <div class="checkbox-align">
                                             <input type="checkbox"
-                                                id="empPhotoManager"
-                                                name="empPhotoManager"
+                                                id="empElectedOffical"
+                                                name="empElectedOffical"
                                                 <?php echo $employeeData[4] ? 'checked' : ''; ?>
+                                                value="1">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="empPhotoManager">FIELD APPRAISER</label>
+                                    <div class="checkbox-container">
+                                        <div class="checkbox-align">
+                                            <input type="checkbox"
+                                                id="empFieldAppraiser"
+                                                name="empFieldAppraiser"
+                                                <?php echo $employeeData[5] ? 'checked' : ''; ?>
                                                 value="1">
                                         </div>
                                     </div>
@@ -293,7 +304,7 @@ if (isset($_SESSION['message'])) {
                                         <input type="text"
                                             id="empDepartment"
                                             name="empDepartment"
-                                            value="<?php echo $employeeData[5]; ?>">
+                                            value="<?php echo $employeeData[6]; ?>">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -302,7 +313,16 @@ if (isset($_SESSION['message'])) {
                                         <input type="text"
                                             id="empTitle"
                                             name="empTitle"
-                                            value="<?php echo $employeeData[6]; ?>">
+                                            value="<?php echo $employeeData[7]; ?>">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="empCerts">CERTS.</label>
+                                    <div class="input-container">
+                                        <input type="text"
+                                            id="empCerts"
+                                            name="empCerts"
+                                            value="<?php echo $employeeData[8]; ?>">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -311,7 +331,7 @@ if (isset($_SESSION['message'])) {
                                         <input type="text"
                                             id="empUsername"
                                             name="empUsername"
-                                            value="<?php echo $employeeData[7]; ?>">
+                                            value="<?php echo $employeeData[9]; ?>">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -320,7 +340,7 @@ if (isset($_SESSION['message'])) {
                                         <input type="text"
                                             id="empWorkArea"
                                             name="empWorkArea"
-                                            value="<?php echo $employeeData[8]; ?>">
+                                            value="<?php echo $employeeData[10]; ?>">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -329,7 +349,7 @@ if (isset($_SESSION['message'])) {
                                         <input type="text"
                                             id="empWorkEmail"
                                             name="empWorkEmail"
-                                            value="<?php echo $employeeData[9]; ?>">
+                                            value="<?php echo $employeeData[11]; ?>">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -338,7 +358,7 @@ if (isset($_SESSION['message'])) {
                                         <input type="text"
                                             id="empDeskPhone"
                                             name="empDeskPhone"
-                                            value="<?php echo $employeeData[10]; ?>">
+                                            value="<?php echo $employeeData[12]; ?>">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -347,7 +367,7 @@ if (isset($_SESSION['message'])) {
                                         <input type="text"
                                             id="empWorkMobile"
                                             name="empWorkMobile"
-                                            value="<?php echo $employeeData[11]; ?>">
+                                            value="<?php echo $employeeData[13]; ?>">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -356,7 +376,7 @@ if (isset($_SESSION['message'])) {
                                         <input type="text"
                                             id="empPersonalMobile"
                                             name="empPersonalMobile"
-                                            value="<?php echo $employeeData[12]; ?>">
+                                            value="<?php echo $employeeData[14]; ?>">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -365,7 +385,7 @@ if (isset($_SESSION['message'])) {
                                         <input type="date"
                                             id="empDateHire"
                                             name="empDateHire"
-                                            value="<?php echo htmlspecialchars($employeeData[13]); ?>">
+                                            value="<?php echo htmlspecialchars($employeeData[15]); ?>">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -374,7 +394,7 @@ if (isset($_SESSION['message'])) {
                                         <input type="date"
                                             id="empDateTerm"
                                             name="empDateTerm"
-                                            value="<?php echo htmlspecialchars($employeeData[14]); ?>">
+                                            value="<?php echo htmlspecialchars($employeeData[16]); ?>">
                                     </div>
                                 </div>
                                 <!-- Buttons at the bottom -->

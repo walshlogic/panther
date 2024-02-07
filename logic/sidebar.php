@@ -53,6 +53,8 @@
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item"
+                    href="vis_integrity.php">INTEGRITY CHECKS</a>
+                <a class="collapse-item"
                     href="ske_manager.php">SKETCH MANAGER</a>
                 <a class="collapse-item"
                     href="vis_job_view.php">JOB STATUS/HISTORY</a>
@@ -79,6 +81,8 @@
             aria-labelledby="headingFieldAppraiser"
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item"
+                    href="fa_dashboard.php">DASHBOARD</a>
                 <a class="collapse-item"
                     href="par_manager.php">PARCEL MANAGER</a>
                 <a class="collapse-item"
@@ -236,7 +240,7 @@
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item"
-                    href="./sys_settings.php">SYSTEM SETTINGS</a>
+                    href="./sys_manager.php">SYSTEM MANAGER</a>
                 <a class="collapse-item"
                     href="./fac_view_index.php">FACILITY MANAGER</a>
                 <a class="collapse-item"

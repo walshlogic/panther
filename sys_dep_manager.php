@@ -7,23 +7,23 @@ if (isset($_SESSION['message'])) {
     unset($_SESSION['message']);
 }
 
-// Determine if inactive codes should be included based on the query parameter
+// Determine if inactive departments should be included based on the query parameter
 $includeInactive = filter_input(INPUT_GET, 'includeInactive', FILTER_VALIDATE_BOOLEAN);
 
 // Path to the CSV file
-$csvFilePath = './data/employees.csv';
+$csvFilePath = './data/departments.csv';
 
 // Read data from CSV file, passing the $includeInactive flag to the function
-$csvData = readEmployeesCSV($csvFilePath, $includeInactive);
+$csvData = readDepartmentsCSV($csvFilePath, $includeInactive);
 
-// Employee function to read visit codes from CSV file
-function readEmployeesCSV($csvFile, $includeInactive = false)
+// Read departments from CSV file
+function readDepartmentsCSV($csvFile, $includeInactive = false)
 {
     $lines = [];
     if (($file_handle = fopen($csvFile, 'r')) !== FALSE) {
         while (($line = fgetcsv($file_handle, 1024)) !== FALSE) {
-            // Skip inactive codes if not including them
-            if (!$includeInactive && $line[3] == '0') {
+            // Skip inactive departments if not including them
+            if (!$includeInactive && $line[2] == '0') {
                 continue;
             }
             $lines[] = $line;
@@ -40,12 +40,12 @@ function readEmployeesCSV($csvFile, $includeInactive = false)
 
 
 // Page setup - uniformed/unique page headers
-$screenTitle = "PANTHER | EMPLOYEE MANAGER";
+$screenTitle = "PANTHER | DEPARTMENT MANAGER";
 $screenTitleMidText = "";
 $screenTitleRightButtonIcon = "fa-plus";
-$screenTitleRightButtonText = "ADD EMPLOYEE";
-$screenTitleRightButtonLink = "sys_emp_form.php";
-$screenTitleRightButtonId = "addEmployeeButton";
+$screenTitleRightButtonText = "ADD DEPARTMENT";
+$screenTitleRightButtonLink = "sys_dep_form.php";
+$screenTitleRightButtonId = "addDepartmentButton";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -62,7 +62,7 @@ $screenTitleRightButtonId = "addEmployeeButton";
     <meta name="author"
         content="">
     <!-- windows tab title pulled from the var in above php section -->
-    <title>PANTHER | Employee Manager</title>
+    <title>PANTHER | Department Manager</title>
     <!-- Custom fonts for this template -->
     <link href="./vendor/fontawesome-free/css/all.min.css"
         rel="stylesheet"
@@ -76,28 +76,28 @@ $screenTitleRightButtonId = "addEmployeeButton";
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css"
         rel="stylesheet">
-    <style>
-    .include-inactive-container {
-        display: flex;
-        align-items: center;
-        margin-top: 20px;
-        font-size: 1.2em;
-        color: blue;
-    }
+        <style>
+        .include-inactive-container {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: blue;
+        }
 
-    #includeInactive {
-        margin: 0 10px 0 0;
-        padding: 0;
-        width: 24px;
-        height: 24px;
-        cursor: pointer;
-    }
+        #includeInactive {
+            margin: 0 10px 0 0;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
 
-    .include-inactive-container label {
-        font-weight: bold;
-        margin: 0;
-        cursor: pointer;
-    }
+        .include-inactive-container label {
+            font-weight: bold;
+            margin: 0;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -127,30 +127,21 @@ $screenTitleRightButtonId = "addEmployeeButton";
                                     cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <!-- Headers for the employee table -->
-                                            <th>LAST NAME</th>
-                                            <th>FIRST NAME</th>
-                                            <th>TITLE</th>
+                                            <!-- Headers for the department table -->
                                             <th>DEPARTMENT</th>
                                             <th>ACTIVE</th>
                                             <th>ACTIONS</th>
                                         </tr>
                                     </thead>
                                     <tbody> <?php foreach ($csvData as $index => $row): ?> <tr>
-                                            <!-- last name -->
-                                            <td> <?= htmlspecialchars($row[2]) ?> </td>
-                                            <!-- first name -->
-                                            <td> <?= htmlspecialchars($row[1]) ?>
-                                                <!-- title -->
-                                            <td> <?= htmlspecialchars($row[6]) ?>
-                                                <!-- department -->
-                                            <td> <?= htmlspecialchars($row[5]) ?> </td>
+                                            <!-- department name -->
+                                            <td> <?= htmlspecialchars($row[1]) ?> </td>
                                             <!-- active -->
-                                            <td> <?= $row[3] == 1 ? 'Yes' : 'No' ?> </td>
+                                            <td> <?= $row[2] == 1 ? 'YES' : 'NO' ?> </td>
                                             <!-- edit button -->
                                             <td>
                                                 <!-- Edit action button -->
-                                                <a href='sys_emp_form.php?edit=<?= htmlspecialchars($row[0]) ?>'
+                                                <a href='sys_dep_form.php?edit=<?= htmlspecialchars($row[0]) ?>'
                                                     class='btn btn-primary'>Edit</a>
                                             </td>
                                         </tr> <?php endforeach; ?> </tbody>
@@ -160,8 +151,8 @@ $screenTitleRightButtonId = "addEmployeeButton";
                                     <input type="checkbox"
                                         id="includeInactive"
                                         name="includeInactive"
-                                        onclick="toggleInactiveEmployees()">
-                                    <label for="includeInactive">Include Inactive Employees in the List</label>
+                                        onclick="toggleInactiveDepartments()">
+                                    <label for="includeInactive">Include Inactive Departments in the List</label>
                                 </div>
                             </div>
                         </div>
@@ -184,15 +175,15 @@ $screenTitleRightButtonId = "addEmployeeButton";
         <script src="js/demo/datatables-demo.js"></script>
         <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Event listener for the 'addEmployeeButton' to open 'sys_emp_form.php' page
-            document.getElementById('addEmployeeButton').addEventListener('click', function() {
-                window.location.href = 'sys_emp_form.php';
+            // Event listener for the 'addDepartmentButton' to open 'sys_dep_form.php' page
+            document.getElementById('addDepartmentButton').addEventListener('click', function() {
+                window.location.href = 'sys_dep_form.php';
             });
         });
         </script>
         <script>
         // Script to toggle between only active employees and all employees
-        function toggleInactiveEmployees() {
+        function toggleInactiveDepartments() {
             // Check the current state of the checkbox
             var includeInactive = document.getElementById('includeInactive').checked;
             // The value passed in the URL must be a string 'true' or 'false'

@@ -1,7 +1,7 @@
 <?php
 // START |||| Screen Container Header Information ||||
 // Unique text for the title in the page's container
-$screenTitle = 'PANTHER | SYSTEM SETTINGS';
+$screenTitle = 'PANTHER | MANAGER SETTINGS';
 // Unique text for the middle text section of the page's container
 $screenTitleMidText = '';
 // Unique icon for the page's container action button (right side)
@@ -28,7 +28,9 @@ $screenTitleRightButtonId = "";
         content="Will Walsh | wbwalsh@gmail.com">
     <meta name="version"
         content="0.6">
-    <title> <?php echo $screenTitle; ?> </title>
+    <title>
+        <?php echo $screenTitle; ?>
+    </title>
     <link href="vendor/fontawesome-free/css/all.min.css"
         rel="stylesheet"
         type="text/css">
@@ -46,45 +48,50 @@ $screenTitleRightButtonId = "";
         crossorigin="anonymous"></script>
     <script src="logic/main.js"></script>
     <style>
-    .settings-section {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 20px;
-    }
+        .settings-section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
 
-    .settings-column {
-        flex: 1;
-        /* Each column takes up equal width */
-        padding: 0 15px;
-        /* Spacing between columns */
-    }
+        .settings-column {
+            flex: 1;
+            /* Each column takes up equal width */
+            padding: 0 15px;
+            /* Spacing between columns */
+        }
 
-    .settings-button {
-        width: 100%;
-        /* Buttons take up the full width of the column */
-        margin-bottom: 10px;
-        /* Spacing between buttons */
-        font-size: large;
-        font-weight: bold;
-    }
+        .settings-button {
+            width: 100%;
+            /* Buttons take up the full width of the column */
+            margin-bottom: 10px;
+            /* Spacing between buttons */
+            font-size: large;
+            font-weight: bold;
+        }
 
-    /* Optional: Style for the section header */
-    .settings-header {
-        text-align: center;
-        margin-bottom: 10px;
-        font-size: larger;
-        font-weight: bold;
-    }
+        /* Optional: Style for the section header */
+        .settings-header {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: larger;
+            font-weight: bold;
+        }
     </style>
 </head>
 
 <body id='page-top'>
-    <div id='wrapper'> <?php require './logic/sidebar.php';
-        ?> <div id='content-wrapper'
+    <div id='wrapper'>
+        <?php require './logic/sidebar.php';
+        ?>
+        <div id='content-wrapper'
             class='d-flex flex-column'>
-            <div id='content'> <?php require './logic/topbar.php';
-                ?> <div class='container-fluid'> <?php require './logic/screentitlebar.php'; ?> <div
-                        class='container-fluid'>
+            <div id='content'>
+                <?php require './logic/topbar.php';
+                ?>
+                <div class='container-fluid'>
+                    <?php require './logic/screentitlebar.php'; ?>
+                    <div class='container-fluid'>
                         <input type="hidden"
                             name="selectedUsername"
                             id="selectedUsername">
@@ -95,18 +102,16 @@ $screenTitleRightButtonId = "";
                         <!-- Column 1 -->
                         <div class='settings-column'>
                             <div class='settings-header'>OFFICE MANAGER</div>
-                            <button id="systemPropertyAppraiserManager"
-                                class="btn btn-primary settings-button"
-                                onclick="location.href='';">PROPERTY APPRAISER</button>
                             <button id="systemEmployeeManager"
                                 class="btn btn-primary settings-button"
                                 onclick="location.href='./sys_emp_manager.php';">EMPLOYEES</button>
+                            <button id="systemEmployeeManager"
+                                class="btn btn-primary settings-button"
+                                onclick="location.href='./sys_job_manager.php';">JOB TITLES </button>
                             <button id="systemDepartmentManager"
                                 class="btn btn-primary settings-button"
-                                onclick="location.href='';">DEPARTMENTS</button>
-                            <button id="systemInventoryManager"
-                                class="btn btn-primary settings-button"
-                                onclick="location.href='';">INVENTORY</button>
+                                onclick="location.href='./sys_dep_manager.php';">DEPARTMENTS</button>
+                            <button class='btn btn-primary settings-button'>Button 4</button>
                         </div>
                         <!-- Column 2 -->
                         <div class='settings-column'>
@@ -120,23 +125,24 @@ $screenTitleRightButtonId = "";
                         </div>
                         <!-- Column 1 -->
                         <div class='settings-column'>
-                            <div class='settings-header'>Column 3 Header</div>
-                            <button class='btn btn-primary settings-button'>Button 1</button>
+                            <div class='settings-header'>INVENTORY MANAGER</div>
+                            <button class='btn btn-primary settings-button'>PROPERTY</button>
                             <button class='btn btn-primary settings-button'>Button 2</button>
                             <button class='btn btn-primary settings-button'>Button 3</button>
                             <button class='btn btn-primary settings-button'>Button 4</button>
                         </div>
                         <!-- Column 2 -->
                         <div class='settings-column'>
-                            <div class='settings-header'>Column 4 Header</div>
-                            <button class='btn btn-primary settings-button'>Button 1</button>
-                            <button class='btn btn-primary settings-button'>Button 2</button>
+                            <div class='settings-header'>TRAINING MANAGER</div>
+                            <button class='btn btn-primary settings-button'>PCPA TRAINING</button>
+                            <button class='btn btn-primary settings-button'>IAAO TRAINING</button>
                             <button class='btn btn-primary settings-button'>Button 3</button>
                             <button class='btn btn-primary settings-button'>Button 4</button>
                         </div>
                     </div>
                 </div>
-            </div> <?php require './logic/footer.php';
+            </div>
+            <?php require './logic/footer.php';
             ?>
         </div>
     </div><a class='scroll-to-top roun   ded'

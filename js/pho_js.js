@@ -1,100 +1,153 @@
+// >>>>>> DOMContentLoaded <<<<<<  //
+document.addEventListener('DOMContentLoaded', function () {
+    updateCharacterCount();
+    setPhotoDateToToday();
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0');
+    var yyyy = today.getFullYear();
+    today = yyyy + '-' + mm + '-' + dd;
+    document.getElementById('photoDate').value = today;
+    document.getElementById('selectedImageContainer').classList.add('inactive');
+
+    document.getElementById('uploadButton').addEventListener('click', function () {
+        document.getElementById('fileInput').click();
+        resetForm();
+    });
+
+    document.getElementById('photoDate').addEventListener('change', function () {
+        updatePhotoDateDisplay(this.value);
+    });
+    document.getElementById('fileInput').addEventListener('change', handleFileInputChange);
+    document.getElementById('numberVID').addEventListener('input', handleNumberVIDInput);
+     // Event listener for the 'resetForm' button
+    document.getElementById('resetForm').addEventListener('click', resetForm);
+    document.getElementById('numberParcel6').addEventListener('blur', fetchParcelDataByAccountNumber);
+
+    document.getElementById('numberVID').addEventListener('blur', function () {
+        var value = this.value.trim();
+        if (value) {
+            document.getElementById('photoDate').focus();
+        } else {
+            document.getElementById('numberParcel1').focus();
+        }
+    });
+
+    function toggleFormElementsBasedOnImagePresence() {
+    var imageContainer = document.getElementById('imageScrollContainer');
+    var formElements = document.querySelectorAll('#photoWorkingContainer input, #photoWorkingContainer select, #photoWorkingContainer textarea, #photoWorkingContainer button');
+    var isEmpty = imageContainer.innerHTML.trim() === '';
+
+    formElements.forEach(function(element) {
+        element.disabled = isEmpty; // Disable if empty, enable otherwise
+    });
+}
+
+    function formatDate(dateString) {
+        var date = new Date(dateString);
+        var formattedDate = ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '/' + ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '/' + date.getFullYear();
+        return formattedDate;
+    }
+});
+
 function handleVIDBlur() {
-    var numberVIDValue = document.getElementById('numberVID').value.trim()
+    var numberVIDValue = document.getElementById('numberVID').value.trim();
     // If numberVID is empty, set a waiting message or clear the text.
     if (numberVIDValue === '') {
-        document.getElementById('parcelAddress').textContent = ''
+        document.getElementById('parcelAddress').textContent = '';
     } else {
+        // adding logic here later  needed.
     }
 }
 
 function fetchParcelDataOnBlur() {
     var numberVIDValue = document.getElementById('numberVID').value.trim();
     if (numberVIDValue && !isNaN(numberVIDValue)) {
-        // Fetch parcel data and then update the info text
         fetchParcelData(function() {
-            // This callback function will be executed after the parcel data is fetched
             var parcelNumber = constructAccountNumber();
-            var vidNumber = document.getElementById('numberVID').value;
-            // Update the .image-infoBottom text content
-            document.querySelector('.image-infoBottom').textContent = `${parcelNumber}[${vidNumber}]`;
+            console.log(`Updating textContent with: ${parcelNumber} |`); // Debugging line
+            document.querySelector('.image-infoBottom').textContent = `${parcelNumber}`;
         });
     }
 }
 
+
 function handleNumberVIDInput(event) {
-    var numberVIDElement = event.target
-    var numberVIDValue = numberVIDElement.value.trim()
-    numberVIDValue = numberVIDValue.replace(/[^0-9]/g, '')
-    numberVIDElement.value = numberVIDValue
+    var numberVIDElement = event.target;
+    var numberVIDValue = numberVIDElement.value.trim();
+    
+    // Validate input and provide feedback
+    if (!/^[0-9]*$/.test(numberVIDValue)) {
+        alert('Invalid input. Please enter numbers only.');
+        numberVIDElement.value = '';
+        return;
+    }
+   
+    numberVIDValue = numberVIDValue.replace(/[^0-9]/g, '');
+    numberVIDElement.value = numberVIDValue;
     // Disable or enable the numberParcel inputs based on numberVID input
-    toggleNumberParcelInputs(numberVIDValue.length > 0)
+    toggleNumberParcelInputs(numberVIDValue.length > 0);
     // Reset parcelAddress text if numberVID is empty
     if (numberVIDValue === '') {
-        document.getElementById('parcelAddress').textContent = ''
+        document.getElementById('parcelAddress').textContent = '';
     }
+     // Update the vidDisplay element with the current numberVID value
+    var vidNumber = document.getElementById('numberVID').value;
+    document.getElementById('vidDisplay').textContent = "VID:" + vidNumber;
 }
 
 function fetchParcelData() {
-    var numberVID = document.getElementById('numberVID').value
-    var accountNumber = constructAccountNumber()
-    var dataToSend = numberVID
-        ? 'numberVID=' + numberVID
-        : 'accountNumber=' + accountNumber
+    var numberVID = document.getElementById('numberVID').value;
+    var accountNumber = constructAccountNumber();
+    var dataToSend = numberVID ? 'numberVID=' + numberVID : 'accountNumber=' + accountNumber;
 
-    var xhttp = new XMLHttpRequest()
+    var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             try {
-                var response = JSON.parse(this.responseText)
+                var response = JSON.parse(this.responseText);
                 if (response.error) {
-                    document.getElementById('parcelAddress').textContent = response.error
-                     document.getElementById('selectedImageParcelNumber').textContent = response.error; // Add this line
+                    document.getElementById('parcelAddress').textContent = response.error;
+                    document.getElementById('selectedImageParcelNumber').textContent = response.error; // Add this line
                 } else {
                     // Update parcel address
                     if (response.address) {
-                        document.getElementById('parcelAddress').textContent =
-                            response.address
+                        document.getElementById('parcelAddress').textContent = response.address;
                     }
 
                     // Update numberVID
-                    var numberVIDField = document.getElementById('numberVID')
-                    var wasDisabled = numberVIDField.disabled
-                    numberVIDField.disabled = false
+                    var numberVIDField = document.getElementById('numberVID');
+                    var wasDisabled = numberVIDField.disabled;
+                    numberVIDField.disabled = false;
 
-                    if (
-                        !numberVID ||
-                        (response.numberVID && response.numberVID !== numberVID)
-                    ) {
-                        numberVIDField.value = response.numberVID
+                    if (!numberVID || (response.numberVID && response.numberVID !== numberVID)) {
+                        numberVIDField.value = response.numberVID;
                     }
 
-                    numberVIDField.disabled = wasDisabled
+                    numberVIDField.disabled = wasDisabled;
 
                     // Update parcel number fields
                     if (response.accountNum && accountNumber !== response.accountNum) {
-                        var accountNumParts = response.accountNum.split('-')
+                        var accountNumParts = response.accountNum.split('-');
                         if (accountNumParts.length === 6) {
                             for (let i = 1; i <= 6; i++) {
-                                document.getElementById('numberParcel' + i).value =
-                                    accountNumParts[i - 1]
+                                document.getElementById('numberParcel' + i).value = accountNumParts[i - 1];
                             }
                         }
                     }
                 }
             } catch (e) {
-                console.error('Caught exception:', e)
-                document.getElementById('parcelAddress').textContent =
-                    'An error occurred while processing the response.'
+                console.error('Caught exception:', e);
+                document.getElementById('parcelAddress').textContent = 'An error occurred while processing the response.';
                 document.getElementById('selectedImageParcelNumber').textContent = 'An error occurred while processing the response.'; // Add this line
-           }
+            }
         }
-    }
+    };
 
-    xhttp.open('POST', 'pho_fetch_address.php', true)
-    xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
-    xhttp.send(dataToSend)
+    xhttp.open('POST', 'pho_fetch_address.php', true);
+    xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhttp.send(dataToSend);
 }
-
 // END: 2024-01-10 | Fetch address after leaving numberVID textbox
 function resetNumberInputs() {
     var numberVID = document.getElementById('numberVID')
@@ -118,38 +171,135 @@ function clearParcelInputs() {
     document.getElementById('numberVID').focus()
     document.getElementById('parcelAddress').textContent = ''
     document.getElementById('imageTextBottom').textContent = ''
+    document.getElementById('vidDisplay').textContent = ''
 }
 
-function clearTextInputs() {
+function resetForm() {
     resetNumberInputs()
     // Clear text and date inputs
     var textInputs = document.querySelectorAll(
         '#textboxesContainer input[type="text"], #textboxesContainer input[type="date"]'
-    )
+    );
     textInputs.forEach(function (input) {
-        input.value = ''
-    })
+        input.value = '';
+    });
     // Clear select dropdowns
-    var selectInputs = document.querySelectorAll('#textboxesContainer select')
+    var selectInputs = document.querySelectorAll('#textboxesContainer select');
     selectInputs.forEach(function (select) {
-        select.selectedIndex = 0 // This sets the dropdown back to its first option
-    })
+        select.selectedIndex = 0; // This sets the dropdown back to its first option
+    });
+    // Clear appraiser username
+    document.getElementById('photoUsername').textContent = '';
     // Set the photoDate to today's date
-    setPhotoDateToToday()
+    setPhotoDateToToday();
     // Reset the parcelAddress text
-    document.getElementById('parcelAddress').textContent = ''
+    document.getElementById('parcelAddress').textContent = '';
+    // Clear the text content of 'VID:'
+    document.getElementById('vidDisplay').textContent = '';
+    // Clear the text content of 'imageTextBottom'
+    document.getElementById('imageTextBottom').textContent = '';
     // Set focus to the 'Appraiser' dropdown
-    document.getElementById('empSelect').focus()
+    document.getElementById('empSelect').focus();
+    // Uncheck the primaryPhoto checkbox
+    document.getElementById('primaryPhoto').checked = false;
 }
 
+
 function setPhotoDateToToday() {
-    var today = new Date()
-    var dd = String(today.getDate()).padStart(2, '0')
-    var mm = String(today.getMonth() + 1).padStart(2, '0') //January is 0!
-    var yyyy = today.getFullYear()
-    today = yyyy + '-' + mm + '-' + dd
-    document.getElementById('photoDate').value = today
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+    var yyyy = today.getFullYear();
+    var formattedDate = yyyy + '-' + mm + '-' + dd;
+
+    // Set the photoDate input value
+    var photoDateInput = document.getElementById('photoDate');
+    photoDateInput.value = formattedDate;
+
+    // Update the photoDateDisplay
+    updatePhotoDateDisplay(today); // Pass the Date object directly
 }
+
+function updatePhotoDateDisplay(dateString, isFromDatePicker = false) {
+    var date;
+
+    if (typeof dateString === 'string') {
+        var parts = dateString.split('-');
+        var year = parseInt(parts[0], 10);
+        var month = parseInt(parts[1], 10) - 1; // Months are 0-indexed
+        var day = parseInt(parts[2], 10);
+
+        if (isFromDatePicker) {
+            // Treat the date as a UTC date when selected from date picker
+            date = new Date(Date.UTC(year, month, day));
+        } else {
+            // Regular Date object for other uses
+            date = new Date(year, month, day);
+        }
+    } else {
+        // Directly use the Date object if not a string
+        date = dateString;
+    }
+
+    // Format the date to MM/DD/YYYY
+    var formattedDate = ((date.getUTCMonth() + 1) > 9 ? (date.getUTCMonth() + 1) : ('0' + (date.getUTCMonth() + 1))) + '/' + ((date.getUTCDate() > 9 ? date.getUTCDate() : ('0' + date.getUTCDate()))) + '/' + date.getUTCFullYear();
+
+    // Update the text content
+    document.getElementById('photoDateDisplay').textContent = formattedDate;
+}
+
+// Ensure to pass 'true' for isFromDatePicker when the date is selected from the date picker
+document.getElementById('photoDate').addEventListener('change', function () {
+    updatePhotoDateDisplay(this.value, true);
+});
+
+
+// Ensure to pass 'true' for isFromDatePicker when the date is selected from the date picker
+document.getElementById('photoDate').addEventListener('change', function () {
+    updatePhotoDateDisplay(this.value, true);
+});
+
+// Event listener for changes in the date picker
+document.getElementById('photoDate').addEventListener('change', function () {
+    updatePhotoDateDisplay(this.value, true);
+});
+
+
+// Event listener for changes in the date picker
+document.getElementById('photoDate').addEventListener('change', function () {
+    updatePhotoDateDisplay(this.value, true);
+});
+
+
+
+// Event listener for changes in the date picker
+document.getElementById('photoDate').addEventListener('change', function () {
+    updatePhotoDateDisplay(this.value, true);
+});
+
+
+// Event listener for changes in the date picker
+document.getElementById('photoDate').addEventListener('change', function () {
+    updatePhotoDateDisplay(this.value, true);
+});
+
+
+// Event listener for changes in the date picker
+document.getElementById('photoDate').addEventListener('change', function () {
+    updatePhotoDateDisplay(this.value);
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    setPhotoDateToToday();
+
+    // Event listener for changes in the date picker
+    document.getElementById('photoDate').addEventListener('change', function () {
+        updatePhotoDateDisplay(this.value);
+    });
+});
+
+
 
 function moveFocus(maxLength, currentField, nextFieldId) {
     var currentElement = document.getElementById(currentField)
@@ -170,63 +320,6 @@ function toggleNumberParcelInputs(disable) {
         input.style.backgroundColor = disable ? '#e9ecef' : '' // grey out if disabled
     })
 }
-// >> DOMContentLoaded <<
-document.addEventListener('DOMContentLoaded', function () {
-    updateCharacterCount(); // Update photo comment counter on page load
-    setPhotoDateToToday()
-    var today = new Date()
-    var dd = String(today.getDate()).padStart(2, '0')
-    var mm = String(today.getMonth() + 1).padStart(2, '0')
-    var yyyy = today.getFullYear()
-    today = yyyy + '-' + mm + '-' + dd
-    document.getElementById('photoDate').value = today
-    document.getElementById('selectedImageContainer').classList.add('inactive')
-    document
-        .getElementById('uploadButton')
-        .addEventListener('click', function () {
-            document.getElementById('fileInput').click()
-            clearTextInputs()
-        })
-    document
-        .getElementById('fileInput')
-        .addEventListener('change', handleFileInputChange)
-    document
-        .getElementById('numberVID')
-        .addEventListener('input', handleNumberVIDInput)
-    // Attach the function to the blur event of the last parcel number textbox
-    document
-        .getElementById('numberParcel6')
-        .addEventListener('blur', fetchParcelDataByAccountNumber)
-    // When the numberVID field is left, check the condition and move focus accordingly
-    document.getElementById('numberVID').addEventListener('blur', function () {
-        var value = this.value.trim()
-        if (value) {
-            // Focus on photoDate if numberVID is filled
-            document.getElementById('photoDate').focus()
-        } else {
-            // Focus on the first parcel number field if numberVID is empty
-            document.getElementById('numberParcel1').focus()
-        }
-    })
-    // Photo date change event listener
-   document.getElementById('photoDate').addEventListener('change', function() {
-    var photoDate = this.value;
-    if (photoDate) {
-        var formattedDate = formatDate(photoDate); // Format date as needed
-        document.getElementById('photoDateDisplay').textContent = formattedDate;
-    }
-});
-
-function formatDate(dateString) {
-    var date = new Date(dateString);
-    var formattedDate = ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '/' + ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '/' + date.getFullYear();
-    return formattedDate;
-}
-
-    document
-        .getElementById('empSelect')
-        .addEventListener('change', handleEmpSelectChange)
-})
 
 function handleFileInputChange(event) {
     var files = event.target.files
@@ -441,10 +534,37 @@ document
 }
 
 // Counter for the photo uploader photo comment textbox in photo manager 2024-01-11
-function updateCharacterCount() {
-    var commentInput = document.getElementById('photoComment');
-    var charCountElement = document.getElementById('charCount');
-    var currentLength = commentInput.value.length;
-    charCountElement.textContent = currentLength + '/30';
+ function updateCharacterCount() {
+        var commentInput = document.getElementById('photoComment');
+        var charCountElement = document.getElementById('charCount');
+        var currentLength = commentInput.value.length;
+        charCountElement.textContent = currentLength + '/30';
 }
+
+// JavaScript Function to Remove the Image
+function removeSelectedPhoto() {
+    var selectedImageSrc = document.getElementById('selectedImage').src;
+    var imagesInScrollContainer = document.getElementById('imageScrollContainer').getElementsByTagName('img');
+
+    // Iterate through images to find a match and remove it
+    for (var i = 0; i < imagesInScrollContainer.length; i++) {
+        if (imagesInScrollContainer[i].src === selectedImageSrc) {
+            imagesInScrollContainer[i].parentNode.removeChild(imagesInScrollContainer[i]);
+            break; // Break the loop once the image is found and removed
+        }
+    }
+
+    // Check if there are any images left in the scroll container
+    if (document.getElementById('imageScrollContainer').getElementsByTagName('img').length > 0) {
+        // If there are remaining images, display the first one in the selectedImageContainer
+        var firstImageSrc = document.getElementById('imageScrollContainer').getElementsByTagName('img')[0].src;
+        document.getElementById('selectedImage').src = firstImageSrc;
+    } else {
+        // If there are no images left, revert to the placeholder image
+        document.getElementById('selectedImage').src = 'assets/imageBase/paSeal.png';
+    }
+}
+
+// Attach Event Listener to "Remove Photo" Button
+document.getElementById('removePhoto').addEventListener('click', removeSelectedPhoto);
 

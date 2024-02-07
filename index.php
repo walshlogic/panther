@@ -158,30 +158,26 @@ require './logic/favicon.php'; ?>
                         </div>
                         <!-- Pending Requests Card Example -->
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-dark shadow h-100 py-2">
+                            <div class="card border-left-dark shadow h-100 py-2"
+                                style="background-color: #A45A52">
+                                <!-- if issue will change from green to red background -->
+                                <!-- style="background-color: #00AA9E" -->
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">
-                                                GREENBELT vs ALL LAND</div>
+                                            <div class="text-s font-weight-bolder text-light text-uppercase mb-1">
+                                                INTEGRITY STATUS</div>
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">19%</div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="progress progress-sm mr-2">
-                                                        <div class="progress-bar bg-secondary"
-                                                            role="progressbar"
-                                                            style="width: 50%"
-                                                            aria-valuenow="50"
-                                                            aria-valuemin="0"
-                                                            aria-valuemax="100"></div>
+                                                    <div class="h6 mb-0 mr-3 font-weight-bolder text-white">12 ISSUES
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-percentage fa-2x text-gray-300"></i>
+                                            <i class="fas fa-exclamation fa-2x text-gray-300"></i>
+                                            <!-- If issue will change from check to 'x' -->
+                                            <!-- <i class="fas fa-check-circle fa-2x text-gray-300"></i> -->
                                         </div>
                                     </div>
                                 </div>
@@ -286,10 +282,10 @@ require './logic/favicon.php'; ?>
                             <!-- Project Card Example -->
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-dark">HOMESTEAD COMPLETION</h6>
+                                    <h6 class="m-0 font-weight-bold text-dark">APPRAISER VISITS</h6>
                                 </div>
                                 <div class="card-body">
-                                    <h4 class="small font-weight-bold">TERRITORY 1 <span class="float-right">67%</span>
+                                    <h4 class="small font-weight-bold">2024 <span class="float-right">67%</span>
                                     </h4>
                                     <div class="progress mb-4">
                                         <div class="progress-bar bg-dark"
@@ -299,8 +295,8 @@ require './logic/favicon.php'; ?>
                                             aria-valuemin="0"
                                             aria-valuemax="100"></div>
                                     </div>
-                                    <h4 class="small font-weight-bold">TERRITORY 2 <span
-                                            class="float-right">COMPLETE!</span></h4>
+                                    <h4 class="small font-weight-bold">2023 <span class="float-right">COMPLETE!</span>
+                                    </h4>
                                     <div class="progress mb-4">
                                         <div class="progress-bar bg-dark"
                                             role="progressbar"
@@ -309,7 +305,7 @@ require './logic/favicon.php'; ?>
                                             aria-valuemin="0"
                                             aria-valuemax="100"></div>
                                     </div>
-                                    <h4 class="small font-weight-bold">TERRITORY 3 <span class="float-right">83%</span>
+                                    <h4 class="small font-weight-bold">2022 <span class="float-right">83%</span>
                                     </h4>
                                     <div class="progress mb-4">
                                         <div class="progress-bar bg-dark"
@@ -319,7 +315,7 @@ require './logic/favicon.php'; ?>
                                             aria-valuemin="0"
                                             aria-valuemax="100"></div>
                                     </div>
-                                    <h4 class="small font-weight-bold">TERRITORY 4 <span class="float-right">19%</span>
+                                    <h4 class="small font-weight-bold">2021 <span class="float-right">19%</span>
                                     </h4>
                                     <div class="progress mb-4">
                                         <div class="progress-bar bg-dark"
@@ -329,8 +325,8 @@ require './logic/favicon.php'; ?>
                                             aria-valuemin="0"
                                             aria-valuemax="100"></div>
                                     </div>
-                                    <h4 class="small font-weight-bold">TERRITORY 5 <span
-                                            class="float-right">COMPLETE!</span></h4>
+                                    <h4 class="small font-weight-bold">2020 <span class="float-right">COMPLETE!</span>
+                                    </h4>
                                     <div class="progress">
                                         <div class="progress-bar bg-dark"
                                             role="progressbar"

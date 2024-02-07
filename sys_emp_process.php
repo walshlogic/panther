@@ -11,9 +11,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $empFirstName = isset($_POST['empFirstName']) ? $_POST['empFirstName'] : '';
     $empLastName = isset($_POST['empLastName']) ? $_POST['empLastName'] : '';
     $empActive = isset($_POST['empActive']) ? 1 : 0;
-    $empPhotoManager = isset($_POST['empPhotoManager']) ? 1 : 0;
+    $empElectedOffical = isset($_POST['empElectedOffical']) ? 1 : 0;
+    $empFieldAppraiser = isset($_POST['empFieldAppraiser']) ? 1 : 0;
     $empDepartment = isset($_POST['empDepartment']) ? $_POST['empDepartment'] : '';
     $empTitle = isset($_POST['empTitle']) ? $_POST['empTitle'] : '';
+    $empCerts = isset($_POST['empCerts']) ? $_POST['empCerts'] : '';
     $empUsername = isset($_POST['empUsername']) ? $_POST['empUsername'] : '';
     $empWorkArea = isset($_POST['empWorkArea']) ? $_POST['empWorkArea'] : '';
     $empWorkEmail = isset($_POST['empWorkEmail']) ? $_POST['empWorkEmail'] : '';
@@ -27,9 +29,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $empFirstName,
         $empLastName,
         $empActive,
-        $empPhotoManager,
+        $empElectedOffical,
+        $empFieldAppraiser,
         $empDepartment,
         $empTitle,
+        $empCerts,
         $empUsername,
         $empWorkArea,
         $empWorkEmail,
