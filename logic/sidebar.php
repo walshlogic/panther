@@ -86,7 +86,7 @@
                 <a class="collapse-item"
                     href="par_manager.php">PARCEL MANAGER</a>
                 <a class="collapse-item"
-                    href="pho_manager.php">PHOTO MANAGER</a>
+                    href="./pho_manager.php">PHOTO MANAGER</a>
             </div>
         </div>
     </li>

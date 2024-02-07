@@ -16,7 +16,7 @@ $visitCodeData = $editing ? getExistingVisitCodeData($_GET['edit']) : ['', '', '
 // Function to retrieve existing data from CSV based on the given ID
 function getExistingVisitCodeData($id)
 {
-    $filePath = './data/photoVisitCodes.csv';
+    $filePath = './data/visitCodes.csv';
     $file = fopen($filePath, 'r');
 
     while (($row = fgetcsv($file)) !== FALSE) {
@@ -34,10 +34,9 @@ function getExistingVisitCodeData($id)
 // Check if editing an existing visit code
 $editing = isset($_GET['edit']);
 if ($editing) {
-    //echo "<p>Editing ID: " . $_GET['edit'] . "</p>"; // Debug statement
     $visitCodeData = getExistingVisitCodeData($_GET['edit']);
 } else {
-    $visitCodeData = ['', '', ''];
+    $visitCodeData = ['', '', '', ''];
 }
 ?>
 <!DOCTYPE html>
@@ -253,6 +252,16 @@ if (isset($_SESSION['message'])) {
                                         <input type="text"
                                             id="visitDescription"
                                             name="visitDescription"
+                                            value="<?php echo $visitCodeData[2]; ?>"
+                                            autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="visitDescription">VISIT CODE</label>
+                                    <div class="input-container">
+                                        <input type="text"
+                                            id="visitCode"
+                                            name="visitCode"
                                             value="<?php echo $visitCodeData[1]; ?>"
                                             autocomplete="off">
                                     </div>
@@ -264,7 +273,7 @@ if (isset($_SESSION['message'])) {
                                             <input type="checkbox"
                                                 id="active"
                                                 name="active"
-                                                <?php echo $visitCodeData[2] ? 'checked' : ''; ?>
+                                                <?php echo $visitCodeData[3] ? 'checked' : ''; ?>
                                                 value="1">
                                         </div>
                                     </div>

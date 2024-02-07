@@ -1,3 +1,7 @@
+function handleVisitCodeChange(selectElement) {
+    var visitCode = selectElement.value;
+    console.log('Selected Visit Code:', visitCode);
+}
 // >>>>>> DOMContentLoaded <<<<<<  //
 document.addEventListener('DOMContentLoaded', function () {
     updateCharacterCount();
@@ -9,7 +13,6 @@ document.addEventListener('DOMContentLoaded', function () {
     today = yyyy + '-' + mm + '-' + dd;
     document.getElementById('photoDate').value = today;
     document.getElementById('selectedImageContainer').classList.add('inactive');
-
     document.getElementById('uploadButton').addEventListener('click', function () {
         document.getElementById('fileInput').click();
         resetForm();
@@ -43,6 +46,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 }
 
+
+    
+    
     function formatDate(dateString) {
         var date = new Date(dateString);
         var formattedDate = ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '/' + ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '/' + date.getFullYear();
@@ -94,7 +100,11 @@ function handleNumberVIDInput(event) {
      // Update the vidDisplay element with the current numberVID value
     var vidNumber = document.getElementById('numberVID').value;
     document.getElementById('vidDisplay').textContent = "VID:" + vidNumber;
+    // Update the visitCodeDisplay element with the current visitCode dropdown value
+    var visitCode = document.getElementById.textContent = visitCode;
+    document.getElementById('visitCodeDisplay').textContent = visitCode;
 }
+
 
 function fetchParcelData() {
     var numberVID = document.getElementById('numberVID').value;
@@ -173,6 +183,8 @@ function clearParcelInputs() {
     document.getElementById('imageTextBottom').textContent = ''
     document.getElementById('vidDisplay').textContent = ''
 }
+
+
 
 function resetForm() {
     resetNumberInputs()
@@ -567,4 +579,5 @@ function removeSelectedPhoto() {
 
 // Attach Event Listener to "Remove Photo" Button
 document.getElementById('removePhoto').addEventListener('click', removeSelectedPhoto);
+
 

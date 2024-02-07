@@ -14,7 +14,7 @@ if (isset($_SESSION['message'])) {
 $includeInactive = filter_input(INPUT_GET, 'includeInactive', FILTER_VALIDATE_BOOLEAN);
 
 // Define the path to the CSV file
-$csvFilePath = './data/photoVisitCodes.csv';
+$csvFilePath = './data/visitCodes.csv';
 
 // Read data from CSV file, passing the $includeInactive flag to the function
 $csvData = readVisitCodesCSV($csvFilePath, $includeInactive);
@@ -26,7 +26,7 @@ function readVisitCodesCSV($csvFile, $includeInactive = false)
     if (($file_handle = fopen($csvFile, 'r')) !== FALSE) {
         while (($line = fgetcsv($file_handle, 1024)) !== FALSE) {
             // Skip inactive codes if not including them
-            if (!$includeInactive && $line[2] == '0') {
+            if (!$includeInactive && $line[3] == '0') {
                 continue;
             }
             $lines[] = $line;
@@ -123,24 +123,28 @@ $screenTitleRightButtonId = "addVisitCodeButton";
                                     cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Visit Text</th>
-                                            <th>Active</th>
-                                            <th>Actions</th>
+                                            <th>VISIT DESCRIPTION</th>
+                                            <th>VISIT CODE</th>
+                                            <th>ACTIVE</th>
+                                            <th>ACTIONS</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php foreach ($csvData as $index => $row): ?>
                                             <tr>
                                                 <td>
+                                                    <?= htmlspecialchars($row[2]) ?>
+                                                </td>
+                                                <td>
                                                     <?= htmlspecialchars($row[1]) ?>
                                                 </td>
                                                 <td>
-                                                    <?= $row[2] == 1 ? 'Yes' : 'No' ?>
+                                                    <?= $row[3] == 1 ? 'Yes' : 'No' ?>
                                                 </td>
                                                 <td>
                                                     <!-- Actions like Edit/Delete based on your application logic -->
                                                     <a href="sys_pho_visit_codes_form.php?edit=<?= htmlspecialchars($row[0]) ?>"
-                                                        class="btn btn-primary">Edit</a>
+                                                        class="btn btn-primary">EDIT</a>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>

@@ -2,24 +2,28 @@
 require './util.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $id = $_POST['id'];
+    $id = $_POST['id']; // Assuming this is the row ID in the CSV file
+    $visitCode = $_POST['visitCode']; // Capture the "Visit Code" from the form
     $visitDescription = $_POST['visitDescription'];
     $active = isset($_POST['active']) ? 1 : 0;
 
-    $csvFilePath = './data/photoVisitCodes.csv';
+    $csvFilePath = './data/visitCodes.csv';
     $csvData = readVisitCodesCSV($csvFilePath);
 
     if ($id !== '') {
         // Edit existing code
         foreach ($csvData as $index => $row) {
             if ($row[0] == $id) {
-                $csvData[$index] = [$id, $visitDescription, $active];
+                // Update the row with the new "Visit ID", description, and active status
+                $csvData[$index] = [$id, $visitCode, $visitDescription, $active];
                 break;
             }
         }
     } else {
         // Add new code
-        $csvData[] = [count($csvData), $visitDescription, $active];
+        // Use the next incremental ID for the new row, assuming $id is an auto-increment field
+        $newId = count($csvData);
+        $csvData[] = [$newId, $visitCode, $visitDescription, $active];
     }
 
     writeVisitCodesCSV($csvFilePath, $csvData);
